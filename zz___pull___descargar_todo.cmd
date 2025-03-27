@@ -29,5 +29,4 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 echo ========================================
-echo Script completado.
 pause
