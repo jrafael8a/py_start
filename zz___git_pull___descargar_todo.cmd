@@ -1,6 +1,8 @@
 @echo off
+mode 70,15
+
 echo ========================================
-echo Git Pull y Merge Forzado con Estrategias
+echo              Git Pull
 echo ========================================
 
 :: Intentar hacer un pull normal
