@@ -1,5 +1,5 @@
 @echo off
-mode 70,20
+mode 70,15
 
 git add .
 git commit -m "subiendo todos los cambios"
