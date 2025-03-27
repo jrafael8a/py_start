@@ -13,18 +13,19 @@ name = "invitado"
 
 secret_number = random.randint(1, 20)   # Un numero entero aleatorio entre 1 y 20
 print("Bueno, " + name + " Estoy pensando un numero entre 1 y 20")
-print("Intenta adivinar:")
 
 # Pregunta al usuario para adivinar en 6 intentos
 for intentosTomados in range (1, 7):
+    print("Intenta adivinar:")
     intento = int(input())
     print("")
 
     if intento < secret_number:
-        print("Muy bajo. Intenta otra vez:")
+        print("Muy bajo.")
     elif intento > secret_number:
-        print("Muy alto. Intenta otra vez:")
+        print("Muy alto.")
     else:
+        print("Eso es!")
         break    # Solo entrara aqui si adivino
 
 if intento == secret_number:
