@@ -8,6 +8,7 @@
 # devuelve la función modificada.
 
 # Ejemplo Basico
+print("Ejemplo Basico")
 
 def decorador(func):
     def nueva_funcion():
@@ -28,7 +29,10 @@ saludo()
 # Después de ejecutar la función
 
 
-# Ejemplo 1: Decorador para medir el tiempo de ejecución de una función
+
+print("")
+print("")
+print("Ejemplo 1: Decorador para medir el tiempo de ejecución de una función")
 # Este decorador es útil cuando queremos saber cuánto tarda una función en ejecutarse.
 # Ideal para medir el rendimiento de funciones en programas grandes.
 
@@ -55,7 +59,11 @@ tarea_pesada()
 # Tiempo de ejecución: 2.0001 segundos
 
 
-# Ejemplo 2: Decorador para verificar permisos
+
+
+print("")
+print("")
+print("Ejemplo 2: Decorador para verificar permisos")
 # Este decorador es útil cuando queremos restringir 
 # el acceso a ciertas funciones según el usuario.
 
@@ -79,7 +87,11 @@ borrar_archivo("admin", "datos.txt")  # Sí tiene permiso
 # admin ha borrado el archivo datos.txt
 
 
-# Ejemplo 3: Decorador para registrar llamadas a funciones
+
+
+print("")
+print("")
+print("Ejemplo 3: Decorador para registrar llamadas a funciones")
 # Este decorador es útil cuando queremos hacer seguimiento 
 # de qué funciones se están ejecutando y con qué argumentos.
 
@@ -124,15 +136,19 @@ print(suma(3, 4))
 # ¡Ejecutando el decorador!
 # Después de definir suma
 # 7
-# En este caso, el decorador se ejecuta antes de que
-# llamemos a la función suma.
+
+# En este caso, el decorador se ejecuta antes de que llamemos a la función suma.
 # Esto puede ser útil para inicializar algo o
 # configurar el entorno antes de que la función sea llamada.
-# Sin embargo, si solo devolvemos la función sin un wrapper,
-# no podremos modificar su comportamiento.
-# En resumen, el wrapper es esencial para poder
-# modificar el comportamiento de la función original.
-# Decoradores con argumentos
+
+# Sin embargo, si solo devolvemos la función sin un wrapper, no podremos modificar su comportamiento.
+# En resumen, el wrapper es esencial para poder modificar 
+# el comportamiento de la función original.
+
+
+print("")
+print("")
+print("Decoradores con argumentos")
 # A veces, es posible que queramos pasar argumentos a un decorador.
 # Esto se hace creando una función que devuelve un decorador.
 # Veamos un ejemplo:
@@ -143,17 +159,24 @@ def decorador_con_argumentos(arg):
             return func(*args, **kwargs)
         return wrapper
     return decorador
+
 @decorador_con_argumentos("Hola")
 def suma(a, b):
     return a + b
+
 resultado = suma(3, 4)
 print(f"Resultado: {resultado}")
 # Salida:
 # Argumento del decorador: Hola
 # Resultado: 7
+
 # En este caso, el decorador_con_argumentos recibe un argumento
 # y devuelve un decorador que a su vez modifica la función original.
-# Decoradores en clases
+
+
+print("")
+print("")
+print("Decoradores en clases")
 # Los decoradores también se pueden usar en métodos de clases.
 # Veamos un ejemplo de cómo usar un decorador en un método de clase.
 class MiClase:
@@ -168,8 +191,13 @@ mi_objeto.saludar()
 # Salida:
 # ¡Ejecutando el decorador!
 # Hola, Juan
+
 # En este caso, el decorador se aplica al método saludar de la clase MiClase.
-# Decoradores de clase
+
+
+print("")
+print("")
+print("Decoradores de clase")
 # También podemos usar decoradores para modificar el comportamiento de clases enteras.
 # Por ejemplo, podemos crear un decorador que registre la creación de instancias de una clase.
 def registrar_clase(cls):
@@ -188,9 +216,14 @@ mi_objeto = MiClase("Juan")
 # Salida:
 # Creando instancia de MiClase
 # Hola, Juan
+
 # En este caso, el decorador registrar_clase modifica la clase MiClase
 # para registrar la creación de instancias.
-# Decoradores de métodos de clase
+
+
+print("")
+print("")
+print("Decoradores de métodos de clase")
 # También podemos usar decoradores en métodos de clase.
 # Por ejemplo, podemos crear un decorador que convierta
 # un método de instancia en un método de clase.
@@ -206,9 +239,14 @@ class MiClase:
 MiClase.metodo_clase("Hola")
 # Salida:
 # Soy un método de clase. Argumento: Hola
+
 # En este caso, el decorador metodo_de_clase convierte
 # el método metodo_clase en un método de clase.
-# Decoradores de propiedades
+
+
+print("")
+print("")
+print("Decoradores de propiedades")
 # También podemos usar decoradores para definir propiedades en clases.
 # Las propiedades son atributos que se comportan como métodos.
 # Por ejemplo, podemos crear un decorador para definir una propiedad
@@ -245,7 +283,12 @@ print(rectangulo.ancho)  # Salida: 10.0
 # llamada area que calcula el área del rectángulo.
 # También definimos un setter y un deleter para poder
 # modificar y eliminar el área.
-# Decoradores de clase abstracta
+
+
+
+print("")
+print("")
+print("Decoradores de clase abstracta")
 # También podemos usar decoradores para definir clases abstractas.
 # Las clases abstractas son clases que no se pueden instanciar
 # y que deben ser heredadas por otras clases.
