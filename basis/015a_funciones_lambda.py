@@ -42,3 +42,4 @@ usamos un bucle for si queremos hacer una evaluacion perezosa (lazy evaluation) 
 La evaluacion perezosa (lazy evaluation) es una tecnica de programacion donde los valores no se calculan hasta que son necesarios.
 Esto permite ahorrar memoria y tiempo de procesamiento, ya que no se calculan valores innecesarios.
 """
+
