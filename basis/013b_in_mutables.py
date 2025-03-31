@@ -3,7 +3,8 @@ def get_largest_number(numbers, n):
     # El docstring es una cadena de caracteres que describe la función
     # Debe estar entre comillas triples dobles
     # El docstring debe estar en la primera línea de la función
-    # Python ignora el docstring, por lo que se puede usar como comentario
+    # Python ignora el docstring, pero puede ser accedido por la funcion help()
+    # Por lo que se usa principalmente para documentacion.
     """
     This function returns the largest number from a list of numbers.
     :parametro numbers: List of numbers
