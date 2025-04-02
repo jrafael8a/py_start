@@ -1,0 +1,18 @@
+Introducción a Clases y Objetos (Conceptos básicos)
+Antes de entrar en herencia y polimorfismo, repasaremos la base:
+✅ Cómo se define una clase y cómo se crean objetos.
+✅ Qué es __init__ y cómo funciona el constructor.
+✅ Cómo funcionan los atributos y métodos de una clase.
+
+💡 Concepto rápido: ¿Qué es POO?
+La Programación Orientada a Objetos (POO) es un paradigma que organiza el código 
+    en clases y objetos.
+
+🔹 Clase → Es como un molde o plantilla. Define propiedades y acciones.
+🔹 Objeto → Es una instancia de la clase. Es un "ejemplar" con sus propios datos.
+
+📌 Ejemplo en la vida real:
+📦 Una clase es como una "receta" para hacer una pizza.
+🍕 Cada pizza que preparas con esa receta es un objeto.
+🥓 Puedes hacer varias pizzas, pero algunas tendrán más ingredientes 
+    (distintos valores en sus atributos).
