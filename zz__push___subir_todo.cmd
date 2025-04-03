@@ -6,4 +6,4 @@ git commit -m "subiendo todos los cambios desde IT"
 git push
 gh repo sync
 
-pause
+TIMEOUT /T 5 /nobreak
