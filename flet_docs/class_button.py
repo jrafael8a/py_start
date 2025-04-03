@@ -9,11 +9,10 @@ import flet as ft
 
 class MyButton(ft.ElevatedButton):
     def __init__(self, text, **kwargs):
-        
+        super().__init__(**kwargs)
         self.bgcolor = ft.Colors.ORANGE_300     #Sobre escribira lo que se le haya pasado por **kwargs
         self.color = ft.Colors.GREEN_800
         self.text = text
-        super().__init__(**kwargs)
         
         # super().__init__(**kwargs) pasa esos parámetros a ft.ElevatedButton, 
         # que es la clase base de MyButton. Esto permite que ft.ElevatedButton 
