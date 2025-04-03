@@ -3,12 +3,17 @@ import flet as ft
 # Definir colores como constantes para mejorar la legibilidad
 COLOR_PRIMARIO = ft.colors.GREEN_200            # Color Primario
 COLOR_SECUNDARIO = ft.colors.GREEN_600          # Color Secundario
+COLOR_ERROR = ft.colors.RED_600                 # Color para errores
 COLOR_BG01 = '#e6e6eb'                          # Color de fondo 1
 # COLOR_BG01 = 'yellow'                         # Color de fondo 1
 
 
 # Función para manejar el envío del formulario
 def form_submit_function(e):
+    tf_name.error_text = "Error en nombre"
+    tf_email.error_text = "Error en email"
+    tf_pass.error_text = "Error en password"
+    form_container.update()
     print("Formulario enviado")
     # Aquí puedes agregar la lógica para enviar los datos, validar, etc.
 
@@ -30,6 +35,14 @@ def crear_textfield(label, password=False, **kwargs):
         **kwargs
     )
 
+# Creamos 3 cuadros de texto con nuestra funcion personalizada
+tf_name = crear_textfield("First Name")
+tf_email = crear_textfield("Email")
+tf_pass = crear_textfield("Password", password=True)
+
+
+
+
 # Contenedor FUERA de la funcion main, para mantener todo mejor organizado
 form_container = ft.Container(
     ft.Column([         # Creamos una columna en la que meteremos nuestros elementos
@@ -37,12 +50,10 @@ form_container = ft.Container(
             # weight= Va de 100 a 900 entre mayor numero, mas negrita)
             ft.Text("Sign Up", size=24, color=COLOR_PRIMARIO, weight='w600'),      
 
-            # Creamos 3 cuadros de texto con nuestra funcion personalizada
-            crear_textfield("First Name"),
-            crear_textfield("Email"),
-            crear_textfield("Password", password=True),
-
-            # Creamos 3 Labels de Advertencia
+            # Colocamos nuestros TextField
+            tf_name,
+            tf_email,
+            tf_pass,
 
             # Creamos el boton de Enviar
             ft.Button(
