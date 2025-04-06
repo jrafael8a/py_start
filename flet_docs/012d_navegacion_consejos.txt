@@ -1,0 +1,90 @@
+1. ¿Cómo debería funcionar todo en una aplicación grande?
+Flujo de trabajo:
+En una aplicación grande, quieres evitar recrear las vistas completas cada vez que navegas, 
+ya que esto puede ser ineficiente. Idealmente, debes mantener un historial de vistas en la pila 
+y solo actualizar aquellas vistas o componentes que realmente necesiten cambios.
+
+Inicialización: 
+En el momento en que la aplicación se carga, se configura el enrutador y las vistas iniciales.
+
+Navegación: 
+Al cambiar de ruta, se agrega la vista correspondiente a la pila. Si la vista ya está en la pila 
+(o si ya ha sido cargada previamente), se actualiza solo esa vista en lugar de recrearla desde cero.
+
+Desplazamiento entre vistas: 
+Debes tener un sistema para ir hacia adelante y hacia atrás sin perder el contexto (mantener el estado entre rutas). 
+Esto puede ser clave para formularios, datos cargados, o cualquier otro tipo de interacción con el usuario.
+
+¿Qué se debe hacer cuando el usuario navega entre páginas?
+Sin recarga completa: 
+Solo se actualizan las vistas necesarias, sin borrar todas las vistas de la pila. 
+Esto significa que solo debes eliminar o cambiar la vista que el usuario está dejando, no toda la aplicación.
+
+Manejo de rutas y vistas: 
+La URL debe cambiarse a medida que el usuario navega, y cada ruta debe corresponder 
+a una vista específica (o una página).
+
+2. ¿Debo tener todas las páginas dentro de un mismo archivo o crear un archivo separado para cada vista/página?
+Organización de vistas y páginas:
+No es necesario tener todas las vistas/páginas en el mismo archivo. 
+De hecho, es mucho más eficiente y escalable tener cada vista/página en su propio archivo o módulo.
+
+¿Por qué?
+Mantenibilidad: 
+Si tu aplicación crece, tener todas las vistas en el mismo archivo se vuelve difícil de manejar y leer. 
+Si cada vista está separada, puedes trabajar en ellas de manera aislada sin que se mezclen.
+
+Carga eficiente: 
+Flet permite organizar la aplicación en diferentes archivos o módulos. 
+Solo cargará las vistas necesarias cuando se cambie a una ruta correspondiente, lo que optimiza el rendimiento.
+
+Ejemplo:
+
+Estructura de archivos recomendada:
+├── main.py          # Archivo principal donde se configuran las rutas y el enrutador
+├── views/
+    ├── home.py     # Vista de la página de inicio
+    ├── store.py    # Vista de la tienda
+    ├── product.py  # Vista de productos
+    └── profile.py  # Vista de perfil de usuario
+
+En main.py, solo tienes la lógica de las rutas y cómo se conectan a las vistas:
+
+
+3. ¿Cómo manejar la pila de vistas y la navegación entre ellas?
+En una aplicación grande, quieres manejar las vistas de forma eficiente:
+
+Pila de vistas: 
+Mantén la pila de vistas sin borrar todas las vistas con cada cambio de ruta. 
+Cada vez que cambies de ruta, solo agrega o actualiza la vista correspondiente.
+
+Mantener estado: 
+Asegúrate de que el estado entre vistas se mantenga de forma adecuada. 
+Si tienes formularios o componentes que necesitan ser actualizados, puedes usar un patrón 
+de gestión de estado (como mantener un objeto state para cada vista).
+
+4. ¿Cómo debería ser el flujo de trabajo de desplazamiento?
+El flujo de trabajo debe ser lo más fluido posible, con cambio de rutas eficiente 
+y sin recargar vistas innecesarias:
+
+Navegación hacia adelante: 
+El usuario navega entre vistas, y cada vista se agrega a la pila.
+
+Navegación hacia atrás: 
+Cuando el usuario navega hacia atrás (por ejemplo, presionando la flecha del navegador o un botón personalizado), 
+la vista actual se elimina y el enrutador navega hacia la vista anterior.
+
+
+
+¿Cómo mantengo la coherencia de los datos entre rutas? 
+Utiliza un sistema de gestión de estado o almacenamiento global para compartir 
+información entre diferentes vistas, como el estado del usuario o los datos de la tienda.
+
+¿Cómo optimizo la carga de vistas en una aplicación grande? 
+Usa carga diferida (lazy loading), donde solo cargas la vista cuando el usuario navega 
+a ella por primera vez. Puedes usar un enrutador para cargar dinámicamente módulos.
+
+¿Qué pasa si tengo una vista que tiene muchos datos o interacciones? 
+Asegúrate de que solo los componentes relevantes de la vista se actualicen cuando 
+cambie el estado, en lugar de recrear toda la vista. Esto mejorará el rendimiento.
+

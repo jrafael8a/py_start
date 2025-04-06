@@ -22,7 +22,7 @@ def main(page: ft.Page):
             ft.dropdown.Option("Green"),
             ft.dropdown.Option("Blue"),
         ],
-        ,
+        
         color='green',
         bgcolor='red'
     )
