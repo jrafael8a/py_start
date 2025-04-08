@@ -32,14 +32,11 @@ def example():
 
 if __name__ == "__main__":
     def main(page: ft.Page):
+        page.theme_mode = ft.ThemeMode.LIGHT
         page.window.height = 400
         page.window.width = 600
         page.window.alignment = ft.alignment.center
 
-        page.theme = ft.Theme(color_scheme_seed=ft.Colors.GREEN)
-        page.dark_theme = ft.Theme(color_scheme_seed=ft.Colors.BLUE)
         page.add(example())
-        
-        
         
     ft.app(target=main)

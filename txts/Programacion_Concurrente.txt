@@ -1,0 +1,124 @@
+Programación Concurrente:
+
+La programación concurrente se refiere a la ejecución de múltiples tareas (procesos o hilos) al mismo tiempo, 
+o la simulación de su ejecución simultánea en un solo sistema, para mejorar el rendimiento y la eficiencia de los programas. 
+Esto es útil cuando tienes tareas que pueden ejecutarse de manera independiente, como leer archivos, hacer peticiones a una API, 
+o realizar cálculos pesados.
+
+
+
+Conceptos Clave
+
+Proceso:
+Un proceso es un programa que se está ejecutando en la computadora.
+Los procesos tienen su propio espacio de memoria y pueden ejecutarse independientemente.
+
+Hilo (Thread):
+Un hilo es una unidad de ejecución dentro de un proceso.
+Los hilos comparten el mismo espacio de memoria, lo que les permite comunicarse más fácilmente entre sí, 
+pero también puede llevar a condiciones de carrera si no se sincronizan correctamente.
+
+Condición de carrera:
+Ocurre cuando dos o más hilos intentan acceder y modificar un recurso compartido al mismo tiempo sin sincronización adecuada, 
+lo que puede generar resultados incorrectos.
+
+
+Paralelismo vs. Concurrencia:
+Paralelismo: 
+Ejecución simultánea de múltiples tareas en múltiples núcleos de CPU. Es verdaderamente simultáneo.
+
+Concurrencia: 
+Ejecutar múltiples tareas de manera que parece que están ocurriendo al mismo tiempo, pero realmente 
+están siendo interrumpidas y ejecutadas en fragmentos, generalmente en un solo núcleo de CPU.
+
+Sincronización:
+La sincronización es esencial para coordinar la ejecución de múltiples hilos o procesos para evitar condiciones de carrera, 
+donde múltiples hilos intentan modificar el mismo recurso al mismo tiempo.
+
+Las Herramientas de sincronización incluyen semaforos, bloqueos (locks) y colas.
+
+
+
+
+Herramientas y Técnicas Comunes en Programación Concurrente
+Hilos (Threads):
+Los hilos permiten que una aplicación ejecute varias tareas de manera concurrente.
+En Python, se usa el módulo threading para crear y manejar hilos.
+
+Ventajas: 
+Utiliza el tiempo de CPU más eficientemente en sistemas con múltiples núcleos.
+
+Desventajas: 
+La gestión de la sincronización puede ser compleja.
+
+Semáforos:
+Un semaforo es un objeto de sincronización que controla el acceso a un recurso compartido.
+Los semáforos permiten que un número limitado de hilos acceda a un recurso al mismo tiempo.
+acquire() y release() se usan para obtener y liberar un semáforo, respectivamente.
+
+blocking=False en acquire() permite que el hilo no se bloquee si el semáforo no está disponible.
+
+Mutex (Mutual Exclusion Locks):
+Mutex es una forma de bloqueo que asegura que solo un hilo acceda a una sección crítica de código a la vez.
+Se usa para prevenir condiciones de carrera.
+
+Colas (Queues):
+Las colas permiten que los hilos se comuniquen entre sí de manera segura.
+
+Se pueden usar para intercambiar datos entre hilos sin causar problemas de concurrencia.
+
+
+
+
+
+Ventajas y Desventajas de la Programación Concurrente
+
+Ventajas:
+- Mejora el rendimiento en sistemas con múltiples núcleos, permitiendo que se realicen múltiples tareas simultáneamente.
+- Puede hacer que las aplicaciones sean más reactivas, como en interfaces de usuario 
+    donde se realizan tareas en segundo plano sin bloquear la UI.
+- Es útil en tareas I/O intensivas como hacer peticiones HTTP, leer o escribir archivos, 
+    donde el programa puede esperar por una operación sin bloquear otros procesos.
+
+Desventajas:
+Complejidad: 
+La programación concurrente puede ser más difícil de manejar debido a la sincronización de hilos.
+
+Condiciones de carrera: 
+Si los hilos no están bien sincronizados, pueden modificar recursos compartidos de manera insegura.
+
+Depuración difícil: 
+Los errores en programas concurrentes pueden ser difíciles de reproducir y depurar.
+
+
+
+
+
+Modelo Asíncrono vs. Concurrencia
+Concurrencia implica múltiples hilos o procesos que ejecutan tareas de manera simultánea o en paralelo.
+Asincronía es un modelo de programación que permite que ciertas tareas se ejecuten de manera no bloqueante. Aunque no es concurrente en el sentido de crear múltiples hilos, simula la concurrencia permitiendo que otras tareas se ejecuten mientras se espera una operación, como una solicitud de red.
+
+
+
+Diferencias:
+- En asíncrono, el hilo principal no se bloquea mientras espera tareas largas, pero solo hay un hilo.
+- En concurrencia, varios hilos o procesos pueden estar trabajando en paralelo, pero pueden necesitar mecanismos de sincronización para asegurar que los resultados no se mezclen.
+
+
+
+Resumen de Buenas Prácticas
+- Evitar el uso de hilos múltiples si no es necesario. Si tu aplicación no está diseñada para ello, 
+    es preferible usar tareas asíncronas.
+- Usar semáforos y bloqueos (locks) para garantizar que solo un hilo tenga acceso a recursos compartidos al mismo tiempo.
+- Evitar condiciones de carrera asegurándote de que los hilos no modifiquen los mismos recursos sin protección adecuada.
+- Considerar el modelo asíncrono (por ejemplo, con asyncio en Python) para simplificar el manejo 
+    de tareas en segundo plano sin necesidad de crear múltiples hilos.
+
+
+
+
+
+Conclusión
+La programación concurrente es muy poderosa para mejorar el rendimiento de aplicaciones, pero debe manejarse con cuidado. 
+El uso de hilos puede ser complicado, y muchas veces la programación asíncrona puede ser una alternativa más simple y eficaz. 
+Asegúrate de conocer bien las herramientas de sincronización y usa el enfoque adecuado dependiendo de tus necesidades.
