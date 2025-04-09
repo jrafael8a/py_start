@@ -11,9 +11,11 @@ def main(page: ft.Page):
         spacing=5,                      # Espacio entre los elementos
         scroll=ft.ScrollMode.AUTO,      # Activa la capacidad de scroll. Tambien puede ser simpemente scroll=True
         auto_scroll=True,               # Permite el desplazamiento automático al agregar nuevos elementos
+        # Para que el scroll funcione, el contenedor debe tener una altura definida. Ya sea con expand=True o height=200
         # expand=True,                    # Expand hasta ocupar todo el espacio del contenedor padre. Si es una columna, la expande en vertical
         height=200,                     # Altura de la culumna. Si expand esta activado, height no tiene efecto
         width=300,
+        
         alignment='center'
         )                      # Ancho de la columna.
 

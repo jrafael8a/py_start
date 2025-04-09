@@ -1,0 +1,20 @@
+import flet as ft
+
+def main(page: ft.Page):
+    page.theme_mode = ft.ThemeMode.LIGHT
+    page.window.height = 400
+    page.window.width = 600
+    page.window.alignment = ft.alignment.center
+
+    # Crear una lista de elementos
+    items = [ft.Text(f"Item {i}") for i in range(50000)]     # Buble for compacto para Crear 5000 elementos de texto
+
+    # Agregar el ListView a la página
+    page.add(ft.Column(
+        controls=items, 
+        scroll=ft.ScrollMode.ALWAYS,
+        expand=True, 
+        spacing=10
+        ))
+
+ft.app(main)

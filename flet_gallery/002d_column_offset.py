@@ -50,7 +50,6 @@ def example():
                     ft.ElevatedButton("Scroll to end", on_click=scroll_to_end),
                 ]
             ),
-            # ft.ElevatedButton("Scroll to key '20'", on_click=scroll_to_key),
             ft.Row(
                 [
                     ft.ElevatedButton("Scroll -500", on_click=scroll_to_minus_delta),
