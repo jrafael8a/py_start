@@ -1,0 +1,59 @@
+🛠️ Solución 1: Usar un entorno de desarrollo aislado con Nix
+La forma correcta de instalar paquetes en Nix (sin usar pip directamente en tu sistema) es trabajar dentro de un entorno controlado o usar un entorno virtual que no toque el sistema base.
+
+Pasos:
+Usar virtualenv en tu entorno Nix:
+
+Primero, si no tienes virtualenv (una herramienta que crea entornos aislados de Python), instalalo dentro de tu entorno Nix. Modificamos tu archivo dev.nix para agregar virtualenv:
+
+nix
+Copiar código
+pkgs.mkShell {
+  buildInputs = [
+    pkgs.python311
+    pkgs.python311Packages.pip
+    pkgs.python311Packages.virtualenv  # Agregar virtualenv
+  ];
+}
+Crear un entorno virtual:
+
+En la terminal, crea un entorno virtual:
+
+bash
+Copiar código
+python3 -m venv myenv
+Activar el entorno virtual:
+
+bash
+Copiar código
+source myenv/bin/activate
+Esto va a aislar el entorno de Python y permitirte usar pip dentro de este entorno sin afectar al sistema base.
+
+Instalar paquetes con pip:
+
+Ahora sí podés usar pip para instalar lo que necesites, como en este caso:
+
+bash
+Copiar código
+pip install flet
+Nota:
+Cuando termines de trabajar en tu proyecto, simplemente salís del entorno virtual con:
+
+bash
+Copiar código
+deactivate
+🛠️ Solución 2: Usar Nix directamente para gestionar dependencias
+Si prefieres que todo se maneje con Nix, y no usar pip de forma independiente, podés agregar la dependencia directamente en tu archivo dev.nix. Aquí te muestro cómo hacerlo para instalar flet usando Nix.
+
+Agregar el paquete flet (si está disponible):
+
+Si flet está disponible en los repositorios de Nix, podés agregarlo directamente en tu archivo dev.nix dentro de packages. Deberías verificar primero si está disponible en nixos.org/packages.
+
+Configurar dev.nix:
+
+Si flet no está disponible directamente, podrías crear un entorno virtual con virtualenv (como te mencioné antes) o crear un script para instalarlo como una dependencia específica dentro de tu entorno de desarrollo.
+
+💡 Resumen
+Lo más fácil sería trabajar con un entorno virtual (opción 1). Esto te permite usar pip sin problemas dentro de un entorno aislado, mientras que la solución de Nix es más rigurosa pero puede ser más segura y controlada a largo plazo si prefieres tener todo gestionado a través de Nix.
+
+¿Te gustaría seguir con el entorno virtual o prefieres que exploremos más cómo integrar flet usando Nix directamente?
