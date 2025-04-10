@@ -1,16 +1,20 @@
 import flet as ft               # Importamos Flet para construir la interfaz gráfica
 import sqlite3                  # Importamos sqlite3, que ya viene con Python, para manejar la base de datos
 import os                       # Importamos os para manejar las rutas de archivos
+
+# Con estas 2 lineas nos aseguramos de que la base de datos se cree en la misma carpeta que el script
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))   # Obtiene el directorio actual del archivo
+RUTA_DB = os.path.join(BASE_DIR, "nombres.db")          # Crea la ruta completa para la base de datos
+
+
 # --- Funciones de backend (base de datos) ---
 
 def init_db():
     """
     Esta función crea la base de datos y la tabla si no existen.
     """
-    # Con estas 3 lineas nos aseguramos de que la base de datos se cree en la misma carpeta que el script
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))   # Obtiene el directorio actual del archivo
-    DB_PATH = os.path.join(BASE_DIR, "nombres.db")          # Crea la ruta completa para la base de datos
-    conn = sqlite3.connect(DB_PATH)                         # Crea una conexión con el archivo .db (si no existe, se crea)
+    
+    conn = sqlite3.connect(RUTA_DB)                         # Crea una conexión con el archivo .db (si no existe, se crea)
 
     # Comente esta linea porque crea la base en la ruta actual de la terminal y no en la carpeta del proyecto
     # conn = sqlite3.connect("nombres.db")    # Crea una conexión con el archivo .db (si no existe, se crea) 
@@ -39,7 +43,7 @@ def guardar_nombre(nombre):
     """
     Inserta un nombre en la tabla personas.
     """
-    conn = sqlite3.connect("nombres.db")    # Abrimos la base de datos
+    conn = sqlite3.connect(RUTA_DB)         # Abrimos la base de datos
     cursor = conn.cursor()                  # Creamos un cursor
 
     # Insertamos el nombre usando un placeholder [?] (para evitar inyecciones SQL)
@@ -56,7 +60,7 @@ def obtener_nombres():
     """
     Recupera todos los nombres almacenados en la base de datos.
     """
-    conn = sqlite3.connect("nombres.db")    # Abrimos la base de datos
+    conn = sqlite3.connect(RUTA_DB)         # Abrimos la base de datos
     cursor = conn.cursor()                  # Creamos el cursor
 
     # Ejecutamos una consulta para obtener todos los nombres
@@ -70,6 +74,11 @@ def obtener_nombres():
 # --- Interfaz de usuario (Flet) ---
 
 def main(page: ft.Page):
+    page.theme_mode = ft.ThemeMode.LIGHT
+    page.window.height = 700
+    page.window.width = 500
+    page.window.alignment = ft.alignment.center
+
     page.title = "Flet + Base de Datos"
     
     # Campo de entrada para el nombre
