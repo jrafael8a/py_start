@@ -27,7 +27,7 @@ def init_db():
 def get_tasks():
     with sqlite3.connect(RUTA_DB) as mi_conexion:
         cursor = mi_conexion.cursor()
-        cursor.execute("SELECT id, title, done FROM tasks")
+        cursor.execute("SELECT id, title, done FROM tasks ORDER BY done ASC, id DESC")
         rows = cursor.fetchall()
         return rows
 
@@ -64,7 +64,7 @@ def delete_task(task_id):
 
 def main(page: ft.Page):
     # ----- Estilo para la Interfaz -----
-    page.theme_mode = ft.ThemeMode.LIGHT
+    page.theme_mode = ft.ThemeMode.DARK
     page.window.height = ALTURA
     page.window.width = ANCHURA
     page.window.alignment = ft.alignment.center
@@ -169,6 +169,15 @@ def main(page: ft.Page):
 
     # ----- Construccion de la Intefaz de Usuario -----
     page.add(
+        ft.Text(value="To-Do | Organizador de Tareas",
+                style=ft.TextStyle(
+                    size=30,
+                    font_family='Arial',
+                    weight='w600',
+                    
+
+                ),
+                text_align='center'),
         ft.Row([task_input, ft.ElevatedButton("Agregar", on_click=add_clicked)]),
         task_list
     )
