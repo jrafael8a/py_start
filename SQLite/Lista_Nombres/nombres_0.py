@@ -1,8 +1,8 @@
 import flet as ft               # Importamos Flet para construir la interfaz gráfica
 import sqlite3                  # Importamos sqlite3, que ya viene con Python, para manejar la base de datos
-import os                       # Importamos os para manejar las rutas de archivos
 
-# Con estas 2 lineas nos aseguramos de que la base de datos se cree en la misma carpeta que el script
+# Con estas 3 lineas nos aseguramos de que la base de datos se cree en la misma carpeta que el script
+import os                       # Importamos os para manejar las rutas de archivos
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))   # Obtiene el directorio actual del archivo
 RUTA_DB = os.path.join(BASE_DIR, "nombres.db")          # Crea la ruta completa para la base de datos
 

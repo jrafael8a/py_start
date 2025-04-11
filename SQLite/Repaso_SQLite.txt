@@ -1,0 +1,151 @@
+TL;NR
+
+¿Dónde se guarda el .db?	
+En el directorio desde donde se ejecuta el script. Se puede forzar ubicación.
+
+¿Qué es la inyección SQL?	
+Un intento de hackeo; se evita usando consultas parametrizadas (?).
+
+¿Qué es un cursor?	
+El "puente" entre Python y la base de datos para ejecutar comandos SQL.
+
+¿SQLite usa SQL estándar?	
+Sí, en gran parte. Es fácil migrar, pero hay pequeñas diferencias.
+
+¿Está cifrada la base?	
+No. El archivo está en texto plano. Hay formas externas de cifrar.
+
+¿Cómo la visualizo?	
+Con DB Browser, extensiones de VS Code o línea de comandos.
+
+------------------------------------------------------------------------------------------
+
+
+🧠 Guía práctica: SQLite en Python (con Flet) — Preguntas y respuestas organizadas
+
+📁 1. ¿Dónde se crea el archivo .db?
+
+Cuando usás esta línea en tu código:
+        conn = sqlite3.connect("nombres.db")
+La base de datos se crea en el directorio actual desde donde ejecutás el programa, 
+NO en el mismo lugar donde está guardado el .py.
+
+✅ Ejemplo concreto:
+Tu archivo flet_sqlite_nombres.py está en:
+proyecto/app/ejemplos/flet_sqlite_nombres.py
+
+Pero ejecutás el script desde la raíz del proyecto con Ctrl+F5, y tu terminal está en: proyecto/
+
+➡️ Entonces el archivo nombres.db se crea en proyecto/, no dentro de app/ejemplos/.
+
+🔧 ¿Cómo cambiar eso?
+Si querés que la base de datos esté junto al script .py, usá algo como:
+
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, "nombres.db")
+conn = sqlite3.connect(DB_PATH)
+
+Así, la base se guarda en la misma carpeta del archivo .py, sin importar desde dónde ejecutes el programa.
+
+
+
+
+
+🔐 2. ¿Qué es una inyección SQL y cómo la evitamos?
+La inyección SQL es cuando alguien intenta meter código malicioso a través de formularios o inputs, para manipular tu base de datos.
+
+🧨 Ejemplo de ataque:
+Si no protegés tu código y alguien escribe esto como nombre:
+        Robert'); DROP TABLE personas; --
+Tu tabla se borra.
+
+✅ ¿Cómo lo evitamos en este código?
+Con esta línea:
+        cursor.execute("INSERT INTO personas (nombre) VALUES (?)", (nombre,))
+El ? actúa como marcador de posición (Placeholder).
+El segundo parámetro (nombre,) es una tupla y le dice a sqlite3 “esto es un valor, no código SQL”.
+
+Esto se llama consulta parametrizada, y es la forma correcta de evitar inyecciones SQL.
+
+
+⚠️ Nunca hagas:
+        cursor.execute("INSERT INTO personas (nombre) VALUES ('" + nombre + "')")
+
+
+
+
+
+
+🎯 3. ¿Qué es un cursor?
+Un cursor es un objeto que te permite ejecutar comandos SQL y recuperar resultados.
+
+En tu código:
+        cursor = conn.cursor()
+
+Con ese cursor podés hacer:
+cursor.execute(...) para correr comandos SQL.
+cursor.fetchall() para traer resultados de consultas.
+cursor.fetchone() para traer solo una fila.
+cursor.lastrowid para saber el ID del último insert.
+
+Pensalo como una herramienta que te da Python para “hablar” con la base de datos.
+
+
+
+
+
+💬 4. ¿SQLite usa SQL estándar? ¿Y si quiero migrar a MS SQL Server?
+SQLite usa una versión muy cercana al estándar SQL, pero:
+Sí hay pequeñas diferencias, especialmente en:
+- Tipos de datos (INTEGER PRIMARY KEY, TEXT, etc.).
+- Funciones (algunas funciones avanzadas no existen en SQLite).
+- Restricciones (como FOREIGN KEY, que existen pero funcionan algo limitado).
+
+✅ Para migrar a MS SQL Server:
+La mayoría del código SQL te va a servir.
+
+Cambiarías solo algunos detalles:
+- Tipo de conexión (sqlite3.connect() → pyodbc.connect() o pymssql.connect()).
+- Sintaxis puntual si usás funciones específicas de SQLite.
+
+Lo bueno: como estás usando SQL básico en el ejemplo, podrías migrar a MS SQL sin mucho drama.
+
+
+
+
+
+🔓 5. ¿SQLite tiene seguridad? ¿Los datos están cifrados?
+- No. SQLite: Guarda los datos en texto plano dentro del archivo .db.
+- No tiene usuarios ni contraseñas por defecto.
+- No cifra los datos, a menos que uses extensiones especiales (como SQLite Encryption Extension (SEE)).
+
+🛡️ ¿Cómo proteger tu base?
+Guardá el archivo .db en un lugar seguro.
+No lo compartas ni subas a GitHub (agregalo a .gitignore).
+Si necesitás más seguridad, considerá:
+Bases como MS SQL, PostgreSQL o MySQL.
+O usar SQLite cifrada con bibliotecas de terceros.
+
+
+
+
+
+🧩 Conclusión final
+¿Dónde se guarda el .db?	
+En el directorio desde donde se ejecuta el script. Se puede forzar ubicación.
+
+¿Qué es la inyección SQL?	
+Un intento de hackeo; se evita usando consultas parametrizadas (?).
+
+¿Qué es un cursor?	
+El "puente" entre Python y la base de datos para ejecutar comandos SQL.
+
+¿SQLite usa SQL estándar?	
+Sí, en gran parte. Es fácil migrar, pero hay pequeñas diferencias.
+
+¿Está cifrada la base?	
+No. El archivo está en texto plano. Hay formas externas de cifrar.
+
+¿Cómo la visualizo?	
+Con DB Browser, extensiones de VS Code o línea de comandos.
