@@ -1,84 +1,21 @@
 import flet as ft
-import sqlite3
-import os
+# from database.task_db import *
+from ....database.task_db import *
 
-# -------------------- Variables Globales --------------------
+# from config.utilidades import *
+from ....config.utilidades import *
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-RUTA_DB = os.path.join(BASE_DIR, "to-do.db")
+clear_screen()
+
+    # -------------------- Variables Globales --------------------
 
 ALTURA = 700
 ANCHURA = 500
 
-# -------------------- Base de datos --------------------
 
-def init_db():
-    with sqlite3.connect(RUTA_DB) as mi_conexion:
-        cursor = mi_conexion.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS tasks (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT NOT NULL,
-                done INTEGER NOT NULL DEFAULT 0
-            )
-        ''')
-        mi_conexion.commit()
+    # -------------------- Interfaz Flet --------------------
 
-def get_tasks():
-    with sqlite3.connect(RUTA_DB) as mi_conexion:
-        cursor = mi_conexion.cursor()
-        cursor.execute("SELECT id, title, done FROM tasks ORDER BY done ASC, id DESC")
-        rows = cursor.fetchall()
-        return rows
-
-def add_task(title):
-    with sqlite3.connect(RUTA_DB) as mi_conexion:
-        cursor = mi_conexion.cursor()
-        cursor.execute("INSERT INTO tasks (title) VALUES (?)", (title,))
-        mi_conexion.commit()
-
-def update_done(task_id, done):
-    with sqlite3.connect(RUTA_DB) as mi_conexion:
-        cursor = mi_conexion.cursor()
-        cursor.execute("UPDATE tasks SET done=? WHERE id=?", (done, task_id))
-        mi_conexion.commit()
-
-def edit_task(task_id, title):
-    with sqlite3.connect(RUTA_DB) as mi_conexion:
-        cursor = mi_conexion.cursor()
-        cursor.execute("UPDATE tasks SET title=? WHERE id=?", (title, task_id))
-        mi_conexion.commit()
-
-
-def delete_task(task_id):
-    with sqlite3.connect(RUTA_DB) as mi_conexion:
-        cursor = mi_conexion.cursor()
-        cursor.execute("DELETE FROM tasks WHERE id=?", (task_id,))
-        mi_conexion.commit()
-
-
-def count_done():
-    with sqlite3.connect(RUTA_DB) as mi_conexion:
-        cursor = mi_conexion.cursor()
-        cursor.execute('SELECT done, COUNT(*) AS cantidad FROM tasks GROUP BY done')
-        resultados = cursor.fetchall()
-
-        realizadas = 0
-        no_realizadas = 0
-
-        for done, cantidad in resultados:
-            if done == 1:
-                realizadas = cantidad
-            elif done == 0:
-                no_realizadas = cantidad
-        total = realizadas + no_realizadas
-
-        return {"realizadas": realizadas, "no_realizadas": no_realizadas, "total": total}
-
-
-# -------------------- Interfaz Flet --------------------
-
-def main(page: ft.Page):
+def to_do(page: ft.Page):
     # ----- Estilo para la Interfaz -----
     page.theme_mode = ft.ThemeMode.DARK
     page.window.height = ALTURA
@@ -172,6 +109,9 @@ def main(page: ft.Page):
 
     # Enviar "Eliminar Tarea" a la DB
     def btn_delete(task_id, title):
+        task_editing.value = title
+        task_editing.disabled = True
+
         def delete_ok(id):
             page.close(dlg_eliminar)
             delete_task(id)
@@ -179,16 +119,11 @@ def main(page: ft.Page):
 
         dlg_eliminar = ft.AlertDialog(
             modal=False,
-            title=ft.Text("Confirmar Eliminar"),
-            content=ft.Container(ft.Column([
-                ft.Text(f"Va a eliminar la tarea"),
-                ft.TextField(value=title, disabled=True, expand=False, max_lines=3),
-                ft.Text(f"¿Está seguro de que desea proceder?")
-                ]),expand=False,
-                ),
+            title=ft.Text("¿Eliminar Tarea?"),
+            content=task_editing,
             actions=[
-                ft.TextButton("Yes", on_click=lambda e: delete_ok(task_id)),
-                ft.TextButton("No", on_click=lambda e: page.close(dlg_eliminar))
+                ft.TextButton("Eliminar", on_click=lambda e: delete_ok(task_id)),
+                ft.TextButton("Cancelar", on_click=lambda e: page.close(dlg_eliminar))
             ],
             on_dismiss=lambda e: page.close(dlg_eliminar)
         )
@@ -198,6 +133,7 @@ def main(page: ft.Page):
     def btn_edit(task_id, task_text, task_done):
         # Actualizamos el TextField de edicion.
         task_editing.value = task_text
+        task_editing.disabled = False
 
         # Gestionamos y Validamos el Envio de Datos a la DB
         def guardar(tf_texto):
@@ -237,7 +173,6 @@ def main(page: ft.Page):
                 ft.TextButton("Cancelar", on_click=lambda e: page.close(dlg_edit)),
             ],
             on_dismiss=lambda e: page.close(dlg_edit),
-            actions_alignment=ft.MainAxisAlignment.END
         )
 
         # Crea un cuadro de dialogo de confirmacion para editar tareas finalizadas
@@ -266,6 +201,7 @@ def main(page: ft.Page):
 
     # ----- Construccion de la Intefaz de Usuario -----
     page.add(
+        ft.Container(ft.Column([
         ft.Text(value="To-Do | Organizador de Tareas",
                 style=ft.TextStyle(
                     size=30,
@@ -275,15 +211,17 @@ def main(page: ft.Page):
                 text_align='center'),
         ft.Row([task_input, ft.ElevatedButton("Agregar", on_click=add_clicked)]),
         task_list
+        ]),
+        padding=ft.padding.only(right=20))
     )
     task_input.on_submit = add_clicked      # Permite agregar la tarea al pulsar ENTER
-    # task_input.focus()                      # Enfoca el TextField de insercion.
     
     init_db()                               # Inicializa la Base de Datos
     load_tasks()                            # Carga toda la lista de tareas
-    
-    
+        
+        
 
-# -------------------- Corremos nuestra aplicacion --------------------
-ft.app(target=main)                                 # Ejecuta la Aplicacion de Escritorio
-# ft.app(main, view=ft.AppView.WEB_BROWSER)         # Ejecuta la Aplicacion en Web
+    # -------------------- Corremos nuestra aplicacion --------------------
+if __name__ == "__main__":
+    ft.app(target=to_do)                                 # Ejecuta la Aplicacion de Escritorio
+    # ft.app(main, view=ft.AppView.WEB_BROWSER)         # Ejecuta la Aplicacion en Web

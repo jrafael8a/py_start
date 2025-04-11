@@ -1,0 +1,43 @@
+mi_proyecto_flet/
+│
+├── app/                          # Lógica principal de la app
+│   ├── __init__.py
+│   ├── main.py                   # Punto de entrada principal
+│   ├── views/                    # Vistas o pantallas Flet
+│   │   ├── __init__.py
+│   │   ├── home_view.py
+│   │   └── login_view.py
+│   ├── components/              # Componentes reutilizables
+│   │   ├── __init__.py
+│   │   ├── navbar.py
+│   │   └── card.py
+│   └── controllers/             # Lógica de negocio / controladores
+│       ├── __init__.py
+│       └── auth_controller.py
+│
+├── assets/                      # Archivos estáticos (imágenes, íconos, etc.)
+│   ├── images/
+│   └── icons/
+│
+├── config/                      # Configuraciones del proyecto
+│   ├── __init__.py
+│   └── settings.py
+│
+├── tests/                       # Tests unitarios y de integración
+│   ├── __init__.py
+│   └── test_login.py
+│
+├── requirements.txt             # Dependencias
+├── README.md
+├── .gitignore
+└── run.py                       # Script para iniciar la app
+
+
+│
+└── experiments/                 # Pruebas y Experimentos Varios
+    ├── basis/                   # Primeros Pasos
+    ├── basis2/                  # Basico 2
+    ├── flet/                    # Proyectos o pruebas con Flet
+    ├── flet_docs/               # Cosas sacadas de la documentación
+    ├── POO/                     # Ejercicios de Programación Orientada a Objetos
+    └── SQLite/                  # Pruebas con bases de datos SQLite

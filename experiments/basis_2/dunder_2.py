@@ -1,7 +1,7 @@
 # Continuacion de la explicacion sobre dunders variables
 
 # import dunder_1       # importacion mas simple
-import basis_2.dunder_1 as dunder_1
+import dunder_1 as dunder_1
 # Importamos todo el codigo de nuestro archivo en este caso llamado a017a_dunder_variables_1
 # el cual contine la funcion saludar
 # 

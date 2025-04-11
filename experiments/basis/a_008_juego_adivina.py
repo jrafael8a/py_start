@@ -3,7 +3,7 @@ import random   # Primero debemos importar el modulo random para usas sus funcio
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utilidades import clear_screen     # Aqui estoy importando una funcion desde un archivo propio
+from config.utilidades import clear_screen     # Aqui estoy importando una funcion desde un archivo propio
 clear_screen()                          # Y aqui la mando a llamar
 
 
