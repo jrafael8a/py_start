@@ -1,0 +1,156 @@
+Crear una nueva rama es una excelente opción si has realizado muchos cambios en tu repositorio 
+y no estás seguro de si todo funcionará como esperas. Usar ramas en Git es una práctica recomendada 
+para poder experimentar o realizar cambios importantes sin afectar el código en la rama principal (main o master).
+
+¿Por qué crear una nueva rama?
+Seguridad: 
+Si realizas cambios significativos en la estructura de tu proyecto, es fácil cometer errores que puedan romper el código. 
+Con una nueva rama, puedes hacer todos los cambios necesarios sin afectar la versión estable del proyecto.
+
+Pruebas: 
+Te permite probar tus cambios y ver si todo funciona correctamente antes de fusionarlos de nuevo con la rama principal.
+
+Colaboración: 
+Si trabajas con otros desarrolladores, las ramas permiten que cada uno trabaje en su propio conjunto de cambios 
+sin interferir directamente con el trabajo de los demás.
+
+Pasos para crear una nueva rama
+Asegúrate de estar en la rama principal (main o master):
+
+Si no estás en la rama principal, cambia a ella:
+
+        git checkout main  # O 'master' si usas esa rama
+Actualiza tu rama principal para asegurarte de que está al día con el repositorio remoto:
+
+        git pull origin main  # O 'git pull origin master' si usas master
+Crea una nueva rama con un nombre que describa el tipo de cambio que estás realizando. 
+Por ejemplo, si estás reestructurando las carpetas, podrías llamarla restructuracion-carpetas:
+
+        git checkout -b restructuracion-carpetas
+Esto crea y cambia automáticamente a la nueva rama restructuracion-carpetas.
+
+Realiza tus cambios en la nueva rama. 
+Puedes modificar la estructura de carpetas, probar tus importaciones y ajustar el código según sea necesario.
+
+Confirma los cambios después de haber realizado las modificaciones:
+
+        git add .
+        git commit -m "Reestructuración de carpetas y pruebas de importación"
+Sube la rama al repositorio remoto para mantenerla respaldada y para que otros colaboradores puedan ver el progreso:
+
+        git push origin restructuracion-carpetas
+
+
+Cómo probar la nueva rama
+Prueba tus cambios localmente: 
+Asegúrate de que todo funcione correctamente ejecutando los scripts y verificando las importaciones.
+
+Si todo parece bien, puedes continuar desarrollando en esa rama o fusionarla con la rama principal (main o master).
+
+¿Cómo fusionar la nueva rama?
+Una vez que estés satisfecho con los cambios y hayas probado que todo funciona bien, puedes fusionar la nueva rama con la rama principal.
+
+Cambia a la rama principal:
+        git checkout main  # O 'master'
+
+
+Fusiona la nueva rama:
+        git merge restructuracion-carpetas
+
+Resuelve cualquier conflicto si los hubiera (Git te indicará si hay conflictos). Después de resolverlos, realiza un commit.
+
+Sube los cambios fusionados:
+        git push origin main  # O 'git push origin master'
+
+
+¿Qué hacer si todo sale mal?
+Si te das cuenta de que los cambios realizados en la nueva rama no son lo que esperabas o no funcionan correctamente, 
+puedes descartar los cambios en esa rama sin afectar la rama principal:
+
+
+
+
+Volver a la rama principal:
+        git checkout main  # O 'git checkout master'
+
+Eliminar la rama de desarrollo (si no la necesitas):
+git branch -D restructuracion-carpetas
+
+Eliminar la rama remota (si la subiste al repositorio remoto):
+git push origin --delete restructuracion-carpetas
+
+
+
+
+
+Resumen
+Sí, crear una nueva rama es una buena práctica si estás realizando cambios importantes 
+en la estructura del repositorio y no estás seguro de cómo afectarán el proyecto.
+
+Puedes seguir desarrollando y probando en esa rama sin afectar el código en la rama principal.
+
+Una vez que los cambios estén listos y verificados, puedes fusionar la nueva rama con la principal (main o master).
+
+¡Crear una rama te da libertad para experimentar sin miedo a perder el trabajo anterior! 
+
+
+
+
+No, no necesitas especificar la rama cada vez que hagas commit o push si ya estás trabajando en la rama correcta. 
+Git automáticamente sabe en qué rama estás trabajando, por lo que solo tienes que hacer los comandos habituales 
+y Git se encargará de apuntar al repositorio y rama correcta.
+
+
+
+1. Realizando un commit
+Cuando estás en la rama restructuracion_carpetas (o cualquier otra rama), puedes hacer un commit normalmente sin tener que especificar el nombre de la rama. Simplemente haces:
+        git add .  # O agrega los archivos específicos con 'git add archivo1 archivo2 ...'
+        git commit -m "Mensaje de commit"
+Esto siempre se realizará en la rama en la que te encuentras actualmente. Git sabe que estás en restructuracion_carpetas, por lo que el commit se registrará en esa rama.
+
+
+
+2. Haciendo un push
+De igual manera, cuando haces un push, Git también sabe que estás en la rama en la que estás trabajando 
+y puede hacer el push sin necesidad de especificar la rama. Solo necesitas ejecutar:
+
+        git push origin restructuracion-carpetas
+Este comando empuja tus cambios a la rama restructuracion-carpetas en el repositorio remoto. 
+No necesitas especificar la rama local si ya estás en ella, pero siempre es 
+una buena práctica asegurarse de que estás empujando a la rama correcta.
+
+
+
+Si ya has subido la rama por primera vez, puedes hacer solo:
+        git push
+Esto hará el push a la rama actual en la que estás trabajando, sin tener que especificar el nombre de la rama.
+
+
+¿Qué pasa si quiero hacer push a otra rama?
+Si en algún momento necesitas hacer un push a otra rama, por ejemplo, si estás en restructuracion_carpetas 
+y quieres hacer push a la rama main, puedes hacer:
+
+        git push origin restructuracion-carpetas:main
+Esto empujaría tus cambios de la rama local restructuracion-carpetas a la rama remota main.
+
+
+
+Verificando la rama en la que estás trabajando
+Para asegurarte de que estás en la rama correcta, puedes usar:
+
+        git status
+Este comando te mostrará en qué rama estás y el estado de tus archivos.
+
+
+
+
+Resumen
+git commit: 
+No necesitas especificar la rama, ya que Git usará la rama en la que estés trabajando.
+
+git push: 
+En la mayoría de los casos, basta con git push después de hacer git commit, si ya habías hecho git push antes a esa rama. 
+Si es la primera vez que empujas, usa git push origin restructuracion-carpetas.
+
+Si en algún momento necesitas cambiar de rama o trabajar con una diferente, puedes hacer git checkout nombre_de_rama.
+
