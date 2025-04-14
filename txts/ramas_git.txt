@@ -74,10 +74,10 @@ Volver a la rama principal:
         git checkout main  # O 'git checkout master'
 
 Eliminar la rama de desarrollo (si no la necesitas):
-git branch -D restructuracion-carpetas
+        git branch -D restructuracion-carpetas
 
 Eliminar la rama remota (si la subiste al repositorio remoto):
-git push origin --delete restructuracion-carpetas
+        git push origin --delete restructuracion-carpetas
 
 
 

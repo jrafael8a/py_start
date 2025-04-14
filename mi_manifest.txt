@@ -1,0 +1,8 @@
+# Libreria para crear interfaces de usuario
+pip install flet
+
+# Libreria para manejo de PDF
+pip install reportlab
+
+# Libreria para manejar directorios de usuario Multiplataforma (Como la carpeta descargas)
+pip install platformdirs
