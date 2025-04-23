@@ -1,4 +1,5 @@
 import flet as ft
+import os
 from src.app.database.gallery_db import *
 from datetime import datetime
 
@@ -79,11 +80,23 @@ def gallery(page: ft.Page):
         if not e.files:
             return
         
+        # Obtener la carpeta raíz del proyecto
+        carpeta_raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
+        
         for f in e.files:
+            # Verificar si la ruta está dentro de la carpeta raíz del proyecto
+            ruta_absoluta = os.path.abspath(f.path)
+            if ruta_absoluta.startswith(carpeta_raiz):
+                # Convertir a ruta relativa
+                ruta_guardar = os.path.relpath(ruta_absoluta, carpeta_raiz)
+            else:
+                # Usar ruta absoluta
+                ruta_guardar = ruta_absoluta
+
             # Guardar la imagen en la base de datos
             save_img_db(
                 nombre = f.name, 
-                ruta = f.path, 
+                ruta = ruta_guardar, 
                 fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S"), 
                 desc = "",
                 hidden = 0
@@ -108,7 +121,7 @@ def gallery(page: ft.Page):
         # Refrescar la cuadrícula sin la imagen eliminada
         cargar_imagenes_desde_db()
         grid_view.update()
-        
+
         # Mostrar mensaje de confirmación
         page.open(ft.SnackBar(
             content=ft.Text(f"Imagen eliminada correctamente: {nombre_img}"),
