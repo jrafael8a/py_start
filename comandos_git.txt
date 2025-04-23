@@ -85,17 +85,27 @@ git revert <commit>	                Crea un nuevo commit que revierte los cambio
 
 
 🔹 Trabajo con Ramas
-COMANDO	                                DESCRIPCIÓN
-git branch	                            Lista todas las ramas locales.
-git branch <nombre_rama>	            Crea una nueva rama.
-git checkout <nombre_rama>	            Cambia a otra rama.
-git checkout -b <nombre_rama>	        Crea una nueva rama y cambia a ella.
-git switch <nombre_rama>	            Alternativa moderna a checkout para cambiar de rama.
-git push origin <nombre_rama>           Sube la rama al repositorio remoto.
-git merge <rama>	                    Fusiona una rama en la rama actual.
-git branch -d <nombre_rama>	            Elimina una rama local.
-git branch -D <nombre_rama>	            Fuerza la eliminación de una rama local.
-git push origin --delete <nombre_rama>	Elimina una rama en el repositorio remoto.
+COMANDO	                                        DESCRIPCIÓN
+git branch	                                    Lista todas las ramas locales.
+git branch <nombre_rama>	                    Crea una nueva rama.
+git checkout <nombre_rama>	                    Cambia a otra rama.
+git checkout -b <nombre_rama>	                Crea una nueva rama y cambia a ella.
+git switch <nombre_rama>	                    Alternativa moderna a checkout para cambiar de rama.
+git push origin <nombre_rama>                   Sube la rama al repositorio remoto.
+git push --set-upstream origin <nombre_rama>    Enlaza la rama local con la rama remota.
+
+git switch main                                 Volvemos a la rama main
+git merge <nombre_rama>	                        Fusiona una rama <nombre_rama> en la rama actual (main por ejemplo).
+git branch -d <nombre_rama>	                    Elimina una rama local.
+git branch -D <nombre_rama>	                    Fuerza la eliminación de una rama local.
+git push origin --delete <nombre_rama>	        Elimina una rama en el repositorio remoto.
+
+git config --global push.autoSetupRemote true   Cada vez que se haga push desde una nueva rama, la sube y la enlaza.
+
+Cuando se crea una nueva rama, aunque se suba al remoto con git push origin <nombre_rama>
+estas ramas no quedan enlazadas, entonces si se quiere hacer simplemente    git push    dara error
+para enlazarlas automaticamente se puede configurar el parametro local 
+git config --global push.autoSetupRemote true
 
 
 🔹 Sincronización con Remoto
