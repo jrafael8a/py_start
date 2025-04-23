@@ -23,20 +23,38 @@ def init_db():
         mi_conexion.commit()
 
 def get_img_db():
-    with sqlite3.connect(RUTA_DB) as mi_conexion:
-        cursor = mi_conexion.cursor()
-        cursor.execute('''
-            SELECT id, nombre, ruta, fecha, desc, hidden FROM images_db
-        ''')
-        rows = cursor.fetchall()
-        return rows
+    try:
+        with sqlite3.connect(RUTA_DB) as mi_conexion:
+            cursor = mi_conexion.cursor()
+            cursor.execute('''
+                SELECT id, nombre, ruta, fecha, desc, hidden FROM images_db
+            ''')
+            rows = cursor.fetchall()
+            return rows
+    except sqlite3.Error as e:
+        print(f"Error al obtener imagen(es): {e}")
 
 def save_img_db(nombre, ruta, fecha="", desc="", hidden=0):
-    with sqlite3.connect(RUTA_DB) as mi_conexion:
-        cursor = mi_conexion.cursor()
-        cursor.execute('''
-            INSERT INTO images_db (nombre, ruta, fecha, desc, hidden) 
-            VALUES (?, ?, ?, ?, ?)
+    try:
+        with sqlite3.connect(RUTA_DB) as mi_conexion:
+            cursor = mi_conexion.cursor()
+            cursor.execute('''
+                INSERT INTO images_db (nombre, ruta, fecha, desc, hidden) 
+                VALUES (?, ?, ?, ?, ?)
+                ''',
+                (nombre, ruta, fecha, desc, hidden))
+            mi_conexion.commit()
+    except sqlite3.Error as e:
+        print(f"Error al guardar imagen(es): {e}")
+
+def del_img_db(id_img):
+    try:
+        with sqlite3.connect(RUTA_DB) as mi_conexion:
+            cursor = mi_conexion.cursor()
+            cursor.execute('''
+                DELETE FROM images_db WHERE id = ?
             ''',
-            (nombre, ruta, fecha, desc, hidden))
-        mi_conexion.commit()
+            (id_img,))
+            mi_conexion.commit()
+    except sqlite3.Error as e:
+        print(f"Error al eliminar imagen: {e}")
