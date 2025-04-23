@@ -1,0 +1,74 @@
+INSTALAR PIP EN UNA VERSION EMBEBIDA DE PYTHON
+
+Una version embebida de Python no siempre incluye pip, por lo que debemos instalarlo manualmente.
+Agregarlo al PATH, y luego revisar el archivo python313._pth para que habilite la carga de site-packages.
+
+
+1 - Verificamos la instalacion de Python:
+python --version
+
+Verificamos que Python este correctamente instalado y en el PATH usando el comando:
+
+
+
+
+2 - Instalación de pip usando get-pip.py:
+python get-pip.py
+
+Descargamos el script oficial get-pip.py desde https://bootstrap.pypa.io/get-pip.py
+
+y lo Ejecutamos con el comando para instalar pip:
+        python get-pip.py
+O si es una reinstalacion:
+        python get-pip.py --force-reinstall
+
+
+
+
+3 - Agregamos Scrypt al PATH
+C:\Users\miusuario\AppData\Local\Programs\Python\Python313\Scrypts\
+
+Si es una version embebida de python, deberiamos agregar la carpeta Scrypts al PATH para que pip sea accesible  
+
+
+
+
+4 - Verificación de instalación de pip:
+pip --version
+
+Tras ejecutar get-pip.py, verificamos la instalación con:
+        pip --version
+
+
+
+
+5 - Si obtuvimos un error indicando que el módulo pip no estaba encontrado...
+Investigamos el contenido de la carpeta Lib\site-packages y confirmamos que la carpeta pip y su archivo .dist-info esten presentes.
+Si el problema sigue, puede ser que Python no esté encontrando correctamente pip.
+Asi que Verificamos el archivo python313._pth:
+Localizamos el archivo python313._pth dentro de la instalación embebida de Python.  
+        Python\Python313\python313._pth
+
+Confirmamos que la línea:
+        import site
+
+no esté comentada (con un # al inicio). 
+Si esta comentada, la descomentamos para permitir que Python cargue el módulo site, que a su vez permitiría la carga de pip.
+
+Tras esto, guardamos el archivo y reiniciamos la terminal.
+
+
+
+
+6 - Verificación final:
+Ejecutamos nuevamente:
+        python -m pip --version
+
+y ¡finalmente deberia funcionar!.
+
+
+
+
+7 - WHERE
+Desde la terminal podemos usar   Where python   where pip
+para saber donde estan instalados
