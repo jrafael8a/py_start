@@ -30,7 +30,30 @@ def gallery(page: ft.Page):
         padding=20
     )
 
-    
+    # Botón para subir imágenes
+    boton_subir = ft.ElevatedButton(
+        "Subir imágenes",
+        icon=ft.icons.UPLOAD_FILE,
+        on_click=lambda _: file_picker.pick_files(
+            allow_multiple=True,
+            allowed_extensions=["png", "jpg", "jpeg", "gif", "webp"]
+        )
+    )
+
+    # Botón para mostrar imágenes ocultas
+    boton_mostrar = ft.ElevatedButton(
+        "Mostrar imágenes ocultas",
+        icon=ft.icons.VISIBILITY,
+        on_click=lambda _: mostrar_ocultas()
+    )
+
+    # Botón para mostrar imágenes ocultas
+    boton_ocultar = ft.ElevatedButton(
+        "Volver a Ocultar",
+        icon=ft.icons.VISIBILITY_OFF,
+        on_click=lambda _: cargar_imgs()
+    )
+    boton_ocultar.visible = False
     # ---------- Funciones ----------
 
     def cargar_imagenes_desde_db():
@@ -62,19 +85,47 @@ def gallery(page: ft.Page):
                                 max_lines=2,
                                 expand=True,
                                 ),
-                            ft.IconButton(icon=ft.icons.DELETE, on_click=lambda e, id=id_imagen, nombre=nombre_img: eliminar_imagen(id, nombre))
+                            ft.IconButton(icon=
+                                          ft.icons.VISIBILITY if hidden else ft.icons.VISIBILITY_OFF, 
+                                          on_click=lambda e, id=id_imagen, nombre=nombre_img, hidden=hidden: ocultar_imagen(id, nombre, hidden)),
+                            ft.IconButton(icon=ft.icons.DELETE, on_click=lambda e, id=id_imagen, nombre=nombre_img, ruta=ruta: confirmar_eliminar_imagen(id, nombre, ruta)),
                         ],
                         )
                     ],
                     alignment='center',
                     horizontal_alignment='center',
                     ),
-                    padding=10
-                )
+                    padding=10,
+                    on_click=lambda e, id=id_imagen, nombre=nombre_img, ruta=ruta, hidden=hidden: img_preview(id,nombre,ruta,hidden)
+                ),
+                visible=not hidden,
             )
             
             grid_view.controls.append(card)
-        #page.update()
+
+
+    def img_preview(id,nombre,ruta,hidden):
+        dlg_preview = ft.AlertDialog(
+            modal=False,
+            title=ft.Text(nombre),
+            content=ft.Container(
+                ft.Row([
+                    ft.Image(
+                        src=ruta,
+                        expand=True,
+                        fit=ft.ImageFit.COVER,
+                        border_radius=10
+                    ),
+                    ]),
+            ),
+            actions=[
+                ft.ElevatedButton("Ocultar", on_click=lambda e: (ocultar_imagen(id, nombre, hidden), page.close(dlg_preview))),
+                ft.ElevatedButton("Eliminar", on_click= lambda e: (confirmar_eliminar_imagen(id, nombre, ruta), page.close(dlg_preview))),
+                ft.ElevatedButton("Cancelar", on_click= lambda e: page.close(dlg_preview)),
+            ],
+            on_dismiss=lambda e: page.close(dlg_preview),
+        )
+        page.open(dlg_preview)
 
 
     def subir_imagen(e: ft.FilePickerResultEvent):
@@ -105,8 +156,8 @@ def gallery(page: ft.Page):
             )
                     
         # Refrescar la cuadrícula con las nuevas imágenes
-        cargar_imagenes_desde_db()
-        grid_view.update()
+        cargar_imgs()
+
         
         # Mostrar mensaje de confirmación
         page.open(ft.SnackBar(
@@ -115,18 +166,77 @@ def gallery(page: ft.Page):
         ))
         page.update()
     
-    def eliminar_imagen(id_imagen, nombre_img):
-        """Elimina una imagen de la base de datos y actualiza la galería"""
-        # Eliminar la imagen de la base de datos
-        del_img_db(int(id_imagen))
+    def ocultar_imagen(id_imagen, nombre_img, hidden):
+        """Oculta una imagen de la base de datos y actualiza la galería"""
+        hidde_img_db(id_imagen, hidden)
+        # accion = "Ocultada" if hidden == 0 else "Mostrada"
+
+        cargar_imagenes_desde_db()
+        grid_view.update()
         
-        # Refrescar la cuadrícula sin la imagen eliminada
+        if boton_ocultar.visible:
+            mostrar_ocultas()
+
+
+    def mostrar_ocultas():
+        for item in grid_view.controls:
+            item.visible = True
+        grid_view.update()
+       
+        boton_mostrar.visible = False
+        boton_ocultar.visible = True
+        boton_mostrar.update()
+        boton_ocultar.update()
+
+    def cargar_imgs():
         cargar_imagenes_desde_db()
         grid_view.update()
 
+        boton_mostrar.visible = True
+        boton_ocultar.visible = False
+        boton_mostrar.update()
+        boton_ocultar.update()
+
+    def confirmar_eliminar_imagen(id_imagen, nombre_imagen, ruta):
+        dlg_eliminar = ft.AlertDialog(
+            modal=False,
+            title=ft.Text("Confirmar Eliminar"),
+            content=ft.Container(
+                ft.Row([
+                    ft.Image(
+                        src=ruta,
+                        width=300,
+                        height=200,
+                        fit=ft.ImageFit.COVER,
+                        border_radius=10
+                    ),
+                    ft.Text(f"Esta seguro que desea eliminar la imagen \n" \
+                            f"{nombre_imagen}", 
+                            expand=True, 
+                            max_lines=2, 
+                            overflow=ft.TextOverflow.ELLIPSIS),
+                    ]),
+            ),
+            actions=[
+                ft.ElevatedButton("Si", on_click= lambda e: (eliminar_imagen(id_imagen, nombre_imagen), page.close(dlg_eliminar))),
+                ft.ElevatedButton("No", on_click= lambda e: page.close(dlg_eliminar))
+            ],
+            on_dismiss=lambda e: page.close(dlg_eliminar),
+        )
+        page.open(dlg_eliminar)
+        
+
+    def eliminar_imagen(id_imagen, nombre_img):
+        """Elimina una imagen de la base de datos y actualiza la galería"""
+        # Eliminar la imagen de la base de datos
+        del_img_db(id_imagen)
+        
+        # Refrescar la cuadrícula sin la imagen eliminada
+        cargar_imgs()
+
         # Mostrar mensaje de confirmación
         page.open(ft.SnackBar(
-            content=ft.Text(f"Imagen eliminada correctamente: {nombre_img}"),
+            content=ft.Text(f"Imagen eliminada correctamente: {nombre_img}", expand=True, max_lines=2, overflow=ft.TextOverflow.ELLIPSIS),
             action="OK!"
         ))
         page.update()
@@ -138,15 +248,7 @@ def gallery(page: ft.Page):
     file_picker = ft.FilePicker(on_result=subir_imagen)
     page.overlay.append(file_picker)
     
-    # Botón para subir imágenes
-    boton_subir = ft.ElevatedButton(
-        "Subir imágenes",
-        icon=ft.icons.UPLOAD_FILE,
-        on_click=lambda _: file_picker.pick_files(
-            allow_multiple=True,
-            allowed_extensions=["png", "jpg", "jpeg", "gif", "webp"]
-        )
-    )
+    
     
     # Inicializar la base de datos
     init_db()
@@ -159,7 +261,7 @@ def gallery(page: ft.Page):
             content=ft.Column([
                 titulo,
                 ft.Container(height=10),
-                boton_subir,
+                boton_subir, boton_mostrar, boton_ocultar,
                 ft.Container(height=10),
                 ft.Divider(),
                 ft.Container(height=10),

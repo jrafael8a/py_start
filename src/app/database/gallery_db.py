@@ -47,6 +47,22 @@ def save_img_db(nombre, ruta, fecha="", desc="", hidden=0):
     except sqlite3.Error as e:
         print(f"Error al guardar imagen(es): {e}")
 
+def hidde_img_db(id_img, hidden):
+    try:
+        with sqlite3.connect(RUTA_DB) as mi_conexion:
+            cursor = mi_conexion.cursor()
+            cursor.execute('''
+                UPDATE images_db 
+                SET hidden = ?
+                WHERE id = ?
+            ''',
+            (not hidden, id_img))
+            mi_conexion.commit()
+    except sqlite3.Error as e:
+        print(f"Error al eliminar imagen: {e}")
+
+
+
 def del_img_db(id_img):
     try:
         with sqlite3.connect(RUTA_DB) as mi_conexion:
