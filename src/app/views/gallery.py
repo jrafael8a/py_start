@@ -1,7 +1,9 @@
 import flet as ft
 import os
-from src.app.database.gallery_db import *
 from datetime import datetime
+from src.app.database.gallery_db import *
+from src.app.utils.utilidades import obtener_carpeta_raiz
+
 
 def gallery(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
@@ -81,7 +83,7 @@ def gallery(page: ft.Page):
             return
         
         # Obtener la carpeta raíz del proyecto
-        carpeta_raiz = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
+        carpeta_raiz = obtener_carpeta_raiz()
         
         for f in e.files:
             # Verificar si la ruta está dentro de la carpeta raíz del proyecto

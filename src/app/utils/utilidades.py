@@ -17,3 +17,7 @@ def medir_tiempo(func):
         print(f"Tiempo de ejecución de {func.__name__}: {end_time - start_time:.6f} segundos")
         return resultado  # Retorna el resultado de la función
     return wrapper
+
+def obtener_carpeta_raiz():
+    """Obtiene la carpeta raíz del proyecto de forma dinámica"""
+    return os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
