@@ -1,10 +1,8 @@
 import flet as ft
 
 # from experiments.SQLite.Gallery.gallery import gallery
-import sys
-print("sys.path:", sys.path)
 
-# from src.app.views.to_do import to_do
+from src.app.views.to_do import to_do
 
 
 #if __name__ == "__main__":
@@ -18,6 +16,6 @@ if __name__ == "__main__":
         page.window.width = 600
         page.window.alignment = ft.alignment.center
 
-        # to_do(page)
+        to_do(page)
         
     ft.app(target=main)

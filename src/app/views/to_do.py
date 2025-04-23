@@ -1,8 +1,8 @@
 import flet as ft
-from database.task_db import *
+from src.app.database.task_db import *
 # from ....database.task_db import *
 
-from config.utilidades import *
+from src.app.config.utilidades import *
 # from ....config.utilidades import *
 
 clear_screen()
