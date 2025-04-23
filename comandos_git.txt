@@ -91,6 +91,7 @@ git branch <nombre_rama>	            Crea una nueva rama.
 git checkout <nombre_rama>	            Cambia a otra rama.
 git checkout -b <nombre_rama>	        Crea una nueva rama y cambia a ella.
 git switch <nombre_rama>	            Alternativa moderna a checkout para cambiar de rama.
+git push origin <nombre_rama>           Sube la rama al repositorio remoto.
 git merge <rama>	                    Fusiona una rama en la rama actual.
 git branch -d <nombre_rama>	            Elimina una rama local.
 git branch -D <nombre_rama>	            Fuerza la eliminación de una rama local.

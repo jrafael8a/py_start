@@ -20,13 +20,16 @@ Asegúrate de estar en la rama principal (main o master):
 Si no estás en la rama principal, cambia a ella:
 
         git checkout main  # O 'master' si usas esa rama
+
 Actualiza tu rama principal para asegurarte de que está al día con el repositorio remoto:
 
         git pull origin main  # O 'git pull origin master' si usas master
+
 Crea una nueva rama con un nombre que describa el tipo de cambio que estás realizando. 
 Por ejemplo, si estás reestructurando las carpetas, podrías llamarla restructuracion-carpetas:
 
         git checkout -b restructuracion-carpetas
+
 Esto crea y cambia automáticamente a la nueva rama restructuracion-carpetas.
 
 Realiza tus cambios en la nueva rama. 
@@ -36,6 +39,7 @@ Confirma los cambios después de haber realizado las modificaciones:
 
         git add .
         git commit -m "Reestructuración de carpetas y pruebas de importación"
+
 Sube la rama al repositorio remoto para mantenerla respaldada y para que otros colaboradores puedan ver el progreso:
 
         git push origin restructuracion-carpetas
