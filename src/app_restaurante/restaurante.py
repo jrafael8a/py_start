@@ -1,7 +1,8 @@
 from src.app_restaurante.menu import Menu
 from src.app_restaurante.mesa import Mesa
+from src.app_restaurante.pedido import Pedido
 
-class Restaurate:
+class Restaurante:
     def __init__ (self):
         self.mesas = []
         self.clientes = []
@@ -26,3 +27,66 @@ class Restaurate:
     def agregar_mesa(self, mesa):
         self.mesas.append(mesa)
         return f"Mesa {mesa.numero} agregada exitosamente."
+    
+    def asignar_cliente_a_mesa(self, cliente, numero_mesa):
+        mesa = self.buscar_mesa(numero_mesa)
+        if not mesa:
+            return f"Mesa {numero_mesa} no encontrada."
+        elif mesa.ocupada:
+            return f"Mesa {numero_mesa} no disponible."
+        elif cliente.tamaño_grupo > mesa.tamaño:
+            return f"Grupo demasiado grande para la mesa {numero_mesa}. (Capacidad Macima: {mesa.tamaño})"
+        elif mesa.asignar_cliente(cliente):
+            self.clientes.append(cliente)
+            return f"Cliente {cliente.nombre} asignado a la mesa {mesa.numero}"
+        else:
+            return f"No se pudo asignar el cliente a la mesa {mesa.numero}."
+        
+
+    def buscar_mesa(self, numero_mesa):
+        for mesa in self.mesas:
+            if mesa.numero == numero_mesa:
+                return mesa
+        return None
+    
+    def crear_pedido(self, numero_mesa):
+        # Busca la mesa con el número proporcionado
+        mesa = self.buscar_mesa(numero_mesa)
+      
+        # Verifica si la mesa existe y está ocupada
+        if mesa and mesa.ocupada:
+
+            # Crea un nuevo pedido asociado a la mesa
+            pedido = Pedido(mesa)
+            
+            # Agrega el pedido a la lista de pedidos activos del restaurante
+            self.pedidos_activos.append(pedido)
+            
+            # Asigna el pedido actual a la mesa
+            mesa.pedido_actual = pedido
+            
+            # Asigna el pedido al cliente que está en la mesa
+            mesa.cliente.asignar_pedido(pedido)
+            
+            # Devuelve el pedido creado
+            return pedido
+        
+        # Si la mesa no existe o no está ocupada, devuelve None
+        return None
+    
+    def liberar_mesa(self, numero_mesa):
+        mesa = self.buscar_mesa(numero_mesa)
+        if mesa:
+            cliente = mesa.cliente
+            if cliente:
+                cliente.limpiar_pedido()
+                if cliente in self.clientes:
+                    sel.clientes.remove(cliente)
+                if mesa.pedido_actual in self.pedidos_activos:
+                    self.pedidos_activos.remove(mesa.pedido_actual)
+            mesa.liberar()
+            return f"Mesa {mesa.numero} liberada exitosamente."
+        return f"Mesa {numero_mesa} no encontrada."
+
+    def obtener_item_menu(self, tipo, nombre):
+        return self.menu.obtener_item(tipo, nombre)

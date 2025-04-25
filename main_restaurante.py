@@ -1,17 +1,14 @@
 import flet as ft
 
-# if __name__ == "__main__":
-#    ft.app(target=gallery)
+from src.app_restaurante.app import RestauranteGUI
 
-"""
+
+#if __name__ == "__main__":
+def main():
+    app = RestauranteGUI()
+    
+    # ft.app(target=app.main, view=ft.WEB_BROWSER, assets_dir="assets")
+    ft.app(target=app.main)
+
 if __name__ == "__main__":
-    def main(page: ft.Page):
-        page.theme_mode = ft.ThemeMode.LIGHT
-        page.window.height = 400
-        page.window.width = 600
-        page.window.alignment = ft.alignment.center
-
-        # gallery(page)
-        
-    # ft.app(target=main)
-"""
+    main()
