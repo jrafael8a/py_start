@@ -143,7 +143,8 @@ class RestauranteGUI:
         self.mesa_seleccionada = self.restaurante.buscar_mesa(numero_mesa)
         mesa = self.mesa_seleccionada
 
-        #self.mesa_info.value = f"Mesa {mesa.numero} - Capacidad: {mesa.capacidad}"
+        self.mesa_info.value = f"Mesa {mesa.numero} - Capacidad: {mesa.tamaño}"
+        self.btn_asignar.disabled = mesa.ocupada
 
         e.page.update()
 
@@ -163,13 +164,42 @@ class RestauranteGUI:
             label="Tipo de Item",
             width=200,
             options=[
-                ft.dropdown.Option("Entrada")
-                ft.dropdown.Option("Plato Principal")
-                ft.dropdown.Option("Postre")
-                ft.dropdown.Option("Bebida")
+                ft.dropdown.Option("Entrada"),
+                ft.dropdown.Option("Plato Principal"),
+                ft.dropdown.Option("Postre"),
+                ft.dropdown.Option("Bebida"),
             ],
-            on_change=self.actualizar_items_menu()
+            on_change=self.actualizar_items_menu
         )
+
+        self.items_dropdown = ft.Dropdown(
+            label="Seleccionar Item",
+            width=200,
+            options=[
+
+            ]
+        )
+
+        self.btn_asignar = ft.ElevatedButton(
+            text="Asignar Cliente",
+            disabled=True,
+            on_click=self.asignar_cliente,
+            style=ft.ButtonStyle(
+                bgcolor=ft.Colors.GREEN_700,
+                color=ft.Colors.WHITE,
+            )
+        )
+
+        def asignar_cliente(self, e):
+            if not self.mesa_seleccionada:
+                return
+            try:
+                tamaño_grupo = int(self.tamaño_grupo_input.value)
+                if tamaño_grupo <= 0:
+                    return
+                
+                cliente = Cliente(tamaño_grupo)
+                resultado = self.restaurante.asignar_cliente_a_mesa(cliente, self.mesa_seleccionada.numero)
 
         return ft.Container(
             content=ft.Column(
@@ -183,6 +213,9 @@ class RestauranteGUI:
                     ),
                     ft.Container(height=20),
                     self.tamaño_grupo_input,
+                    self.btn_asignar,
+                    self.tipo_item_dropdown,
+                    self.items_dropdown,
                 ]
             )
         )
@@ -203,11 +236,12 @@ class RestauranteGUI:
             items = []
 
         # Actualizar el Dropdown con los items del menu seleccionados
-        self.item_dropdown.options = [
+        self.items_dropdown.options = [
             ft.dropdown.Option(item.nombre) for item in items
             ]
         
-        self.item_dropdown.update()
+        if e and e.page:
+            e.page.update()
 
 def main():
     app = RestauranteGUI()

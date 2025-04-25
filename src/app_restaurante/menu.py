@@ -76,12 +76,12 @@ class Menu:
     
     def agregar_postre(self, nombre, precio):
         postre = Postre(nombre, precio)
-        self.entradas.append(postre)
+        self.postres.append(postre)
         return postre
     
     def agregar_bebida(self, nombre, precio):
         bebida = Bebida(nombre, precio)
-        self.entradas.append(bebida)
+        self.bebidas.append(bebida)
         return bebida
     
     def eliminar_item(self, tipo, nombre):

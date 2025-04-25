@@ -81,7 +81,7 @@ class Restaurante:
             if cliente:
                 cliente.limpiar_pedido()
                 if cliente in self.clientes:
-                    sel.clientes.remove(cliente)
+                    self.clientes.remove(cliente)
                 if mesa.pedido_actual in self.pedidos_activos:
                     self.pedidos_activos.remove(mesa.pedido_actual)
             mesa.liberar()
