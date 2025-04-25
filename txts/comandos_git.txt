@@ -169,3 +169,21 @@ git push origin nueva-rama
 git checkout main
 git merge nueva-rama
 git push origin main
+
+
+
+------------------ Comandos Personalizados --------------------------------
+
+En git tambien se pueden agregar comandos personalizados al archivo .gitconfig en la raiz de la carpeta del usuario C:\Users\Usuario\.gitconfig
+o con el editor de texto   nano   de la terminal bash de git:
+
+nano ~/.gitconfig
+
+agregamos nuestro(s) alias:
+
+[alias]
+    eliminar-dir-vacios = "!find . -type d -empty -not -path './.git/*' -not -path './.git' -delete"
+	ver-dir-vacios = "!find . -type d -empty -not -path './.git/*' -not -path './.git'"
+
+y ahora al escribir    git eliminar-dir-vacios    se eliminaran todos los directorios vacios
+
