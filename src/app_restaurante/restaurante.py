@@ -34,11 +34,11 @@ class Restaurante:
             return f"Mesa {numero_mesa} no encontrada."
         elif mesa.ocupada:
             return f"Mesa {numero_mesa} no disponible."
-        elif cliente.tamaño_grupo > mesa.tamaño:
-            return f"Grupo demasiado grande para la mesa {numero_mesa}. (Capacidad Macima: {mesa.tamaño})"
+        elif cliente.tamaño_grupo > mesa.capacidad:
+            return f"Grupo demasiado grande para la mesa {numero_mesa}. (Capacidad Macima: {mesa.capacidad})"
         elif mesa.asignar_cliente(cliente):
             self.clientes.append(cliente)
-            return f"Cliente {cliente.nombre} asignado a la mesa {mesa.numero}"
+            return f"Cliente {cliente} asignado a la mesa {mesa.numero}"
         else:
             return f"No se pudo asignar el cliente a la mesa {mesa.numero}."
         

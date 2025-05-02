@@ -1,13 +1,13 @@
 class Mesa:
-    def __init__(self, numero, tamaño):
+    def __init__(self, numero, capacidad):
         self.numero = numero
-        self.tamaño = tamaño
+        self.capacidad = capacidad
         self.ocupada = False
         self.cliente = None
         self.pedido = None
     
     def asignar_cliente(self, cliente):
-        if cliente.tamaño_grupo <= self.tamaño:
+        if cliente.tamaño_grupo <= self.capacidad:
             self.cliente = cliente
             self.ocupada = True
             return True

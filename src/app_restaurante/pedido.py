@@ -3,7 +3,7 @@ from src.app_restaurante.menu import ItemMenu
 class Pedido:
     def __init__(self, mesa):
         self.mesa = mesa
-        self.item = {
+        self.items = {
             "entradas": [],
             "platos_principales": [],
             "postres": [],
@@ -24,11 +24,10 @@ class Pedido:
             
     def calcular_total(self):
         total = 0
-        for categoria in self.item.values():
+        for categoria in self.items.values():
             for item in categoria:
-                total += item.calcular_precio()
-            return round(total, 2)
-        return False
+                total += item.calcular_subtotal()
+        return round(total, 2)
     
     def cambiar_estado(self, nuevo_estado):
         estados_validos = ["Pendiente", "En Preparacion", "Listo", "Entregado"]
@@ -39,7 +38,7 @@ class Pedido:
     
     def obtener_resumen(self):
         resumen = []
-        for categoria, items in self.item.items():
+        for categoria, items in self.items.items():
             if items:
                 resumen.append(f"\n{categoria.replace('_', ' ').title()}:")
                 for item in items:
