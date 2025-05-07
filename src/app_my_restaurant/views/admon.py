@@ -25,7 +25,7 @@ class VistaAdmon:
                 ft.Tab(
                     text="Mesas",
                     icon=ft.icons.TABLE_BAR,
-                    content=VistaAdmonMesas(self.page).crear_vista()
+                    content=VistaAdmonMesas(self.page).get_view()
                 ),
                 ft.Tab(
                     text="Usuarios",

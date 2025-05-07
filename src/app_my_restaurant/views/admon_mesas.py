@@ -6,8 +6,15 @@ from src.app_my_restaurant.components.mesas import *
 class VistaAdmonMesas:
     def __init__ (self, page: ft.Page):
         self.page = page
+        self.mesa_seleccionada = None
+        self.mesas = []
+        self._view = None
+        self.refrescar_mesas()
+    
+    def refrescar_mesas(self):
         exito, self.mesas = obtener_mesas_desde_db()
-        
+        #self.page.update()
+
     def on_click_mesa(self, mesa_id):
         print(f"Click en mesa {mesa_id}")
         for mesa in self.mesas:
@@ -16,12 +23,28 @@ class VistaAdmonMesas:
                 break
         else:
             self.mesa_seleccionada = None
+        self.actualizar_vista()
+        
+    def actualizar_vista(self):
+        self.refrescar_mesas()
+        self._view.controls.clear()
+        self._view.controls.extend([
+            ft.Row([
+                self.componente_agregar_mesa(),
+                self.componente_editar_mesa()
+            ]),
+            ft.Divider(),
+            crear_grid_mesas(self.on_click_mesa),
+        ])
+        self._view.update()
         
 
-    def componente_editar_mesa(self, mesa_seleccionada=None):
+    def componente_editar_mesa(self):
 
-        if not mesa_seleccionada:
+        if not self.mesa_seleccionada:
             return ft.Container()  # No muestra nada si no hay mesa seleccionada
+
+        mesa_seleccionada = self.mesa_seleccionada
 
         nombre_input = ft.TextField(label="Nombre", value=mesa_seleccionada["nombre"])
         capacidad_input = ft.TextField(label="Capacidad", value=str(mesa_seleccionada["capacidad"]), input_filter=ft.NumbersOnlyInputFilter())
@@ -62,10 +85,12 @@ class VistaAdmonMesas:
                     content=ft.Text(mensaje),
                     action="OK",
                 ))
+                self.mesa_seleccionada = None
                 nombre_input.value = ""
                 capacidad_input.value = ""
                 estado_input.value = 0
                 nombre_input.focus()
+                self.actualizar_vista()
 
         def eliminar_mesa_click(e):
             exito, mensaje = eliminar_mesa_db(mesa_seleccionada["id"])
@@ -75,10 +100,12 @@ class VistaAdmonMesas:
                     content=ft.Text(mensaje),
                     action="OK",
                 ))
+                self.mesa_seleccionada = None
                 nombre_input.value = ""
                 capacidad_input.value = ""
                 estado_input.value = 0
                 nombre_input.focus()
+                self.actualizar_vista()
             # Podrías también limpiar la mesa seleccionada y refrescar el grid
 
         return ft.Column([
@@ -103,18 +130,18 @@ class VistaAdmonMesas:
             on_click=lambda e: on_agregar_mesa(self, nombre_input.value, capacidad_input.value)  # Llama a la función de agregar mesa
         )
 
-        def on_agregar_mesa(e, self, nombre_mesa, capacidad_mesa):
+        def on_agregar_mesa(e):
             mensaje = ""
             exito = False
 
-            if not nombre_mesa.strip():
+            if not nombre_input.strip():
                 mensaje = f"Por favor, ingrese un nombre de Mesa válido."
-            elif not capacidad_mesa.strip():
+            elif not capacidad_input.strip():
                 mensaje = f"Por favor, asigne una capacidad a la Mesa"
-            elif not capacidad_mesa.isdigit() or int(capacidad_mesa) <= 0:
+            elif not capacidad_input.isdigit() or int(capacidad_input) <= 0:
                 mensaje = f"Por favor, asigne una capacidad válida a la Mesa"
             else:
-                exito, mensaje = agregar_mesa_db(nombre_mesa, capacidad_mesa)
+                exito, mensaje = agregar_mesa_db(nombre_input, capacidad_input)
                 
             if exito:
                 self.page.open(ft.SnackBar(
@@ -140,15 +167,22 @@ class VistaAdmonMesas:
                     ft.Text("Agregar nueva mesa", size=20, weight=ft.FontWeight.BOLD),
                     nombre_input,
                     capacidad_input,
-                    boton_agregar,
-                ]
+                    ft.ElevatedButton("Agregar", icon=ft.icons.ADD, on_click=on_agregar_mesa)
+                ], spacing=10,
             ),
+
+    def get_view(self):
+        if self._view is None:
+            self._view = ft.Column()
+            self.actualizar_vista()
+        return self._view
+
         
     def crear_vista(self):
         return ft.Column([
             ft.Row([
                 self.componente_agregar_mesa(),
-                self.componente_editar_mesa()
+                self.componente_editar_mesa(self.mesa_seleccionada)
             ]),
             ft.Divider(),
             crear_grid_mesas(self.on_click_mesa),
