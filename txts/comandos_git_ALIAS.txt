@@ -10,7 +10,7 @@ agregamos nuestro(s) alias:
 [alias]
     borrar-pycache = "!find . -name '__pycache__' -type d -exec rm -r {} +"
 	ver-dir-vacios = "!find . -type d -empty -not -path './.git/*' -not -path './.git'"
-	eliminar-dir-vacios = "!find . -type d -empty -not -path './.git/*' -not -path './.git' -delete && echo \"\nLimpieza Completada\" \"
+	eliminar-dir-vacios = "!find . -type d -empty -not -path './.git/*' -not -path './.git' -delete && echo \"\nLimpieza Completada\" "
 	
     limpiar-todo = "!sh -c '\
             git borrar-pycache && \
