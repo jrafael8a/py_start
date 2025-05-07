@@ -1,24 +1,12 @@
 import flet as ft
 
 from src.app_my_restaurant.database import *
-from src.app_my_restaurant.components.grid_mesas import crear_grid_mesas
+from src.app_my_restaurant.components.mesas_grid import *
+from src.app_my_restaurant.components.mesas_agregar import *
 
 class VistaAdmon:
     def __init__ (self, page: ft.Page):
         self.page = page
-    
-    def vista_grid_mesas(self):
-        mesas = obtener_mesas_desde_db()  # debería devolverte lista de dicts o modelos
-        grid = crear_grid_mesas(mesas, on_mesa_click=self.manejar_click_mesa)
-            
-        return ft.Column([
-            ft.Text("Gestión de mesas"),
-            grid
-        ])
-
-    def manejar_click_mesa(self, numero_mesa):
-        print(f"Click en mesa {numero_mesa}")
-
     
     def crear_vista(self):
         self.tabs = ft.Tabs(
@@ -37,8 +25,10 @@ class VistaAdmon:
                     text="Mesas",
                     icon=ft.icons.TABLE_BAR,
                     content=ft.Column([
-                        ft.Text("Gestión de mesas: agregar, editar, eliminar mesas")
-                    ])
+                        crear_componente_agregar_mesa(self.page),  # componente de gestion de mesas
+                        ft.Divider,
+                        crear_grid_mesas()
+                        ])
                 ),
                 ft.Tab(
                     text="Usuarios",

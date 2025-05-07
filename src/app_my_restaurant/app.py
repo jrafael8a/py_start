@@ -1,7 +1,8 @@
 import flet as ft
 
-from src.app_my_restaurant.database import *
+from src.app_my_restaurant.database.restaurant_db import *
 from src.app_my_restaurant.views.admon import VistaAdmon
+
 
 class RestauranteGUI:
     #def __init__(self):
@@ -9,6 +10,7 @@ class RestauranteGUI:
         
 
     def main(self, page: ft.Page):
+        init_db() # Inicializa la base de datos al iniciar la app
         self.page = page
         self.vista_admon = VistaAdmon(self.page)  # ⬅️ Instancia pasando la page
 
