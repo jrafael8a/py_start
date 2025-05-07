@@ -1,63 +1,11 @@
 import flet as ft
 from src.app_my_restaurant.database.mesas_service import agregar_mesa_db, obtener_mesas_desde_db
 
-def on_agregar_mesa(self, nombre_mesa, capacidad_mesa, page):
-    page = page
-    mensaje = ""
-    exito = False
-
-    if not nombre_mesa.strip():
-        mensaje = f"Por favor, ingrese un nombre de Mesa válido."
-    elif not capacidad_mesa.strip():
-        mensaje = f"Por favor, asigne una capacidad a la Mesa"
-    elif not capacidad_mesa.isdigit() or int(capacidad_mesa) <= 0:
-        mensaje = f"Por favor, asigne una capacidad válida a la Mesa"
-    else:
-        exito, mensaje = agregar_mesa_db(nombre_mesa, capacidad_mesa)
-        
-    if exito:
-        page.open(ft.SnackBar(
-            content=ft.Text(mensaje),
-            action="OK",
-        ))
-    else:
-        dlg_alerta = ft.AlertDialog(
-            title=ft.Text("Error"),
-            content=ft.Text(mensaje),
-            actions=[
-                ft.TextButton("OK", on_click=lambda e: page.close(dlg_alerta))
-            ],
-        )
-        page.open(dlg_alerta)
-        crear_grid_mesas(self)
-        page.update()
-
-    
-
-def componente_agregar_mesa(self):
-    nombre_input = ft.TextField(label="Nombre de la mesa", autofocus=True, on_submit=lambda e: capacidad_input.focus())
-    capacidad_input = ft.TextField(label="Capacidad Máxima", input_filter=ft.NumbersOnlyInputFilter(), on_submit=lambda e: on_agregar_mesa(nombre_input.value, capacidad_input.value, self.page))
-    boton_agregar = ft.ElevatedButton(
-        text="Agregar mesa",
-        icon=ft.icons.ADD,
-        on_click=lambda e: on_agregar_mesa(self, nombre_input.value, capacidad_input.value, self.page)  # Llama a la función de agregar mesa
-    )
-
-    return ft.Column(
-        controls=[
-            ft.Text("Agregar nueva mesa", size=20, weight=ft.FontWeight.BOLD),
-            nombre_input,
-            capacidad_input,
-            boton_agregar
-        ],
-        spacing=10
-    )
-
-def manejar_click_mesa(numero_mesa):
-    print(f"Click en mesa {numero_mesa}")
+#def manejar_click_mesa(numero_mesa):
+#    print(f"Click en mesa {numero_mesa}")
 
 
-def crear_grid_mesas():
+def crear_grid_mesas(manejar_click_mesa: callable):
     exito, mesas = obtener_mesas_desde_db()  # debería devolverte lista de dicts o modelos
     
     if exito:
