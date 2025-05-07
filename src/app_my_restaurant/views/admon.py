@@ -1,14 +1,15 @@
 import flet as ft
 
-from src.app_my_restaurant.database import *
-from src.app_my_restaurant.components.mesas_grid import *
-from src.app_my_restaurant.components.mesas_agregar import *
+from src.app_my_restaurant.views.admon_mesas import VistaAdmonMesas
 
 class VistaAdmon:
     def __init__ (self, page: ft.Page):
         self.page = page
+        
     
     def crear_vista(self):
+        self.grid_container = ft.Column()
+
         self.tabs = ft.Tabs(
             selected_index=0,
             animation_duration=200,
@@ -24,11 +25,7 @@ class VistaAdmon:
                 ft.Tab(
                     text="Mesas",
                     icon=ft.icons.TABLE_BAR,
-                    content=ft.Column([
-                        crear_componente_agregar_mesa(self.page),  # componente de gestion de mesas
-                        ft.Divider,
-                        crear_grid_mesas()
-                        ])
+                    content=VistaAdmonMesas(self.page).crear_vista()
                 ),
                 ft.Tab(
                     text="Usuarios",

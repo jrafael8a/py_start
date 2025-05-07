@@ -15,7 +15,6 @@ from src.app_my_restaurant.app import RestauranteGUI
 
 
     #ft.app(target=main)   # Iniciar la App como aplicacion de escritorio
-
-
+ 
 if __name__ == "__main__":
     ft.app(target=RestauranteGUI().main)
