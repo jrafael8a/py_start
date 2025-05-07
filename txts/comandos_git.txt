@@ -108,6 +108,32 @@ para enlazarlas automaticamente se puede configurar el parametro local
 git config --global push.autoSetupRemote true
 
 
+
+🔹 Trabajo con Ramas
+COMANDO                                         DESCRIPCIÓN
+git branch                                      Lista todas las ramas locales.
+git branch -a                                   Lista todas las ramas locales y remotas.
+git branch <nombre_rama>                        Crea una nueva rama.
+git switch <nombre_rama>                        Cambia a la rama especificada.
+git branch -d <rama>                            Elimina una rama local si ya fue fusionada.
+git branch -D <rama>                            Fuerza la eliminación de una rama local no fusionada.
+git branch --unset-upstream                     Quita el enlace a una rama remota que ya no existe.
+
+🔹 Sincronización entre Máquinas
+COMANDO                                         DESCRIPCIÓN
+git fetch                                       Descarga los cambios del repositorio remoto sin aplicarlos.
+git pull                                        Descarga y fusiona los cambios del remoto en la rama actual.
+git fetch --prune                               Elimina referencias a ramas remotas que ya no existen.
+git remote prune origin                         Limpia todas las referencias remotas eliminadas en 'origin'.
+
+🔹 Limpieza de Archivos Temporales y Carpetas Vacías
+COMANDO                                                                     DESCRIPCIÓN
+find . -name '__pycache__' -type d -exec rm -r {} +                         Elimina todas las carpetas __pycache__ generadas por Python.
+find . -type d -empty -not -path './.git/*' -not -path './.git'             Muestra los directorios vacíos, excluyendo .git.
+find . -type d -empty -not -path './.git/*' -not -path './.git' -delete     Elimina los directorios vacíos, excluyendo .git.
+                                               
+
+
 🔹 Sincronización con Remoto
 COMANDO	                            DESCRIPCIÓN
 git remote -v	                    Muestra los repositorios remotos vinculados.
@@ -171,19 +197,11 @@ git merge nueva-rama
 git push origin main
 
 
-
------------------- Comandos Personalizados --------------------------------
-
-En git tambien se pueden agregar comandos personalizados al archivo .gitconfig en la raiz de la carpeta del usuario C:\Users\Usuario\.gitconfig
-o con el editor de texto   nano   de la terminal bash de git:
-
-nano ~/.gitconfig
-
-agregamos nuestro(s) alias:
-
-[alias]
-    eliminar-dir-vacios = "!find . -type d -empty -not -path './.git/*' -not -path './.git' -delete"
-	ver-dir-vacios = "!find . -type d -empty -not -path './.git/*' -not -path './.git'"
-
-y ahora al escribir    git eliminar-dir-vacios    se eliminaran todos los directorios vacios
-
+🔹 Flujo de Trabajo Recomendado
+1. Trabajar normalmente en `main` para cambios pequeños o seguros.
+2. Crear una rama (`git branch <rama> && git switch <rama>`) para cambios grandes o inestables.
+3. Hacer commits en la nueva rama.
+4. Una vez estable, hacer merge a `main` y continuar desde ahí.
+5. No eliminar la rama inmediatamente si usas varias máquinas.
+6. Cuando regreses a otra máquina, hacer `git fetch` o `git pull` para mantenerla sincronizada.
+7. Mantén `.gitignore` actualizado para excluir archivos como `.pyc` y carpetas `__pycache__`.

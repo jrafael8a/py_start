@@ -1,0 +1,39 @@
+------------------ Comandos Personalizados --------------------------------
+-------- ALIAS - Editanto el archivo .gitconfig  --------
+En git tambien se pueden agregar comandos personalizados al archivo .gitconfig en la raiz de la carpeta del usuario C:\Users\Usuario\.gitconfig
+o con el editor de texto   nano   de la terminal bash de git:
+
+nano ~/.gitconfig
+
+agregamos nuestro(s) alias:
+
+[alias]
+    borrar-pycache = "!find . -name '__pycache__' -type d -exec rm -r {} +"
+	ver-dir-vacios = "!find . -type d -empty -not -path './.git/*' -not -path './.git'"
+	eliminar-dir-vacios = "!find . -type d -empty -not -path './.git/*' -not -path './.git' -delete && echo \"\nLimpieza Completada\" \"
+	limpiar-todo = "!sh -c '\
+            git borrar-pycache && \
+            echo \"\nDirectorios vacíos encontrados:\" && \
+            git ver-dir-vacios && \
+            echo \"\n¿Deseas eliminarlos? [S/n]:\" && \
+            read -r respuesta && \
+            respuesta=${respuesta:-S} && \
+            [ \"$respuesta\" = \"S\" ] || [ \"$respuesta\" = \"s\" ] && \
+            git eliminar-dir-vacios \
+        '"
+
+
+
+y ahora al escribir    git eliminar-dir-vacios    se eliminaran todos los directorios vacios
+
+
+
+-------- ALIAS - Directamente en la terminal  --------
+
+Tambien se pueden agregar comandos al alias de git ejecuntandolo una vez en tu terminal:
+
+    git config --global alias.borrar-pycache "!find . -name '__pycache__' -type d -exec rm -r {} +"
+
+Después de eso, podrás ejecutar este comando desde cualquier repositorio Git:
+
+    git clean-pycache
