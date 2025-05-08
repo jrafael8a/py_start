@@ -128,7 +128,7 @@ class VistaAdmonMesas:
             ]
         )
         btn_actualizar =    ft.ElevatedButton("Actualizar", icon=ft.icons.SAVE, on_click=lambda e: actualizar_mesa(e))
-        btn_eliminar =      ft.ElevatedButton("Eliminar", icon=ft.icons.DELETE, on_click=lambda e: eliminar_mesa_click(e), bgcolor=ft.colors.RED_500)
+        btn_eliminar =      ft.ElevatedButton("Eliminar", icon=ft.icons.DELETE, on_click=lambda e: confirmar_eliminar_mesa(e), bgcolor=ft.colors.RED_500)
 
         if self.mesa_seleccionada:        
             self.tf_nombre_editar.value = self.mesa_seleccionada["nombre"]
@@ -168,7 +168,20 @@ class VistaAdmonMesas:
                 self.tf_nombre_editar.focus()
                 self.crear_vista()
 
-        def eliminar_mesa_click(e):
+        def confirmar_eliminar_mesa(e):
+            dlg_alerta = ft.AlertDialog(
+                    modal=True,
+                    title=ft.Text("Confirmar Eliminar"),
+                    content=ft.Text(f"Está a punto de eliminar la mesa '{self.tf_nombre_editar.value}' \n\n " \
+                                    f"Está seguro que desea eliminar esta mesa?"),
+                    actions=[
+                        ft.TextButton("Eliminar", on_click=lambda e: (self.page.close(dlg_alerta), eliminar_mesa(e))),
+                        ft.TextButton("Cancelar", on_click=lambda e: (self.page.close(dlg_alerta)))
+                    ],
+                )
+            self.page.open(dlg_alerta)
+        
+        def eliminar_mesa(e):
             exito, mensaje = eliminar_mesa_db(self.mesa_seleccionada["id"])
             
             if exito:

@@ -13,6 +13,8 @@ class RestauranteGUI:
         init_db() # Inicializa la base de datos al iniciar la app
         self.page = page
         self.vista_admon = VistaAdmon(self.page)  # ⬅️ Instancia pasando la page
+        self.page.window.width = 1200
+        self.page.window.height = 900
 
         self.main_tabs = ft.Tabs(
             selected_index = 3,
