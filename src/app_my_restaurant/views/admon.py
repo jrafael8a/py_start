@@ -10,8 +10,8 @@ class VistaAdmon:
     def crear_vista(self):
         self.grid_container = ft.Column()
 
-        self.tabs = ft.Tabs(
-            selected_index=0,
+        self.sub_tabs = ft.Tabs(
+            selected_index=1,
             animation_duration=200,
             expand=True,
             tabs=[
@@ -25,7 +25,7 @@ class VistaAdmon:
                 ft.Tab(
                     text="Mesas",
                     icon=ft.icons.TABLE_BAR,
-                    content=VistaAdmonMesas(self.page).get_view()
+                    content=VistaAdmonMesas(self.page).crear_vista()
                 ),
                 ft.Tab(
                     text="Usuarios",
@@ -48,10 +48,10 @@ class VistaAdmon:
                         ft.Text("Configuración general del sistema")
                     ])
                 ),
-            ]
+            ],
         )
 
-        return self.tabs
+        return self.sub_tabs
         #self.page.add(self.tabs)
 
 if __name__ == "__main__":

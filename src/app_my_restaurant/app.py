@@ -14,8 +14,8 @@ class RestauranteGUI:
         self.page = page
         self.vista_admon = VistaAdmon(self.page)  # ⬅️ Instancia pasando la page
 
-        self.tabs = ft.Tabs(
-            selected_index = 0,
+        self.main_tabs = ft.Tabs(
+            selected_index = 3,
             animation_duration= 300,
             tabs = [
                 ft.Tab(
@@ -45,7 +45,7 @@ class RestauranteGUI:
             ],
             expand=True,
         )
-        self.page.add(self.tabs)
+        self.page.add(self.main_tabs)
 
     #def mostrar_vista_admon(self):
     #    self.vista_admon = VistaAdmon(self.page)

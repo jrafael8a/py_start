@@ -32,7 +32,7 @@ def grid_mesas(mesas: list, on_mesa_click: callable) -> ft.GridView:
     # USO: A la hora de llamar esta funcion se debe llamar con algo asi:
     # crear_grid_mesas(mesas, on_mesa_click=mi_funcion_click)
 
-    exito, mesas = obtener_mesas_desde_db()  # debería devolverte lista de dicts o modelos
+    # exito, mesas = obtener_mesas_desde_db()  # debería devolverte lista de dicts o modelos
 
     grid = ft.GridView(
         expand=True,
@@ -106,7 +106,6 @@ def grid_mesas(mesas: list, on_mesa_click: callable) -> ft.GridView:
             color = ft.colors.GREY_900
             icon = ft.Icon(ft.icons.HELP, color=ft.colors.WHITE)
 
-        
 
         grid.controls.append(
             ft.Container(
