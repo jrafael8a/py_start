@@ -2,6 +2,7 @@ import flet as ft
 
 from src.app_my_restaurant.database.restaurant_db import *
 from src.app_my_restaurant.views.admon import VistaAdmon
+from src.app_my_restaurant.components.mesas import crear_grid_mesas
 
 
 class RestauranteGUI:
@@ -23,10 +24,8 @@ class RestauranteGUI:
                 ft.Tab(
                     text = "Mesera",
                     icon = ft.icons.PERSON,
-                    content= 
-                        ft.Column([
-                            #self.crear_vista_mesera()
-                        ])
+                    content= crear_grid_mesas(None)
+                        
                 ),
                 ft.Tab(
                     text = "Cocina",

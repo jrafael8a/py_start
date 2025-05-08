@@ -30,7 +30,8 @@ def init_db():
             '''
             CREATE TABLE IF NOT EXISTS estados (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nombre TEXT,
+                nombre TEXT NOT NULL,
+                color TEXT DEFAULT '#FFFFFF',
                 habilitado INTEGER NOT NULL DEFAULT 1
             )
             '''
@@ -77,6 +78,7 @@ def init_db():
 
 
         # Tabla de items del menu
+        # Estado de los items del menu como: 0: Inactivo, 1: Activo
         cursor.execute(
             '''
             CREATE TABLE IF NOT EXISTS menu_items (
@@ -88,10 +90,12 @@ def init_db():
             )
             '''
         )
-        # Estado de los items del menu como: 0: Inactivo, 1: Activo
+        
 
 
         # Tabla de pedidos
+        # fecha_hora: En formato ISO 8601, es decir: YYYY-MM-DD HH:MM:SS
+        # Estado de los pedidos como: 0: Pendiente, 1: En preparación, 2: Listo, 3: Entregado
         cursor.execute(
             '''
             CREATE TABLE IF NOT EXISTS pedidos(
@@ -103,8 +107,7 @@ def init_db():
             )
             '''
         )
-        # fecha_hora: En formato ISO 8601, es decir: YYYY-MM-DD HH:MM:SS
-        # Estado de los pedidos como: 0: Pendiente, 1: En preparación, 2: Listo, 3: Entregado
+        
 
 
          # Tabla de ítems en un pedido

@@ -11,6 +11,12 @@ class VistaAdmonMesas:
         self.container_admon_mesas = ft.Column([], expand= True, scroll= True)
         self.tf_nombre_editar = None    # Aqui almacenaremos un TextField que necesitamos hacer focus()
     
+        self.cp_estado_color = ft.ColorPicker(
+            width=40,
+            height=40,
+            color="#2196F3",  # color por defecto
+            on_change=lambda e: print(f"Color seleccionado: {e.control.color}")
+        )
 
     def crear_vista(self):
         exito, self.mesas = obtener_mesas_desde_db()
@@ -50,12 +56,16 @@ class VistaAdmonMesas:
         
         container_estados = ft.Column([
             ft.Text("Editar Estados", size=20, weight=ft.FontWeight.BOLD)
-        ],expand=True, alignment=ft.MainAxisAlignment.END, horizontal_alignment='center')
+        ],expand=True, scroll=True, alignment=ft.MainAxisAlignment.END, height=300)
         
-        tf_estado = ft.TextField(label="Agregar Estado")
+        
+
+        
+        tf_estado = ft.TextField(label="Agregar Estado", on_submit=lambda e: btn_agregar.focus())
         tf_habilitado = ft.Checkbox(value=True)
         btn_agregar = ft.IconButton(icon=ft.icons.ADD, on_click=lambda e: agregar_estado(e))
         
+
         def agregar_estado(e):
             exito, mensaje = agregar_estado_db(tf_estado.value, tf_habilitado.value)
 
@@ -76,8 +86,8 @@ class VistaAdmonMesas:
                 )
                 self.page.open(dlg_alerta)
 
-        def eliminar_estado(e):
-            exito, mensaje = eliminar_estado_db(tf_estado.value, tf_habilitado.value)
+        def eliminar_estado(id):
+            exito, mensaje = eliminar_estado_db(id)
 
             if exito:
                 self.page.open(ft.SnackBar(
@@ -104,25 +114,16 @@ class VistaAdmonMesas:
             expand=True)
         )
 
-        container_estados.controls.append(
-            ft.Row([
-                ft.Text("#"),
-                ft.Text("Estado"),
-                ft.Checkbox(value=True),
-                ft.IconButton(icon=ft.icons.EDIT),
-                ft.IconButton(icon=ft.icons.DELETE)
-            ],
-            expand=True)
-        )
 
         for estado in self.estados:
             container_estados.controls.append(
                 ft.Row([
                     ft.Text(estado['id']),
-                    ft.Text(estado['nombre']),
+                    ft.Text(estado['nombre'], expand=True),
+                    
                     ft.Checkbox(value=bool(estado['habilitado'])),
                     ft.IconButton(icon=ft.icons.EDIT),
-                    ft.IconButton(icon=ft.icons.DELETE)
+                    ft.IconButton(icon=ft.icons.DELETE, on_click=lambda e, id=estado['id']: eliminar_estado(id))
                 ],
                 expand=True)
             )
@@ -318,7 +319,8 @@ class VistaAdmonMesas:
             dd_estado,
             ft.Row([
                 btn_actualizar, btn_eliminar, btn_cancelar
-            ])
+            ],
+            expand=True)
         ], 
         spacing=10,
         expand=False,

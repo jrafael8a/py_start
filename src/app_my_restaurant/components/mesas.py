@@ -1,5 +1,6 @@
 import flet as ft
 from src.app_my_restaurant.database.mesas_service import agregar_mesa_db, obtener_mesas_desde_db
+from src.app_my_restaurant.database.estados_service import obtener_nombre_estado_desde_db
 
 #def manejar_click_mesa(numero_mesa):
 #    print(f"Click en mesa {numero_mesa}")
@@ -50,55 +51,56 @@ def grid_mesas(mesas: list, on_mesa_click: callable) -> ft.GridView:
         m_nombre = mesa['nombre']
         m_capacidad = mesa['capacidad']
         m_estado = mesa['estado']
+        m_estado_t = obtener_nombre_estado_desde_db(m_estado)
         icon = ft.Icon(ft.icons.TABLE_RESTAURANT, color=ft.colors.AMBER_400),
 
         if m_estado == 0:       # Libre
-            m_estado_t = "Mesa Libre"
+            # m_estado_t = "Mesa Libre"
             color = ft.colors.GREEN_700
             icon = ft.Icon(ft.icons.CHECK_CIRCLE_OUTLINE, color=ft.colors.WHITE)
 
         elif m_estado == 1:     # Reservada
-            m_estado_t = "Mesa Reservada"
+            # m_estado_t = "Mesa Reservada"
             color = ft.colors.ORANGE_800
             icon = ft.Icon(ft.icons.EVENT_AVAILABLE, color=ft.colors.WHITE)
 
         elif m_estado == 2:     # Ocupada
-            m_estado_t = "Mesa Ocupada"
+            # m_estado_t = "Mesa Ocupada"
             color = ft.colors.RED_800
             icon = ft.Icon(ft.icons.PERSON, color=ft.colors.WHITE)
 
         elif m_estado == 3:     # Orden Tomada
-            m_estado_t = "Orden Tomada"
+            # m_estado_t = "Orden Tomada"
             color = ft.colors.RED_600
             icon = ft.Icon(ft.icons.RECEIPT_LONG, color=ft.colors.WHITE)
 
         elif m_estado == 4:     # En Preparación
-            m_estado_t = "En Preparacion..."
+            # m_estado_t = "En Preparacion..."
             color = ft.colors.RED_400
             icon = ft.Icon(ft.icons.RESTAURANT, color=ft.colors.WHITE)
 
         elif m_estado == 5:     # Comiendo
-            m_estado_t = "Comiendo..."
+            # m_estado_t = "Comiendo..."
             color = ft.colors.RED_200
             icon = ft.Icon(ft.icons.RESTAURANT, color=ft.colors.WHITE)
 
         elif m_estado == 6:     # Esperando Cuenta
-            m_estado_t = "Esperando Cuenta..."
+            # m_estado_t = "Esperando Cuenta..."
             color = ft.colors.PURPLE_700
             icon = ft.Icon(ft.icons.RECEIPT, color=ft.colors.WHITE)
 
         elif m_estado == 7:     # Pago en Proceso
-            m_estado_t = "Pagando..."
+            # m_estado_t = "Pagando..."
             color = ft.colors.GREEN_400
             icon = ft.Icon(ft.icons.PAYMENTS, color=ft.colors.WHITE)
 
         elif m_estado == 8:     # Necesita Limpieza
-            m_estado_t = "Necesita Limpieza!!"
+            # m_estado_t = "Necesita Limpieza!!"
             color = ft.colors.GREY_700
             icon = ft.Icon(ft.icons.CLEANING_SERVICES, color=ft.colors.WHITE)
 
         elif m_estado == 9:     # Fuera de Servicio
-            m_estado_t = "Fuera de Servicio"
+            # m_estado_t = "Fuera de Servicio"
             color = ft.colors.BLACK
             icon = ft.Icon(ft.icons.BLOCK, color=ft.colors.RED_400)
 

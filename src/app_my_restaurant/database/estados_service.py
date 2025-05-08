@@ -8,6 +8,17 @@ def obtener_estados_desde_db():
             return True, cursor.fetchall()
     except Exception as e:
         return False, f"Error al obtener estados de las mesas: {e}"
+    
+def obtener_nombre_estado_desde_db(id):
+    try:   
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT nombre FROM estados WHERE id = ?", (id,))
+            fila  = cursor.fetchone()
+            return fila[0] if fila else None
+    except Exception as e:
+        print(e)
+        return f"Error al obtener el nombre del estado: {e}"
 
 def agregar_estado_db(nombre, habilitado):
     try:
