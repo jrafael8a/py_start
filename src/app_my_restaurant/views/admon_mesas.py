@@ -52,35 +52,41 @@ class VistaAdmonMesas:
             self.mesa_seleccionada = None
         self.crear_vista()
         self.tf_nombre_editar.focus()
+        self.tf_nombre_agregar.disabled = True
+        self.tf_capacidad_agregar.disabled = True
+        self.btn_agregar.disabled = True
+        self.tf_nombre_agregar.update()
+        self.tf_capacidad_agregar.update()
+        self.btn_agregar.update()
 
 
 
     def componente_agregar_mesa(self):
-        tf_nombre_agregar = ft.TextField(label="Nombre de la mesa", autofocus=True, on_submit=lambda e: self.capacidad_input.focus())
-        tf_capacidad_agregar = ft.TextField(label="Capacidad Máxima", input_filter=ft.NumbersOnlyInputFilter(), on_submit=lambda e: btn_agregar.focus())
-        btn_agregar = ft.ElevatedButton("Agregar", icon=ft.icons.ADD, on_click=lambda e: on_agregar_mesa(e))
+        self.tf_nombre_agregar = ft.TextField(label="Nombre de la mesa", autofocus=True, on_submit=lambda e: self.capacidad_input.focus())
+        self.tf_capacidad_agregar = ft.TextField(label="Capacidad Máxima", input_filter=ft.NumbersOnlyInputFilter(), on_submit=lambda e: self.btn_agregar.focus())
+        self.btn_agregar = ft.ElevatedButton("Agregar", icon=ft.icons.ADD, on_click=lambda e: on_agregar_mesa(e))
 
         def on_agregar_mesa(e):
             mensaje = ""
             exito = False
 
-            if not tf_nombre_agregar.value.strip():
+            if not self.tf_nombre_agregar.value.strip():
                 mensaje = f"Por favor, ingrese un nombre de Mesa válido."
-            elif not tf_capacidad_agregar.value.strip():
+            elif not self.tf_capacidad_agregar.value.strip():
                 mensaje = f"Por favor, asigne una capacidad a la Mesa"
-            elif not tf_capacidad_agregar.value.isdigit() or int(tf_capacidad_agregar.value) <= 0:
+            elif not self.tf_capacidad_agregar.value.isdigit() or int(self.tf_capacidad_agregar.value) <= 0:
                 mensaje = f"Por favor, asigne una capacidad válida a la Mesa"
             else:
-                exito, mensaje = agregar_mesa_db(tf_nombre_agregar.value, tf_capacidad_agregar.value)
+                exito, mensaje = agregar_mesa_db(self.tf_nombre_agregar.value, self.tf_capacidad_agregar.value)
                 
             if exito:
                 self.page.open(ft.SnackBar(
                     content=ft.Text(mensaje),
                     action="OK",
                 ))
-                tf_nombre_agregar.value = ""
-                tf_capacidad_agregar.value = ""
-                tf_nombre_agregar.focus()
+                self.tf_nombre_agregar.value = ""
+                self.tf_capacidad_agregar.value = ""
+                self.tf_nombre_agregar.focus()
                 self.crear_vista()
 
             else:
@@ -96,9 +102,9 @@ class VistaAdmonMesas:
         return ft.Column(
                 [
                     ft.Text("Agregar nueva mesa", size=20, weight=ft.FontWeight.BOLD),
-                    tf_nombre_agregar,
-                    tf_capacidad_agregar,
-                    btn_agregar,
+                    self.tf_nombre_agregar,
+                    self.tf_capacidad_agregar,
+                    self.btn_agregar,
                 ], 
                 spacing=10,
                 expand=True,
@@ -129,6 +135,7 @@ class VistaAdmonMesas:
         )
         btn_actualizar =    ft.ElevatedButton("Actualizar", icon=ft.icons.SAVE, on_click=lambda e: actualizar_mesa(e))
         btn_eliminar =      ft.ElevatedButton("Eliminar", icon=ft.icons.DELETE, on_click=lambda e: confirmar_eliminar_mesa(e), bgcolor=ft.colors.RED_500)
+        btn_cancelar =      ft.ElevatedButton("Cancelar", icon=ft.icons.CANCEL, on_click=lambda e: cancelar_click(e))
 
         if self.mesa_seleccionada:        
             self.tf_nombre_editar.value = self.mesa_seleccionada["nombre"]
@@ -140,8 +147,13 @@ class VistaAdmonMesas:
             dd_estado.disabled = True
             btn_actualizar.disabled = True
             btn_eliminar.disabled = True
+            btn_cancelar.disabled = True
 
 
+        def cancelar_click(e):
+            self.mesa_seleccionada = None
+            self.crear_vista()
+    
 
         def actualizar_mesa(e):
             mensaje = ""
@@ -202,8 +214,7 @@ class VistaAdmonMesas:
             tf_capacidad_editar,
             dd_estado,
             ft.Row([
-                btn_actualizar,
-                btn_eliminar
+                btn_actualizar, btn_eliminar, btn_cancelar
             ])
         ], 
         spacing=10,

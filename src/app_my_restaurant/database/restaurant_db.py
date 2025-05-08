@@ -25,6 +25,17 @@ def init_db():
             )
         ''')
 
+        # Tabla estados
+        cursor.execute(
+            '''
+            CREATE TABLE IF NOT EXISTS estados (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nombre TEXT,
+                habilitado INTEGER NOT NULL DEFAULT 1
+            )
+            '''
+        )
+
 
         # Tabla de mesas
         cursor.execute(
@@ -33,7 +44,8 @@ def init_db():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nombre TEXT,
                 capacidad INTEGER NOT NULL,
-                estado INTEGER NOT NULL DEFAULT 0
+                id_estado INTEGER NOT NULL DEFAULT 0,
+                FOREIGN KEY (id_estado) REFERENCES estados(id)
             )
             '''
         )
