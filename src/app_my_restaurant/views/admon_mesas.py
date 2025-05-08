@@ -2,6 +2,7 @@ import flet as ft
 
 from src.app_my_restaurant.database.mesas_service import *
 from src.app_my_restaurant.components.mesas import *
+from src.app_my_restaurant.database.estados_service import *
 
 class VistaAdmonMesas:
     def __init__ (self, page: ft.Page):
@@ -29,17 +30,105 @@ class VistaAdmonMesas:
             self.container_admon_mesas.controls.append(
                 ft.Row([
                     self.componente_agregar_mesa(),
-                    ft.Column([], expand=True),         # Aqui funciona como una especie de Vertial Divider
+                    ft.VerticalDivider(),
+                    self.componente_editar_estados(),
+                    ft.VerticalDivider(),
                     self.componente_editar_mesa(),
                 ],
                 spacing=20,
                 expand=True,
+                alignment=ft.MainAxisAlignment.START
                 )
             )
             self.container_admon_mesas.controls.append(ft.Divider())
             self.container_admon_mesas.controls.append(crear_grid_mesas(self.on_click_mesa))
             self.page.update()
             return self.container_admon_mesas
+
+    def componente_editar_estados(self):
+        exito, self.estados = obtener_estados_desde_db()
+        
+        container_estados = ft.Column([
+            ft.Text("Editar Estados", size=20, weight=ft.FontWeight.BOLD)
+        ],expand=True, alignment=ft.MainAxisAlignment.END, horizontal_alignment='center')
+        
+        tf_estado = ft.TextField(label="Agregar Estado")
+        tf_habilitado = ft.Checkbox(value=True)
+        btn_agregar = ft.IconButton(icon=ft.icons.ADD, on_click=lambda e: agregar_estado(e))
+        
+        def agregar_estado(e):
+            exito, mensaje = agregar_estado_db(tf_estado.value, tf_habilitado.value)
+
+            if exito:
+                self.page.open(ft.SnackBar(
+                    content=ft.Text(mensaje),
+                    action="OK",
+                ))
+                self.crear_vista()
+
+            else:
+                dlg_alerta = ft.AlertDialog(
+                    title=ft.Text("Error"),
+                    content=ft.Text(mensaje),
+                    actions=[
+                        ft.TextButton("OK", on_click=lambda e: self.page.close(dlg_alerta))
+                    ],
+                )
+                self.page.open(dlg_alerta)
+
+        def eliminar_estado(e):
+            exito, mensaje = eliminar_estado_db(tf_estado.value, tf_habilitado.value)
+
+            if exito:
+                self.page.open(ft.SnackBar(
+                    content=ft.Text(mensaje),
+                    action="OK",
+                ))
+                self.crear_vista()
+
+            else:
+                dlg_alerta = ft.AlertDialog(
+                    title=ft.Text("Error"),
+                    content=ft.Text(mensaje),
+                    actions=[
+                        ft.TextButton("OK", on_click=lambda e: self.page.close(dlg_alerta))
+                    ],
+                )
+                self.page.open(dlg_alerta)
+
+
+        container_estados.controls.append(
+            ft.Row([
+                tf_estado, tf_habilitado, btn_agregar
+            ],
+            expand=True)
+        )
+
+        container_estados.controls.append(
+            ft.Row([
+                ft.Text("#"),
+                ft.Text("Estado"),
+                ft.Checkbox(value=True),
+                ft.IconButton(icon=ft.icons.EDIT),
+                ft.IconButton(icon=ft.icons.DELETE)
+            ],
+            expand=True)
+        )
+
+        for estado in self.estados:
+            container_estados.controls.append(
+                ft.Row([
+                    ft.Text(estado['id']),
+                    ft.Text(estado['nombre']),
+                    ft.Checkbox(value=bool(estado['habilitado'])),
+                    ft.IconButton(icon=ft.icons.EDIT),
+                    ft.IconButton(icon=ft.icons.DELETE)
+                ],
+                expand=True)
+            )
+
+        return container_estados
+
 
 
     def on_click_mesa(self, mesa_id):
@@ -62,7 +151,7 @@ class VistaAdmonMesas:
 
 
     def componente_agregar_mesa(self):
-        self.tf_nombre_agregar = ft.TextField(label="Nombre de la mesa", autofocus=True, on_submit=lambda e: self.capacidad_input.focus())
+        self.tf_nombre_agregar = ft.TextField(label="Nombre de la mesa", min_lines=2, max_lines=2,autofocus=True, on_submit=lambda e: self.capacidad_input.focus())
         self.tf_capacidad_agregar = ft.TextField(label="Capacidad Máxima", input_filter=ft.NumbersOnlyInputFilter(), on_submit=lambda e: self.btn_agregar.focus())
         self.btn_agregar = ft.ElevatedButton("Agregar", icon=ft.icons.ADD, on_click=lambda e: on_agregar_mesa(e))
 
@@ -107,35 +196,49 @@ class VistaAdmonMesas:
                     self.btn_agregar,
                 ], 
                 spacing=10,
-                expand=True,
+                expand=False,
+                horizontal_alignment='center'
             )
 
 
 
     def componente_editar_mesa(self):
+        exito, self.estados = obtener_estados_desde_db()
+        lista_estados = []
+
         self.tf_nombre_editar = ft.TextField(label="Nombre", on_submit=lambda e: tf_capacidad_editar.focus())
         tf_capacidad_editar = ft.TextField(label="Capacidad", input_filter=ft.NumbersOnlyInputFilter(), on_submit=lambda e: dd_estado.focus())
-        dd_estado = ft.Dropdown(
-            label="Estado",
-            value=9,
-            options=[
-                ft.dropdown.Option(str(i), text) for i, text in [
-                    (0, "Libre"),
-                    (1, "Reservada"),
-                    (2, "Ocupada"),
-                    (3, "Orden Tomada"),
-                    (4, "En Preparación"),
-                    (5, "Comiendo"),
-                    (6, "Esperando Cuenta"),
-                    (7, "Pago en Proceso"),
-                    (8, "Necesita Limpieza"),
-                    (9, "Fuera de Servicio")
-                ]
-            ]
-        )
         btn_actualizar =    ft.ElevatedButton("Actualizar", icon=ft.icons.SAVE, on_click=lambda e: actualizar_mesa(e))
         btn_eliminar =      ft.ElevatedButton("Eliminar", icon=ft.icons.DELETE, on_click=lambda e: confirmar_eliminar_mesa(e), bgcolor=ft.colors.RED_500)
         btn_cancelar =      ft.ElevatedButton("Cancelar", icon=ft.icons.CANCEL, on_click=lambda e: cancelar_click(e))
+        
+        
+        
+        if exito:
+            for estado in self.estados:
+                estado_id = str(estado['id'])       # Dropdown Option requiere str como value
+                estado_nombre = estado['nombre']
+                estado_habilitado = estado['habilitado']
+
+                if estado_habilitado:
+                    lista_estados.append(ft.dropdown.Option(estado_id, estado_nombre))
+
+            
+            dd_estado = ft.Dropdown(
+                label="Estado",
+                value=lista_estados[0] if lista_estados else None,
+                expand=True,
+                options=lista_estados
+            )
+        else:
+                dlg_alerta = ft.AlertDialog(
+                    title=ft.Text("Error"),
+                    content=ft.Text(self.estados),
+                    actions=[
+                        ft.TextButton("OK", on_click=lambda e: self.page.close(dlg_alerta))
+                    ],
+                )
+                self.page.open(dlg_alerta)
 
         if self.mesa_seleccionada:        
             self.tf_nombre_editar.value = self.mesa_seleccionada["nombre"]
@@ -218,6 +321,7 @@ class VistaAdmonMesas:
             ])
         ], 
         spacing=10,
-        expand=True,
+        expand=False,
+        horizontal_alignment='center'
         )
 
