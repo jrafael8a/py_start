@@ -1,5 +1,6 @@
 import flet as ft
-
+from src.app_my_restaurant.views.admon_menu import VistaAdmonMenu
+from src.app_my_restaurant.views.admon_menu_tipos import VistaAdmonMenuTipos
 from src.app_my_restaurant.views.admon_mesas import VistaAdmonMesas
 
 class VistaAdmon:
@@ -18,9 +19,12 @@ class VistaAdmon:
                 ft.Tab(
                     text="Menú",
                     icon=ft.icons.RESTAURANT_MENU,
-                    content=ft.Column([
-                        ft.Text("Gestión del menú: agregar, editar, eliminar productos")
-                    ])
+                    content=VistaAdmonMenu(self.page).crear_vista()
+                ),
+                ft.Tab(
+                    text="Tipos de Items del Menú",
+                    icon=ft.icons.MENU_BOOK,
+                    content=VistaAdmonMenuTipos(self.page).crear_vista()
                 ),
                 ft.Tab(
                     text="Mesas",

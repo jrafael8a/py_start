@@ -10,13 +10,6 @@ class VistaAdmonMesas:
         self.mesa_seleccionada = None
         self.container_admon_mesas = ft.Column([], expand= True, scroll= True)
         self.tf_nombre_editar = None    # Aqui almacenaremos un TextField que necesitamos hacer focus()
-    
-        self.cp_estado_color = ft.Color(
-            width=40,
-            height=40,
-            color="#2196F3",  # color por defecto
-            on_change=lambda e: print(f"Color seleccionado: {e.control.color}")
-        )
 
     def crear_vista(self):
         exito, self.mesas = obtener_mesas_desde_db()
@@ -86,7 +79,7 @@ class VistaAdmonMesas:
                 )
                 self.page.open(dlg_alerta)
 
-        def eliminar_estado(id):
+        def eliminar_estado(self, id):
             exito, mensaje = eliminar_estado_db(id)
 
             if exito:
@@ -120,10 +113,8 @@ class VistaAdmonMesas:
                 ft.Row([
                     ft.Text(estado['id']),
                     ft.Text(estado['nombre'], expand=True),
-                    self.cp
-                    ft.Checkbox(value=bool(estado['habilitado'])),
                     ft.IconButton(icon=ft.icons.EDIT),
-                    ft.IconButton(icon=ft.icons.DELETE, on_click=lambda e, id=estado['id']: eliminar_estado(id))
+                    ft.IconButton(icon=ft.icons.DELETE, on_click=lambda e, id=estado['id']: eliminar_estado(self, id))
                 ],
                 expand=True)
             )

@@ -77,16 +77,33 @@ def init_db():
         # Mesa inhabilitada por alguna razón	        * → 9       Fuera de servicio
 
 
+        
+        # Tabla de TIPOS para los items del Menu
+        # Ejemplo: Tipo: Desayuno, Entrada, Plato Fuerte, Almuerzo, Cena, Postre, etc.
+        cursor.execute(
+            '''
+            CREATE TABLE IF NOT EXISTS menu_tipos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nombre TEXT NOT NULL,
+                estado INTEGER NOT NULL DEFAULT 1
+            )
+            '''
+        )
+        
+        
         # Tabla de items del menu
         # Estado de los items del menu como: 0: Inactivo, 1: Activo
         cursor.execute(
             '''
             CREATE TABLE IF NOT EXISTS menu_items (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id_tipo INTEGER,
                 nombre TEXT NOT NULL,
-                tipo TEXT NOT NULL,
+                descripcion TEXT,
+                image TEXT,
                 precio REAL NOT NULL,
-                estado INTEGER NOT NULL DEFAULT 1
+                estado INTEGER NOT NULL DEFAULT 1,
+                FOREIGN KEY (id_tipo) REFERENCES menu_tipos(id)
             )
             '''
         )
