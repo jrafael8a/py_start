@@ -86,8 +86,8 @@ def gallery(page: ft.Page):
                                 expand=True,
                                 ),
                             ft.IconButton(icon=
-                                          ft.icons.VISIBILITY if hidden else ft.icons.VISIBILITY_OFF, 
-                                          on_click=lambda e, id=id_imagen, nombre=nombre_img, hidden=hidden: ocultar_imagen(id, nombre, hidden)),
+                                        ft.icons.VISIBILITY if hidden else ft.icons.VISIBILITY_OFF, 
+                                        on_click=lambda e, id=id_imagen, nombre=nombre_img, hidden=hidden: ocultar_imagen(id, nombre, hidden)),
                             ft.IconButton(icon=ft.icons.DELETE, on_click=lambda e, id=id_imagen, nombre=nombre_img, ruta=ruta: confirmar_eliminar_imagen(id, nombre, ruta)),
                         ],
                         )

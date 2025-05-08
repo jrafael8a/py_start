@@ -8,6 +8,7 @@ class VistaAdmonMesas:
         self.page = page
         self.mesa_seleccionada = None
         self.container_admon_mesas = ft.Column([], expand= True, scroll= True)
+        self.tf_nombre_editar = None    # Aqui almacenaremos un TextField que necesitamos hacer focus()
     
 
     def crear_vista(self):
@@ -50,35 +51,36 @@ class VistaAdmonMesas:
         else:
             self.mesa_seleccionada = None
         self.crear_vista()
+        self.tf_nombre_editar.focus()
 
 
 
     def componente_agregar_mesa(self):
-        tf_nombre = ft.TextField(label="Nombre de la mesa", autofocus=True, on_submit=lambda e: self.capacidad_input.focus())
-        tf_capacidad = ft.TextField(label="Capacidad Máxima", input_filter=ft.NumbersOnlyInputFilter(), on_submit=lambda e: btn_agregar.focus())
+        tf_nombre_agregar = ft.TextField(label="Nombre de la mesa", autofocus=True, on_submit=lambda e: self.capacidad_input.focus())
+        tf_capacidad_agregar = ft.TextField(label="Capacidad Máxima", input_filter=ft.NumbersOnlyInputFilter(), on_submit=lambda e: btn_agregar.focus())
         btn_agregar = ft.ElevatedButton("Agregar", icon=ft.icons.ADD, on_click=lambda e: on_agregar_mesa(e))
 
         def on_agregar_mesa(e):
             mensaje = ""
             exito = False
 
-            if not tf_nombre.value.strip():
+            if not tf_nombre_agregar.value.strip():
                 mensaje = f"Por favor, ingrese un nombre de Mesa válido."
-            elif not tf_capacidad.value.strip():
+            elif not tf_capacidad_agregar.value.strip():
                 mensaje = f"Por favor, asigne una capacidad a la Mesa"
-            elif not tf_capacidad.value.isdigit() or int(tf_capacidad.value) <= 0:
+            elif not tf_capacidad_agregar.value.isdigit() or int(tf_capacidad_agregar.value) <= 0:
                 mensaje = f"Por favor, asigne una capacidad válida a la Mesa"
             else:
-                exito, mensaje = agregar_mesa_db(tf_nombre.value, tf_capacidad.value)
+                exito, mensaje = agregar_mesa_db(tf_nombre_agregar.value, tf_capacidad_agregar.value)
                 
             if exito:
                 self.page.open(ft.SnackBar(
                     content=ft.Text(mensaje),
                     action="OK",
                 ))
-                tf_nombre.value = ""
-                tf_capacidad.value = ""
-                tf_nombre.focus()
+                tf_nombre_agregar.value = ""
+                tf_capacidad_agregar.value = ""
+                tf_nombre_agregar.focus()
                 self.crear_vista()
 
             else:
@@ -94,8 +96,8 @@ class VistaAdmonMesas:
         return ft.Column(
                 [
                     ft.Text("Agregar nueva mesa", size=20, weight=ft.FontWeight.BOLD),
-                    tf_nombre,
-                    tf_capacidad,
+                    tf_nombre_agregar,
+                    tf_capacidad_agregar,
                     btn_agregar,
                 ], 
                 spacing=10,
@@ -105,8 +107,8 @@ class VistaAdmonMesas:
 
 
     def componente_editar_mesa(self):
-        tf_nombre = ft.TextField(label="Nombre", on_submit=lambda e: tf_capacidad.focus())
-        tf_capacidad = ft.TextField(label="Capacidad", input_filter=ft.NumbersOnlyInputFilter(), on_submit=lambda e: dd_estado.focus())
+        self.tf_nombre_editar = ft.TextField(label="Nombre", on_submit=lambda e: tf_capacidad_editar.focus())
+        tf_capacidad_editar = ft.TextField(label="Capacidad", input_filter=ft.NumbersOnlyInputFilter(), on_submit=lambda e: dd_estado.focus())
         dd_estado = ft.Dropdown(
             label="Estado",
             value=9,
@@ -129,12 +131,12 @@ class VistaAdmonMesas:
         btn_eliminar =      ft.ElevatedButton("Eliminar", icon=ft.icons.DELETE, on_click=lambda e: eliminar_mesa_click(e), bgcolor=ft.colors.RED_500)
 
         if self.mesa_seleccionada:        
-            tf_nombre.value = self.mesa_seleccionada["nombre"]
-            tf_capacidad.value=str(self.mesa_seleccionada["capacidad"])
+            self.tf_nombre_editar.value = self.mesa_seleccionada["nombre"]
+            tf_capacidad_editar.value=str(self.mesa_seleccionada["capacidad"])
             dd_estado.value=str(self.mesa_seleccionada["estado"])
         else:
-            tf_nombre.disabled = True
-            tf_capacidad.disabled = True
+            self.tf_nombre_editar.disabled = True
+            tf_capacidad_editar.disabled = True
             dd_estado.disabled = True
             btn_actualizar.disabled = True
             btn_eliminar.disabled = True
@@ -145,14 +147,14 @@ class VistaAdmonMesas:
             mensaje = ""
             exito = False
 
-            if not tf_nombre.value.strip():
+            if not self.tf_nombre_editar.value.strip():
                 mensaje = f"Por favor, ingrese un nombre de Mesa válido."
-            elif not tf_capacidad.value.strip():
+            elif not tf_capacidad_editar.value.strip():
                 mensaje = f"Por favor, asigne una capacidad a la Mesa"
-            elif not tf_capacidad.value.isdigit() or int(tf_capacidad.value) <= 0:
+            elif not tf_capacidad_editar.value.isdigit() or int(tf_capacidad_editar.value) <= 0:
                 mensaje = f"Por favor, asigne una capacidad válida a la Mesa"
             else:
-                exito, mensaje = actualizar_mesa_db(self.mesa_seleccionada["id"], tf_nombre.value, tf_capacidad.value, dd_estado.value)
+                exito, mensaje = actualizar_mesa_db(self.mesa_seleccionada["id"], self.tf_nombre_editar.value, tf_capacidad_editar.value, dd_estado.value)
             
             if exito:
                 self.page.open(ft.SnackBar(
@@ -160,10 +162,10 @@ class VistaAdmonMesas:
                     action="OK",
                 ))
                 self.mesa_seleccionada = None
-                tf_nombre.value = ""
-                tf_capacidad.value = ""
+                self.tf_nombre_editar.value = ""
+                tf_capacidad_editar.value = ""
                 dd_estado.value = 0
-                tf_nombre.focus()
+                self.tf_nombre_editar.focus()
                 self.crear_vista()
 
         def eliminar_mesa_click(e):
@@ -175,16 +177,16 @@ class VistaAdmonMesas:
                     action="OK",
                 ))
                 self.mesa_seleccionada = None
-                tf_nombre.value = ""
-                tf_capacidad.value = ""
+                self.tf_nombre_editar.value = ""
+                tf_capacidad_editar.value = ""
                 dd_estado.value = 0
-                tf_nombre.focus()
+                self.tf_nombre_editar.focus()
                 self.crear_vista()
 
         return ft.Column([
             ft.Text("Editar mesa", size=20, weight=ft.FontWeight.BOLD),
-            tf_nombre,
-            tf_capacidad,
+            self.tf_nombre_editar,
+            tf_capacidad_editar,
             dd_estado,
             ft.Row([
                 btn_actualizar,

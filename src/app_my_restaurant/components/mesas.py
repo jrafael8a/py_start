@@ -37,7 +37,7 @@ def grid_mesas(mesas: list, on_mesa_click: callable) -> ft.GridView:
     grid = ft.GridView(
         expand=True,
         runs_count=2,
-        max_extent=200,
+        max_extent=200,             # Tamaño maximo de cada mesa en pixels
         child_aspect_ratio=1.0,
         spacing=10,
         run_spacing=10,
@@ -118,11 +118,11 @@ def grid_mesas(mesas: list, on_mesa_click: callable) -> ft.GridView:
                             alignment=ft.MainAxisAlignment.CENTER,
                             controls=[
                                 icon,
-                                ft.Text(f"{m_nombre}", size=16, weight=ft.FontWeight.BOLD, max_lines=2, expand=True, text_align=ft.TextAlign.CENTER, overflow=ft.TextOverflow.ELLIPSIS),
+                                ft.Text(f"{m_nombre}", size=18, weight=ft.FontWeight.BOLD, text_align=ft.TextAlign.CENTER, expand=True, max_lines=2, overflow=ft.TextOverflow.ELLIPSIS),
                             ]
                         ),
-                        ft.Text(f"Capacidad: {m_capacidad} personas", size=14, weight=ft.FontWeight.BOLD),
-                        ft.Text(m_estado_t, size=16, weight=ft.FontWeight.BOLD, color=ft.colors.WHITE),
+                        ft.Text(f"Capacidad: \n{m_capacidad} personas", size=14, weight=ft.FontWeight.BOLD, expand=True, max_lines=2, overflow=ft.TextOverflow.ELLIPSIS),
+                        ft.Text(m_estado_t, size=16, weight=ft.FontWeight.BOLD, color=ft.colors.WHITE, expand=True, max_lines=1, overflow=ft.TextOverflow.ELLIPSIS),
                     ]
                 ),
                 bgcolor=color,
@@ -130,6 +130,7 @@ def grid_mesas(mesas: list, on_mesa_click: callable) -> ft.GridView:
                 padding=15,
                 ink=True,
                 on_click=lambda e, id=m_id: on_mesa_click(id),
+                
             )
         )
     return grid
@@ -137,6 +138,6 @@ def grid_mesas(mesas: list, on_mesa_click: callable) -> ft.GridView:
 
 if __name__ == "__main__":
     def main(page: ft.Page):
-          page.add(crear_grid_mesas())
+        page.add(crear_grid_mesas())
     
     ft.app(target=main)
