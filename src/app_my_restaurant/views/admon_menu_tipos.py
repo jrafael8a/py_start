@@ -1,5 +1,6 @@
 import flet as ft
 from src.app_my_restaurant.database.menu_tipos_service import *
+from src.app_my_restaurant.components.alerts import MyAlerts
 
 class VistaAdmonMenuTipos:
     def __init__(self, page: ft.Page):
@@ -10,12 +11,7 @@ class VistaAdmonMenuTipos:
         exito, tipos = obtener_tipos_menu_db()
 
         if not exito:
-            dlg_alerta = ft.AlertDialog(
-                title=ft.Text("Error"),
-                content=ft.Text(tipos),
-                actions=[ft.TextButton("OK", on_click=lambda e: self.page.close(dlg_alerta))],
-            )
-            self.page.open(dlg_alerta)
+            MyAlerts(self.page).Dialogo_Error(tipos)
             return self.container
 
         self.container.controls.clear()

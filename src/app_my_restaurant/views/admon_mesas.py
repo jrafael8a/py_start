@@ -3,10 +3,12 @@ import flet as ft
 from src.app_my_restaurant.database.mesas_service import *
 from src.app_my_restaurant.components.mesas import *
 from src.app_my_restaurant.database.estados_service import *
+from src.app_my_restaurant.components.alerts import MyAlerts
 
 class VistaAdmonMesas:
     def __init__ (self, page: ft.Page):
         self.page = page
+        self.alerts = MyAlerts(self.page)
         self.mesa_seleccionada = None
         self.container_admon_mesas = ft.Column([], expand= True, scroll= True)
         self.tf_nombre_editar = None    # Aqui almacenaremos un TextField que necesitamos hacer focus()
@@ -15,14 +17,8 @@ class VistaAdmonMesas:
         exito, self.mesas = obtener_mesas_desde_db()
 
         if not exito:
-            dlg_alerta = ft.AlertDialog(
-                    title=ft.Text("Error"),
-                    content=ft.Text(self.mesas),
-                    actions=[
-                        ft.TextButton("OK", on_click=lambda e: self.page.close(dlg_alerta))
-                    ],
-                )
-            self.page.open(dlg_alerta)
+            MyAlerts(self.page).Dialogo_Error(self.mesas)
+            self.alerts.Dialogo_Error(self.mesas)
             return self.container_admon_mesas
         else:
             self.container_admon_mesas.controls.clear()
@@ -51,53 +47,29 @@ class VistaAdmonMesas:
             ft.Text("Editar Estados", size=20, weight=ft.FontWeight.BOLD)
         ],expand=True, scroll=True, alignment=ft.MainAxisAlignment.END, height=300)
         
-        
-
-        
         tf_estado = ft.TextField(label="Agregar Estado", on_submit=lambda e: btn_agregar.focus())
         tf_habilitado = ft.Checkbox(value=True)
         btn_agregar = ft.IconButton(icon=ft.icons.ADD, on_click=lambda e: agregar_estado(e))
         
-
         def agregar_estado(e):
             exito, mensaje = agregar_estado_db(tf_estado.value, tf_habilitado.value)
 
             if exito:
-                self.page.open(ft.SnackBar(
-                    content=ft.Text(mensaje),
-                    action="OK",
-                ))
+                self.alerts.SnackBar_OK(mensaje)
                 self.crear_vista()
 
             else:
-                dlg_alerta = ft.AlertDialog(
-                    title=ft.Text("Error"),
-                    content=ft.Text(mensaje),
-                    actions=[
-                        ft.TextButton("OK", on_click=lambda e: self.page.close(dlg_alerta))
-                    ],
-                )
-                self.page.open(dlg_alerta)
+                self.alerts.Dialogo_Error(mensaje)
 
         def eliminar_estado(self, id):
             exito, mensaje = eliminar_estado_db(id)
 
             if exito:
-                self.page.open(ft.SnackBar(
-                    content=ft.Text(mensaje),
-                    action="OK",
-                ))
+                self.alerts.SnackBar_OK(mensaje)
                 self.crear_vista()
 
             else:
-                dlg_alerta = ft.AlertDialog(
-                    title=ft.Text("Error"),
-                    content=ft.Text(mensaje),
-                    actions=[
-                        ft.TextButton("OK", on_click=lambda e: self.page.close(dlg_alerta))
-                    ],
-                )
-                self.page.open(dlg_alerta)
+                self.alerts.Dialogo_Error(mensaje)
 
 
         container_estados.controls.append(
@@ -161,24 +133,14 @@ class VistaAdmonMesas:
                 exito, mensaje = agregar_mesa_db(self.tf_nombre_agregar.value, self.tf_capacidad_agregar.value)
                 
             if exito:
-                self.page.open(ft.SnackBar(
-                    content=ft.Text(mensaje),
-                    action="OK",
-                ))
+                self.alerts.SnackBar_OK(mensaje)
                 self.tf_nombre_agregar.value = ""
                 self.tf_capacidad_agregar.value = ""
                 self.tf_nombre_agregar.focus()
                 self.crear_vista()
 
             else:
-                dlg_alerta = ft.AlertDialog(
-                    title=ft.Text("Error"),
-                    content=ft.Text(mensaje),
-                    actions=[
-                        ft.TextButton("OK", on_click=lambda e: self.page.close(dlg_alerta))
-                    ],
-                )
-                self.page.open(dlg_alerta)
+                self.alerts.Dialogo_Error(mensaje)
 
         return ft.Column(
                 [
@@ -192,8 +154,6 @@ class VistaAdmonMesas:
                 horizontal_alignment='center'
             )
 
-
-
     def componente_editar_mesa(self):
         exito, self.estados = obtener_estados_desde_db()
         lista_estados = []
@@ -204,8 +164,6 @@ class VistaAdmonMesas:
         btn_eliminar =      ft.ElevatedButton("Eliminar", icon=ft.icons.DELETE, on_click=lambda e: confirmar_eliminar_mesa(e), bgcolor=ft.colors.RED_500)
         btn_cancelar =      ft.ElevatedButton("Cancelar", icon=ft.icons.CANCEL, on_click=lambda e: cancelar_click(e))
         
-        
-        
         if exito:
             for estado in self.estados:
                 estado_id = str(estado['id'])       # Dropdown Option requiere str como value
@@ -215,7 +173,6 @@ class VistaAdmonMesas:
                 if estado_habilitado:
                     lista_estados.append(ft.dropdown.Option(estado_id, estado_nombre))
 
-            
             dd_estado = ft.Dropdown(
                 label="Estado",
                 value=lista_estados[0] if lista_estados else None,
@@ -223,14 +180,7 @@ class VistaAdmonMesas:
                 options=lista_estados
             )
         else:
-                dlg_alerta = ft.AlertDialog(
-                    title=ft.Text("Error"),
-                    content=ft.Text(self.estados),
-                    actions=[
-                        ft.TextButton("OK", on_click=lambda e: self.page.close(dlg_alerta))
-                    ],
-                )
-                self.page.open(dlg_alerta)
+                self.alerts.Dialogo_Error(self.estados)
 
         if self.mesa_seleccionada:        
             self.tf_nombre_editar.value = self.mesa_seleccionada["nombre"]
@@ -244,12 +194,10 @@ class VistaAdmonMesas:
             btn_eliminar.disabled = True
             btn_cancelar.disabled = True
 
-
         def cancelar_click(e):
             self.mesa_seleccionada = None
             self.crear_vista()
     
-
         def actualizar_mesa(e):
             mensaje = ""
             exito = False
@@ -264,10 +212,7 @@ class VistaAdmonMesas:
                 exito, mensaje = actualizar_mesa_db(self.mesa_seleccionada["id"], self.tf_nombre_editar.value, tf_capacidad_editar.value, dd_estado.value)
             
             if exito:
-                self.page.open(ft.SnackBar(
-                    content=ft.Text(mensaje),
-                    action="OK",
-                ))
+                self.alerts.SnackBar_OK(mensaje)
                 self.mesa_seleccionada = None
                 self.tf_nombre_editar.value = ""
                 tf_capacidad_editar.value = ""
@@ -292,10 +237,7 @@ class VistaAdmonMesas:
             exito, mensaje = eliminar_mesa_db(self.mesa_seleccionada["id"])
             
             if exito:
-                self.page.open(ft.SnackBar(
-                    content=ft.Text(mensaje),
-                    action="OK",
-                ))
+                self.alerts.SnackBar_OK(mensaje)
                 self.mesa_seleccionada = None
                 self.tf_nombre_editar.value = ""
                 tf_capacidad_editar.value = ""
@@ -317,4 +259,3 @@ class VistaAdmonMesas:
         expand=False,
         horizontal_alignment='center'
         )
-

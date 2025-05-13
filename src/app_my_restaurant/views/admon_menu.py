@@ -2,10 +2,12 @@
 
 import flet as ft
 from src.app_my_restaurant.database.menu_service import *
+from src.app_my_restaurant.components.alerts import MyAlerts
 
 class VistaAdmonMenu:
     def __init__(self, page: ft.Page):
         self.page = page
+        self.alerts = MyAlerts(self.page)
         self.item_seleccionado = None
         self.container_admon_menu = ft.Column([], expand=True, scroll=True)
         self.tf_nombre_editar = None
@@ -14,12 +16,7 @@ class VistaAdmonMenu:
         exito, self.menu_items = obtener_menu_items_desde_db()
 
         if not exito:
-            dlg = ft.AlertDialog(
-                title=ft.Text("Error"),
-                content=ft.Text(self.menu_items),
-                actions=[ft.TextButton("OK", on_click=lambda e: self.page.close(dlg))]
-            )
-            self.page.open(dlg)
+            self.alerts.Dialogo_Error(self.menu_items)
             return self.container_admon_menu
 
         self.container_admon_menu.controls.clear()
