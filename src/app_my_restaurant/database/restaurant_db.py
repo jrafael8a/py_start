@@ -100,9 +100,9 @@ def init_db():
                 id_tipo INTEGER,
                 nombre TEXT NOT NULL,
                 descripcion TEXT,
-                image TEXT,
                 precio REAL NOT NULL,
                 estado INTEGER NOT NULL DEFAULT 1,
+                image TEXT,
                 FOREIGN KEY (id_tipo) REFERENCES menu_tipos(id)
             )
             '''
