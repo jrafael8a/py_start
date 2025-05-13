@@ -6,7 +6,7 @@ class VistaAdmonMenuTipos:
     def __init__(self, page: ft.Page):
         self.page = page
         self.alerts = MyAlerts(self.page)
-        self.container = ft.Column([], expand=True, scroll=True)
+        self.container = ft.Column([], expand=True, scroll=True, spacing=10)
 
     def crear_vista(self):
         exito, tipos = obtener_tipos_menu_db()
@@ -23,10 +23,18 @@ class VistaAdmonMenuTipos:
             on_submit=lambda e: btn_agregar.focus()
         )
 
-        btn_agregar = ft.IconButton(
+        btn_agregar = ft.ElevatedButton(
+            text="Agregar Item al Menu",
             icon=ft.icons.ADD,
             tooltip="Agregar",
             on_click=lambda e: agregar_tipo()
+        )
+
+        btn_actualizar = ft.ElevatedButton(
+            text="Actualizar Vista",
+            icon= ft.icons.UPDATE,
+            tooltip="Actualizar",
+            on_click=lambda e: self.crear_vista()
         )
 
         def agregar_tipo():
@@ -40,10 +48,12 @@ class VistaAdmonMenuTipos:
                 self.crear_vista()
             else:
                 self.alerts.Dialogo_Error(mensaje)
-
+        
+        self.container.controls.append(ft.Divider())
         self.container.controls.append(
-            ft.Row([tf_nuevo_tipo, btn_agregar], spacing=10)
+            ft.Row([tf_nuevo_tipo, btn_agregar, ft.VerticalDivider(), btn_actualizar], spacing=10)
         )
+        self.container.controls.append(ft.Divider())
 
         for tipo in tipos:
             tf_nombre = ft.TextField(
@@ -102,22 +112,20 @@ class VistaAdmonMenuTipos:
 
     def confirmar_eliminar(self, id, nombre):
         def eliminar(e):
-            dlg.open = False
-            self.page.update()
             exito, mensaje = eliminar_tipo_menu_db(id)
             if exito:
                 self.alerts.SnackBar(mensaje)
+                self.crear_vista()
             else:
                 self.alerts.Dialogo_Error(mensaje)
 
         dlg = ft.AlertDialog(
-            modal=True,
+            modal=False,
             title=ft.Text("Confirmar Eliminación"),
             content=ft.Text(f"¿Está seguro que desea eliminar el tipo '{nombre}'?"),
             actions=[
-                ft.TextButton("Cancelar", on_click=lambda e: tf.page.close(dlg)),
-                ft.TextButton("Eliminar", on_click=eliminar)
+                ft.TextButton("Eliminar", on_click=lambda e: (self.page.close(dlg), eliminar(e))),
+                ft.TextButton("Cancelar", on_click=lambda e: self.page.close(dlg))
             ],
         )
-        tf = ft.TextField()  # Dummy para acceder a page
         self.page.open(dlg)
