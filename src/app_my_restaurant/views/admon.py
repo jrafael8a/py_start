@@ -2,6 +2,7 @@ import flet as ft
 from src.app_my_restaurant.views.admon_menu import VistaAdmonMenu
 from src.app_my_restaurant.views.admon_menu_tipos import VistaAdmonMenuTipos
 from src.app_my_restaurant.views.admon_mesas import VistaAdmonMesas
+from src.app_my_restaurant.views.formulario_menu import FormularioMenu
 
 class VistaAdmon:
     def __init__ (self, page: ft.Page):
@@ -20,6 +21,11 @@ class VistaAdmon:
                     text="Menú",
                     icon=ft.icons.RESTAURANT_MENU,
                     content=VistaAdmonMenu(self.page).crear_vista()
+                ),
+                ft.Tab(
+                    text="Items",
+                    icon=ft.icons.RESTAURANT_MENU,
+                    content=FormularioMenu(self.page).crear_vista()
                 ),
                 ft.Tab(
                     text="Tipos de Items del Menú",

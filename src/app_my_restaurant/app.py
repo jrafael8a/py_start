@@ -3,17 +3,15 @@ import flet as ft
 from src.app_my_restaurant.database.restaurant_db import *
 from src.app_my_restaurant.views.mesera import VistaMesera
 from src.app_my_restaurant.views.admon import VistaAdmon
-from src.app_my_restaurant.components.mesas import crear_grid_mesas
 
 
 class RestauranteGUI:
-    #def __init__(self):
-        #self.page = page
+    def __init__(self, page: ft.Page):
+        self.page = page
         
 
-    def main(self, page: ft.Page):
+    def main(self):
         init_db() # Inicializa la base de datos al iniciar la app
-        self.page = page
         self.vista_admon = VistaAdmon(self.page)  # ⬅️ Instancia pasando la page
         self.page.window.width = 1200
         self.page.window.height = 900
@@ -55,9 +53,8 @@ class RestauranteGUI:
 
 
 if __name__ == "__main__":
-    def main():
-        app = RestauranteGUI()
-        ft.app(target=app.main)
+    def main(page: ft.Page):
+        RestauranteGUI(page).main()
+    
+    ft.app(target=main)
         # ft.app(target=app.main, view=ft.WEB_BROWSER, assets_dir="assets")
-
-    main()

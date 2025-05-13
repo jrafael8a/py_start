@@ -3,22 +3,46 @@ from src.app_my_restaurant.database.menu_tipos_service import obtener_tipos_menu
 from src.app_my_restaurant.database.menu_service import agregar_menu_item_db, actualizar_menu_item_db, eliminar_menu_item_db
 from src.app_my_restaurant.components.alerts import MyAlerts
 
-class FormularioMenu(ft.UserControl):
-    def __init__(self, page: ft.Page, modo='crear', item_data=None, on_guardar=None):
-        super().__init__()
+class FormularioMenu():
+    def __init__(self, page: ft.Page, modo='crear', item_data=None, on_guardar=None, on_cancelar=None):
+        # super().__init__()
         self.page = page
         self.modo = modo  # 'crear' o 'editar'
         self.item_data = item_data or {}
         self.on_guardar = on_guardar
-        self.alerts = MyAlerts(page)
+        self.on_cancelar = on_cancelar
+        self.alerts = MyAlerts(self.page)
 
-        self.tf_nombre =        ft.TextField(label="Nombre", autofocus=True)
-        self.tf_descripcion =   ft.TextField(label="Descripción", max_lines=2)
-        self.tf_precio =        ft.TextField(label="Precio", input_filter=ft.InputFilter(allow=True, regex=r"^\d+(\.\d{0,2})?$"))
-        self.dd_tipo =          ft.Dropdown(label="Tipo")
+        # Campos del formulario
+        self.tf_nombre =        ft.TextField(label="Nombre", autofocus=True, on_submit=lambda e: self.tf_descripcion.focus())
+        self.tf_descripcion =   ft.TextField(label="Descripción", min_lines=2, max_lines=2, on_submit=lambda e: self.tf_precio.focus())
+        self.tf_precio =        ft.TextField(label="Precio", input_filter=ft.InputFilter(allow=True, regex_string=r"^\d+(\.\d{0,2})?$"), on_submit=lambda e: self.dd_tipo.focus())
+        self.dd_tipo =          ft.Dropdown(label="Tipo", options=[], enable_filter=True, editable=True, expand=True, on_change=lambda e: self.btn_guardar.focus())
         self.sw_estado =        ft.Switch(label="Habilitado", value=True)
 
-    def build(self):
+        self.btn_limpiar = ft.ElevatedButton("Limpiar", on_click=self.limpiar_formulario)
+        self.btn_cancelar = ft.ElevatedButton("Cancelar", on_click=self.cancelar)
+        self.btn_guardar = ft.ElevatedButton("Guardar", on_click=self.guardar)
+
+        self.contenedor = ft.Column(
+                controls=[
+                    self.tf_nombre,
+                    self.tf_descripcion,
+                    self.tf_precio,
+                    self.dd_tipo,
+                    self.sw_estado,
+                    ft.Row(
+                        [self.btn_limpiar, self.btn_cancelar, self.btn_guardar],
+                        alignment=ft.MainAxisAlignment.END,
+                        spacing=10
+                    )
+                ],
+                spacing=15,
+                expand=True,
+                scroll=True
+            )
+
+    def crear_vista(self) -> ft.Column:
         self._cargar_tipos_menu()
 
         if self.modo == 'editar' and self.item_data:
@@ -28,26 +52,7 @@ class FormularioMenu(ft.UserControl):
             self.dd_tipo.value = self.item_data.get("tipo_id", None)
             self.sw_estado.value = self.item_data.get("estado", 1) == 1
 
-        return ft.Column(
-            [
-                self.tf_nombre,
-                self.tf_descripcion,
-                self.tf_precio,
-                self.dd_tipo,
-                self.sw_estado,
-                ft.Row(
-                    [
-                        ft.ElevatedButton("Limpiar", on_click=self.limpiar_formulario),
-                        ft.ElevatedButton("Cancelar", on_click=self.cancelar),
-                        ft.ElevatedButton("Guardar", on_click=self.guardar),
-                    ],
-                    alignment=ft.MainAxisAlignment.END,
-                )
-            ],
-            spacing=15,
-            expand=True,
-            scroll=True
-        )
+        return self.contenedor
 
     def _cargar_tipos_menu(self):
         exito, tipos = obtener_tipos_menu_db()
@@ -55,7 +60,6 @@ class FormularioMenu(ft.UserControl):
             self.alerts.Dialogo_Error(tipos)
             return
         
-
         # Este es un ejemplo de comprension de Listas (list comprehension). Sintaxis:
         # lista = [EXPRESION for ITEM in ITERABLE if CONDICION]
         # habilitados = [t for t in tipos if t["estado"] == 1]    
@@ -90,7 +94,9 @@ class FormularioMenu(ft.UserControl):
         self.page.update()
 
     def cancelar(self, e=None):
-        self.page.go_back()  # o cerrar modal si se usa modal
+        #self.page.go_back()  # o cerrar modal si se usa modal
+        self.crear_vista()
+        self.page.update()
 
     def guardar(self, e=None):
         nombre = self.tf_nombre.value.strip()
@@ -121,4 +127,8 @@ class FormularioMenu(ft.UserControl):
 
 if __name__ == "__main__":
     def main(page: ft.Page):
-        ft.app(target=FormularioMenu(page))
+        page.add(FormularioMenu(page).crear_vista())
+    
+    ft.app(target=main)
+else:
+    print("no")
