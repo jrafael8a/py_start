@@ -55,7 +55,7 @@ class VistaAdmonMesas:
             exito, mensaje = agregar_estado_db(tf_estado.value, tf_habilitado.value)
 
             if exito:
-                self.alerts.SnackBar_OK(mensaje)
+                self.alerts.SnackBar(mensaje)
                 self.crear_vista()
 
             else:
@@ -133,7 +133,7 @@ class VistaAdmonMesas:
                 exito, mensaje = agregar_mesa_db(self.tf_nombre_agregar.value, self.tf_capacidad_agregar.value)
                 
             if exito:
-                self.alerts.SnackBar_OK(mensaje)
+                self.alerts.SnackBar(mensaje)
                 self.tf_nombre_agregar.value = ""
                 self.tf_capacidad_agregar.value = ""
                 self.tf_nombre_agregar.focus()
@@ -212,7 +212,7 @@ class VistaAdmonMesas:
                 exito, mensaje = actualizar_mesa_db(self.mesa_seleccionada["id"], self.tf_nombre_editar.value, tf_capacidad_editar.value, dd_estado.value)
             
             if exito:
-                self.alerts.SnackBar_OK(mensaje)
+                self.alerts.SnackBar(mensaje)
                 self.mesa_seleccionada = None
                 self.tf_nombre_editar.value = ""
                 tf_capacidad_editar.value = ""
@@ -237,7 +237,7 @@ class VistaAdmonMesas:
             exito, mensaje = eliminar_mesa_db(self.mesa_seleccionada["id"])
             
             if exito:
-                self.alerts.SnackBar_OK(mensaje)
+                self.alerts.SnackBar(mensaje)
                 self.mesa_seleccionada = None
                 self.tf_nombre_editar.value = ""
                 tf_capacidad_editar.value = ""

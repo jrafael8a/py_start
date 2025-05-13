@@ -12,7 +12,7 @@ class MyAlerts:
             )
         self.page.open(dlg_alerta)
     
-    def SnackBar_OK(self, msg):
+    def SnackBar(self, msg):
         self.page.open(ft.SnackBar(
                     content=ft.Text(msg),
                     action="OK",

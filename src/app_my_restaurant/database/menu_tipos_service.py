@@ -5,7 +5,7 @@ def obtener_tipos_menu_db():
     try:
         with get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT * FROM menu_tipos WHERE estado = 1 ORDER BY nombre")
+            cursor.execute("SELECT * FROM menu_tipos ORDER BY nombre")
             resultados = cursor.fetchall()
             return True, [{"id": r[0], "nombre": r[1], "estado": bool(r[2])} for r in resultados]
     except Exception as e:
@@ -43,6 +43,6 @@ def actualizar_estado_tipo_menu_db(id, estado):
         with get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute("UPDATE menu_tipos SET estado = ? WHERE id = ?", (int(estado), id))
-            return True, f"Estado actualizado"
+            return True, f"Estado actualizado: {estado}"
     except Exception as e:
         return False, str(e)

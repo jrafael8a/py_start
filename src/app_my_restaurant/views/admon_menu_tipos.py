@@ -5,6 +5,7 @@ from src.app_my_restaurant.components.alerts import MyAlerts
 class VistaAdmonMenuTipos:
     def __init__(self, page: ft.Page):
         self.page = page
+        self.alerts = MyAlerts(self.page)
         self.container = ft.Column([], expand=True, scroll=True)
 
     def crear_vista(self):
@@ -31,14 +32,14 @@ class VistaAdmonMenuTipos:
         def agregar_tipo():
             nombre = tf_nuevo_tipo.value.strip()
             if not nombre:
-                return
+                return self.alerts.SnackBar("Escriba un Nombre valido")
 
             exito, mensaje = agregar_tipo_menu_db(nombre)
             if exito:
-                self.page.open(ft.SnackBar(content=ft.Text(mensaje)))
+                self.alerts.SnackBar(mensaje)
                 self.crear_vista()
             else:
-                self.page.open(ft.AlertDialog(title=ft.Text("Error"), content=ft.Text(mensaje)))
+                self.alerts.Dialogo_Error(mensaje)
 
         self.container.controls.append(
             ft.Row([tf_nuevo_tipo, btn_agregar], spacing=10)
@@ -48,57 +49,55 @@ class VistaAdmonMenuTipos:
             tf_nombre = ft.TextField(
                 value=tipo["nombre"],
                 expand=True,
-                on_submit=lambda e, id=tipo["id"], tf=tipo["nombre"]: self.guardar_edicion(id, tf)
+                on_submit=None  # se asigna luego
             )
 
             chk_estado = ft.Checkbox(
                 label="Habilitado",
                 value=tipo["estado"] == 1,
-                on_change=lambda e, id=tipo["id"], chk=tipo["estado"]: self.actualizar_estado_tipo_menu(id, chk)
             )
 
-            btn_guardar = ft.IconButton(
-                icon=ft.icons.SAVE,
-                tooltip="Guardar",
-                on_click=lambda e, id=tipo["id"], tf=tipo["nombre"], chk=tipo["estado"]: self.guardar_edicion(id, tf, chk)
-            )
+            def crear_callbacks(id, tf, chk):
+                tf.on_submit = lambda e: self.guardar_edicion(id, tf.value, chk.value)
+                chk.on_change = lambda e: self.actualizar_estado_tipo_menu(id, chk.value)
+                btn_guardar = ft.IconButton(
+                    icon=ft.icons.SAVE,
+                    tooltip="Guardar",
+                    on_click=lambda e: self.guardar_edicion(id, tf.value, chk.value)
+                )
+                btn_eliminar = ft.IconButton(
+                    icon=ft.icons.DELETE,
+                    tooltip="Eliminar",
+                    on_click=lambda e: self.confirmar_eliminar(id, tf.value)
+                )
+                return btn_guardar, btn_eliminar
 
-            btn_eliminar = ft.IconButton(
-                icon=ft.icons.DELETE,
-                tooltip="Eliminar",
-                on_click=lambda e, id=tipo["id"], nombre=tipo["nombre"]: self.confirmar_eliminar(id, nombre)
-            )
+            btn_guardar, btn_eliminar = crear_callbacks(tipo["id"], tf_nombre, chk_estado)
 
             self.container.controls.append(
                 ft.Row([tf_nombre, chk_estado, btn_guardar, btn_eliminar], spacing=10)
             )
 
+
         self.page.update()
         return self.container
 
-    def crear_alerta(self, mensaje):
-        return ft.AlertDialog(
-            title=ft.Text("Error"),
-            content=ft.Text(mensaje),
-            actions=[ft.TextButton("OK", on_click=lambda e: self.page.close())]
-        )
-
     def guardar_edicion(self, id, tf, chk):
-        nuevo_nombre = tf.strip()
+        nuevo_nombre = tf
         nuevo_estado = int(chk)
         if not nuevo_nombre:
             return
         exito, mensaje = actualizar_tipo_menu_db(id, nuevo_nombre, nuevo_estado)
-        self.page.open(ft.SnackBar(content=ft.Text(mensaje)))
-        self.page.views[-1].controls[0].crear_vista()
+        self.alerts.SnackBar(mensaje)
+        self.page.update()
 
     def actualizar_estado_tipo_menu(self, id, nuevo_estado):
         estado = 1 if nuevo_estado else 0
         exito, mensaje = actualizar_estado_tipo_menu_db(id, estado)
         if not exito:
-            print(f"Error al cambiar estado: {mensaje}")
+            self.alerts.SnackBar(mensaje)
         else:
-            self.page.open(ft.SnackBar(content=ft.Text(mensaje)))
+            self.alerts.SnackBar(mensaje)
 
 
     def confirmar_eliminar(self, id, nombre):
@@ -107,10 +106,9 @@ class VistaAdmonMenuTipos:
             self.page.update()
             exito, mensaje = eliminar_tipo_menu_db(id)
             if exito:
-                tf.page.open(ft.SnackBar(content=ft.Text(mensaje)))
-                tf.page.views[-1].controls[0].crear_vista()
+                self.alerts.SnackBar(mensaje)
             else:
-                tf.page.open(ft.AlertDialog(title=ft.Text("Error"), content=ft.Text(mensaje)))
+                self.alerts.Dialogo_Error(mensaje)
 
         dlg = ft.AlertDialog(
             modal=True,
