@@ -1,7 +1,7 @@
 import flet as ft
 
 from src.app_my_restaurant.app import RestauranteGUI
- 
+       
 if __name__ == "__main__":
     def main(page: ft.Page):
         RestauranteGUI(page).main()

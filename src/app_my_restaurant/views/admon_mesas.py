@@ -31,8 +31,8 @@ class VistaAdmonMesas:
                     self.componente_editar_mesa(),
                 ],
                 spacing=20,
-                expand=True,
-                alignment=ft.MainAxisAlignment.START
+                #expand=True,
+                #alignment=ft.MainAxisAlignment.START
                 )
             )
             self.container_admon_mesas.controls.append(ft.Divider())
@@ -253,9 +253,9 @@ class VistaAdmonMesas:
             ft.Row([
                 btn_actualizar, btn_eliminar, btn_cancelar
             ],
-            expand=True)
+            expand=False)
         ], 
         spacing=10,
-        expand=False,
+        expand=True,                    # Si lo pongo en false, rompe la gui y se muestra todo sombremontado
         horizontal_alignment='center'
         )

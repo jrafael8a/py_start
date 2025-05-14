@@ -129,5 +129,5 @@ if __name__ == "__main__":
         page.add(FormularioMenu(page).crear_vista())
     
     ft.app(target=main)
-else:
-    print("FormularioMenu() ejecutandose como modulo, desde otro lado, no desde el mismo archivo")
+# else:
+#    print("FormularioMenu() ejecutandose como modulo, desde otro lado, no desde el mismo archivo")
