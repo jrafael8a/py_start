@@ -97,11 +97,11 @@ def main(page: ft.Page):
                 )
             
             t_edit_btn = ft.IconButton(
-                icon=ft.icons.EDIT,
+                icon=ft.Icons.EDIT,
                 on_click=lambda e, id=task_id, title=title: btn_edit(id, title)
             )
             t_delete_btn = ft.IconButton(
-                icon=ft.icons.DELETE,
+                icon=ft.Icons.DELETE,
                 on_click=lambda e, id=task_id: btn_delete(id)
             )
 

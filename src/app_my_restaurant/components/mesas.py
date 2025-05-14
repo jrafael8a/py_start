@@ -52,61 +52,61 @@ def grid_mesas(mesas: list, on_mesa_click: callable) -> ft.GridView:
         m_capacidad = mesa['capacidad']
         m_estado = mesa['estado']
         m_estado_t = obtener_nombre_estado_desde_db(m_estado)
-        icon = ft.Icon(ft.icons.TABLE_RESTAURANT, color=ft.colors.AMBER_400),
+        icon = ft.Icon(ft.Icons.TABLE_RESTAURANT, color=ft.Colors.AMBER_400),
 
         if m_estado == 0:       # Libre
             # m_estado_t = "Mesa Libre"
-            color = ft.colors.GREEN_700
-            icon = ft.Icon(ft.icons.CHECK_CIRCLE_OUTLINE, color=ft.colors.WHITE)
+            color = ft.Colors.GREEN_700
+            icon = ft.Icon(ft.Icons.CHECK_CIRCLE_OUTLINE, color=ft.Colors.WHITE)
 
         elif m_estado == 1:     # Reservada
             # m_estado_t = "Mesa Reservada"
-            color = ft.colors.ORANGE_800
-            icon = ft.Icon(ft.icons.EVENT_AVAILABLE, color=ft.colors.WHITE)
+            color = ft.Colors.ORANGE_800
+            icon = ft.Icon(ft.Icons.EVENT_AVAILABLE, color=ft.Colors.WHITE)
 
         elif m_estado == 2:     # Ocupada
             # m_estado_t = "Mesa Ocupada"
-            color = ft.colors.RED_800
-            icon = ft.Icon(ft.icons.PERSON, color=ft.colors.WHITE)
+            color = ft.Colors.RED_800
+            icon = ft.Icon(ft.Icons.PERSON, color=ft.Colors.WHITE)
 
         elif m_estado == 3:     # Orden Tomada
             # m_estado_t = "Orden Tomada"
-            color = ft.colors.RED_600
-            icon = ft.Icon(ft.icons.RECEIPT_LONG, color=ft.colors.WHITE)
+            color = ft.Colors.RED_600
+            icon = ft.Icon(ft.Icons.RECEIPT_LONG, color=ft.Colors.WHITE)
 
         elif m_estado == 4:     # En Preparación
             # m_estado_t = "En Preparacion..."
-            color = ft.colors.RED_400
-            icon = ft.Icon(ft.icons.RESTAURANT, color=ft.colors.WHITE)
+            color = ft.Colors.RED_400
+            icon = ft.Icon(ft.Icons.RESTAURANT, color=ft.Colors.WHITE)
 
         elif m_estado == 5:     # Comiendo
             # m_estado_t = "Comiendo..."
-            color = ft.colors.RED_200
-            icon = ft.Icon(ft.icons.RESTAURANT, color=ft.colors.WHITE)
+            color = ft.Colors.RED_200
+            icon = ft.Icon(ft.Icons.RESTAURANT, color=ft.Colors.WHITE)
 
         elif m_estado == 6:     # Esperando Cuenta
             # m_estado_t = "Esperando Cuenta..."
-            color = ft.colors.PURPLE_700
-            icon = ft.Icon(ft.icons.RECEIPT, color=ft.colors.WHITE)
+            color = ft.Colors.PURPLE_700
+            icon = ft.Icon(ft.Icons.RECEIPT, color=ft.Colors.WHITE)
 
         elif m_estado == 7:     # Pago en Proceso
             # m_estado_t = "Pagando..."
-            color = ft.colors.GREEN_400
-            icon = ft.Icon(ft.icons.PAYMENTS, color=ft.colors.WHITE)
+            color = ft.Colors.GREEN_400
+            icon = ft.Icon(ft.Icons.PAYMENTS, color=ft.Colors.WHITE)
 
         elif m_estado == 8:     # Necesita Limpieza
             # m_estado_t = "Necesita Limpieza!!"
-            color = ft.colors.GREY_700
-            icon = ft.Icon(ft.icons.CLEANING_SERVICES, color=ft.colors.WHITE)
+            color = ft.Colors.GREY_700
+            icon = ft.Icon(ft.Icons.CLEANING_SERVICES, color=ft.Colors.WHITE)
 
         elif m_estado == 9:     # Fuera de Servicio
             # m_estado_t = "Fuera de Servicio"
-            color = ft.colors.BLACK
-            icon = ft.Icon(ft.icons.BLOCK, color=ft.colors.RED_400)
+            color = ft.Colors.BLACK
+            icon = ft.Icon(ft.Icons.BLOCK, color=ft.Colors.RED_400)
 
         else:
-            color = ft.colors.GREY_900
-            icon = ft.Icon(ft.icons.HELP, color=ft.colors.WHITE)
+            color = ft.Colors.GREY_900
+            icon = ft.Icon(ft.Icons.HELP, color=ft.Colors.WHITE)
 
 
         grid.controls.append(
@@ -124,7 +124,7 @@ def grid_mesas(mesas: list, on_mesa_click: callable) -> ft.GridView:
                             ]
                         ),
                         ft.Text(f"Capacidad: \n{m_capacidad} personas", size=14, weight=ft.FontWeight.BOLD, expand=True, max_lines=2, overflow=ft.TextOverflow.ELLIPSIS),
-                        ft.Text(m_estado_t, size=16, weight=ft.FontWeight.BOLD, color=ft.colors.WHITE, expand=True, max_lines=1, overflow=ft.TextOverflow.ELLIPSIS),
+                        ft.Text(m_estado_t, size=16, weight=ft.FontWeight.BOLD, color=ft.Colors.WHITE, expand=True, max_lines=1, overflow=ft.TextOverflow.ELLIPSIS),
                     ]
                 ),
                 bgcolor=color,

@@ -1,9 +1,9 @@
 import flet as ft
 
 # Definir colores como constantes para mejorar la legibilidad
-COLOR_PRIMARIO = ft.colors.GREEN_200            # Color Primario
-COLOR_SECUNDARIO = ft.colors.GREEN_600          # Color Secundario
-COLOR_ERROR = ft.colors.RED_600                 # Color para errores
+COLOR_PRIMARIO = ft.Colors.GREEN_200            # Color Primario
+COLOR_SECUNDARIO = ft.Colors.GREEN_600          # Color Secundario
+COLOR_ERROR = ft.Colors.RED_600                 # Color para errores
 COLOR_BG01 = '#e6e6eb'                          # Color de fondo 1
 # COLOR_BG01 = 'yellow'                         # Color de fondo 1
 

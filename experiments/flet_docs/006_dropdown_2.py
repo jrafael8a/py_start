@@ -9,7 +9,7 @@ def main(page: ft.Page):                    # Define la función principal que r
 
     colors = [  # Crea una lista de colores utilizando las constantes predefinidas de Flet.
         ft.Colors.RED,      # Rojo.
-        ft.colors.BLUE,     # Azul.
+        ft.Colors.BLUE,     # Azul.
         ft.Colors.YELLOW,   # Amarillo.
         ft.Colors.PURPLE,   # Púrpura.
         ft.Colors.LIME,     # Lima.

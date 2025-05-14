@@ -22,23 +22,23 @@ class RestauranteGUI:
             tabs = [
                 ft.Tab(
                     text = "Mesera",
-                    icon = ft.icons.PERSON,
+                    icon = ft.Icons.PERSON,
                     content= VistaMesera(self.page).crear_vista()
                         
                 ),
                 ft.Tab(
                     text = "Cocina",
-                    icon = ft.icons.RESTAURANT,
+                    icon = ft.Icons.RESTAURANT,
                     #content = self.crear_vista_cocina()
                 ),
                 ft.Tab(
                     text = "Caja",
-                    icon = ft.icons.POINT_OF_SALE,
+                    icon = ft.Icons.POINT_OF_SALE,
                     #content= self.crear_vista_caja()
                 ),
                 ft.Tab(
                     text = "Administracion",
-                    icon = ft.icons.ADMIN_PANEL_SETTINGS,
+                    icon = ft.Icons.ADMIN_PANEL_SETTINGS,
                     content= self.vista_admon.crear_vista()  # ⬅️ Llamada al método que crea la vista de administración
                 ),
 

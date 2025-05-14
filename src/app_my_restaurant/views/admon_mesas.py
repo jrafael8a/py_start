@@ -49,7 +49,7 @@ class VistaAdmonMesas:
         
         tf_estado = ft.TextField(label="Agregar Estado", on_submit=lambda e: btn_agregar.focus())
         tf_habilitado = ft.Checkbox(value=True)
-        btn_agregar = ft.IconButton(icon=ft.icons.ADD, on_click=lambda e: agregar_estado(e))
+        btn_agregar = ft.IconButton(icon=ft.Icons.ADD, on_click=lambda e: agregar_estado(e))
         
         def agregar_estado(e):
             exito, mensaje = agregar_estado_db(tf_estado.value, tf_habilitado.value)
@@ -85,8 +85,8 @@ class VistaAdmonMesas:
                 ft.Row([
                     ft.Text(estado['id']),
                     ft.Text(estado['nombre'], expand=True),
-                    ft.IconButton(icon=ft.icons.EDIT),
-                    ft.IconButton(icon=ft.icons.DELETE, on_click=lambda e, id=estado['id']: eliminar_estado(self, id))
+                    ft.IconButton(icon=ft.Icons.EDIT),
+                    ft.IconButton(icon=ft.Icons.DELETE, on_click=lambda e, id=estado['id']: eliminar_estado(self, id))
                 ],
                 expand=True)
             )
@@ -117,7 +117,7 @@ class VistaAdmonMesas:
     def componente_agregar_mesa(self):
         self.tf_nombre_agregar = ft.TextField(label="Nombre de la mesa", min_lines=2, max_lines=2,autofocus=True, on_submit=lambda e: self.capacidad_input.focus())
         self.tf_capacidad_agregar = ft.TextField(label="Capacidad Máxima", input_filter=ft.NumbersOnlyInputFilter(), on_submit=lambda e: self.btn_agregar.focus())
-        self.btn_agregar = ft.ElevatedButton("Agregar", icon=ft.icons.ADD, on_click=lambda e: on_agregar_mesa(e))
+        self.btn_agregar = ft.ElevatedButton("Agregar", icon=ft.Icons.ADD, on_click=lambda e: on_agregar_mesa(e))
 
         def on_agregar_mesa(e):
             mensaje = ""
@@ -160,9 +160,9 @@ class VistaAdmonMesas:
 
         self.tf_nombre_editar = ft.TextField(label="Nombre", on_submit=lambda e: tf_capacidad_editar.focus())
         tf_capacidad_editar = ft.TextField(label="Capacidad", input_filter=ft.NumbersOnlyInputFilter(), on_submit=lambda e: dd_estado.focus())
-        btn_actualizar =    ft.ElevatedButton("Actualizar", icon=ft.icons.SAVE, on_click=lambda e: actualizar_mesa(e))
-        btn_eliminar =      ft.ElevatedButton("Eliminar", icon=ft.icons.DELETE, on_click=lambda e: confirmar_eliminar_mesa(e), bgcolor=ft.colors.RED_500)
-        btn_cancelar =      ft.ElevatedButton("Cancelar", icon=ft.icons.CANCEL, on_click=lambda e: cancelar_click(e))
+        btn_actualizar =    ft.ElevatedButton("Actualizar", icon=ft.Icons.SAVE, on_click=lambda e: actualizar_mesa(e))
+        btn_eliminar =      ft.ElevatedButton("Eliminar", icon=ft.Icons.DELETE, on_click=lambda e: confirmar_eliminar_mesa(e), bgcolor=ft.Colors.RED_500)
+        btn_cancelar =      ft.ElevatedButton("Cancelar", icon=ft.Icons.CANCEL, on_click=lambda e: cancelar_click(e))
         
         if exito:
             for estado in self.estados:

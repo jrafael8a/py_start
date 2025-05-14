@@ -22,7 +22,7 @@ def main(page):
     titulo = ft.Text("TO - DO   LIST", 
         size=40,                           # Tamaño de fuente
         weight=ft.FontWeight,              # Negrita
-        color=ft.colors.BLUE_900,          # Color Azul Oscuro
+        color=ft.Colors.BLUE_900,          # Color Azul Oscuro
         text_align=ft.TextAlign.CENTER,    # Centrar el texto
         font_family="Arial"                # Funte de letra)
     )
@@ -35,7 +35,7 @@ def main(page):
         size=14,                            # Tamaño de fuente
         weight=ft.FontWeight,               # Negrita
         italic=True,                        # Cursiva
-        color=ft.colors.WHITE30,            # Color Azul Oscuro
+        color=ft.Colors.WHITE30,            # Color Azul Oscuro
         text_align=ft.TextAlign.CENTER,     # Centrar el texto
         font_family="Arial"                 # Funte de letra)
     )

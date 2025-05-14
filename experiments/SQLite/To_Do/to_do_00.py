@@ -80,7 +80,7 @@ def main(page: ft.Page):
                 on_change=lambda e, id=task_id: toggle_done(e, id)
             )
             delete_btn = ft.IconButton(
-                icon=ft.icons.DELETE,
+                icon=ft.Icons.DELETE,
                 on_click=lambda e, id=task_id: delete(id)
             )
             task_list.controls.append(ft.Row([checkbox, delete_btn]))

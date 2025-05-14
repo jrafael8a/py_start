@@ -13,8 +13,8 @@ def crear_textfield(label, **kwargs):
         text_size=16,                                   # Tamaño de letra
         border_radius=14,                               # Borde Redondeado al campo de texto
         # focused_border_color='#0a85ff'                # Color de letra usando hexadecimal
-        focused_border_color=ft.colors.BLUE_600,        # Color de letra usando los colores de flet
-        cursor_color=ft.colors.BLUE_400,                # Le damos un color al cursor de escritura
+        focused_border_color=ft.Colors.BLUE_600,        # Color de letra usando los colores de flet
+        cursor_color=ft.Colors.BLUE_400,                # Le damos un color al cursor de escritura
         border_width=0.6,                               # Hacemos delgadito que el borde del campo de texto
         border_color='black',                            # Le damos color al borde del campo de texto
         **kwargs
@@ -25,7 +25,7 @@ form_container = ft.Container(
     ft.Column([         # Creamos una columna en la que meteremos nuestros elementos
         # Creamos un Texto y le damos diseño basico (w600 es el tipo de negrita que queremos. 
         # weight= Va de 100 a 900 entre mayor numero, mas negrita)
-        ft.Text("Sign Up", size=24, color=ft.colors.BLUE_400, weight='w600'),      
+        ft.Text("Sign Up", size=24, color=ft.Colors.BLUE_400, weight='w600'),      
 
         # Creamos 3 cuadros de texto con nuestra funcion personalizada
         crear_textfield("First Name"),
@@ -45,8 +45,8 @@ form_container = ft.Container(
                     # color='green',            # Esta linea no funcina ni cambia nada
                     # bgcolor='black'             # Si colocamos el bgcolor aqui, sera un fondo solo para el texto
                     ),
-                # color=ft.colors.AMBER_600,  # Aplicamos el color al texto del botón
-                bgcolor=ft.colors.BLUE_400  # Este bgcolor se aplica a todo el boton
+                # color=ft.Colors.AMBER_600,  # Aplicamos el color al texto del botón
+                bgcolor=ft.Colors.BLUE_400  # Este bgcolor se aplica a todo el boton
             ),
             on_click=form_submit_function
         )
@@ -64,7 +64,7 @@ def main(page: ft.Page):
     page.window.height = 600                # Alto de la ventana
     page.window.width = 500                 # Ancho de la ventana
     page.bgcolor = '#e6e6eb'                # Color de fondo de la ventana
-    # page.bgcolor = ft.colors.WHITE30
+    # page.bgcolor = ft.Colors.WHITE30
     # page.vertical_alignment = 'center'      # Alinear verticalmente al centro
     # page.horizontal_alignment = 'center'    # Alinear horizontalmente al centro
     page.vertical_alignment = ft.MainAxisAlignment.CENTER       # esta es una forma mas larga

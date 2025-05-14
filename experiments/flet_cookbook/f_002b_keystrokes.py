@@ -42,7 +42,7 @@ def main(page: ft.Page):
     page.add(
         ft.Container(
             scroll_container,
-            border=ft.border.all(1, ft.colors.BLACK),
+            border=ft.border.all(1, ft.Colors.BLACK),
             border_radius=10,
             padding=10,
             )

@@ -7,7 +7,7 @@ def main(page: ft.Page):
     page.horizontal_alignment = 'center'
     page.vertical_alignment = 'center'
 
-    page.bgcolor = ft.colors.WHITE12
+    page.bgcolor = ft.Colors.WHITE12
 
     def button_clicked(e):
         output_text.value = f"Dropdown value is:  {color_dropdown.value}"

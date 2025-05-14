@@ -1,0 +1,5 @@
+# Para ver la ruta desde donde se ejecuta Python podemos ejecutar en el terminal:
+where python
+
+# y si no devuelve nada podemos ejecutar el comando python directamente
+python -c "import sys; print(sys.executable)"

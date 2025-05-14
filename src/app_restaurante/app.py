@@ -25,7 +25,7 @@ class RestauranteGUI:
             tabs = [
                 ft.Tab(
                     text = "Mesera",
-                    icon = ft.icons.PERSON,
+                    icon = ft.Icons.PERSON,
                     content= 
                         ft.Column([
                             self.crear_vista_mesera()
@@ -33,17 +33,17 @@ class RestauranteGUI:
                 ),
                 ft.Tab(
                     text = "Cocina",
-                    icon = ft.icons.RESTAURANT,
+                    icon = ft.Icons.RESTAURANT,
                     content = self.crear_vista_cocina()
                 ),
                 ft.Tab(
                     text = "Caja",
-                    icon = ft.icons.POINT_OF_SALE,
+                    icon = ft.Icons.POINT_OF_SALE,
                     content= self.crear_vista_caja()
                 ),
                 ft.Tab(
                     text = "Administracion",
-                    icon = ft.icons.ADMIN_PANEL_SETTINGS,
+                    icon = ft.Icons.ADMIN_PANEL_SETTINGS,
                     content= self.crear_vista_admin()
                 ),
 
@@ -358,7 +358,7 @@ class RestauranteGUI:
         )
 
         for mesa in self.restaurante.mesas:
-            color = ft.colors.GREEN_700 if not mesa.ocupada else ft.Colors.RED_700
+            color = ft.Colors.GREEN_700 if not mesa.ocupada else ft.Colors.RED_700
             estado = "LIBRE" if not mesa.ocupada else "OCUPADA"
 
             grid.controls.append(
@@ -371,7 +371,7 @@ class RestauranteGUI:
                             ft.Row(
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 controls=[
-                                    ft.Icon(ft.Icons.TABLE_RESTAURANT, color =ft.colors.AMBER_400),
+                                    ft.Icon(ft.Icons.TABLE_RESTAURANT, color =ft.Colors.AMBER_400),
                                     ft.Text(f"Mesa {mesa.numero}", size=16, weight=ft.FontWeight.BOLD),
                                 ]
                             ),

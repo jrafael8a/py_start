@@ -25,14 +25,14 @@ class VistaAdmonMenuTipos:
 
         btn_agregar = ft.ElevatedButton(
             text="Agregar Item al Menu",
-            icon=ft.icons.ADD,
+            icon=ft.Icons.ADD,
             tooltip="Agregar",
             on_click=lambda e: agregar_tipo()
         )
 
         btn_actualizar = ft.ElevatedButton(
             text="Actualizar Vista",
-            icon= ft.icons.UPDATE,
+            icon= ft.Icons.UPDATE,
             tooltip="Actualizar",
             on_click=lambda e: self.crear_vista()
         )
@@ -71,12 +71,12 @@ class VistaAdmonMenuTipos:
                 tf.on_submit = lambda e: self.guardar_edicion(id, tf.value, chk.value)
                 chk.on_change = lambda e: self.actualizar_estado_tipo_menu(id, chk.value)
                 btn_guardar = ft.IconButton(
-                    icon=ft.icons.SAVE,
+                    icon=ft.Icons.SAVE,
                     tooltip="Guardar",
                     on_click=lambda e: self.guardar_edicion(id, tf.value, chk.value)
                 )
                 btn_eliminar = ft.IconButton(
-                    icon=ft.icons.DELETE,
+                    icon=ft.Icons.DELETE,
                     tooltip="Eliminar",
                     on_click=lambda e: self.confirmar_eliminar(id, tf.value)
                 )

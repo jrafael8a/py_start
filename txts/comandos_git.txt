@@ -119,6 +119,40 @@ git branch -d <rama>                            Elimina una rama local si ya fue
 git branch -D <rama>                            Fuerza la eliminación de una rama local no fusionada.
 git branch --unset-upstream                     Quita el enlace a una rama remota que ya no existe.
 
+
+🔹 Trabajo con Ramas cuando hice cambios que NO QUIERO que se apliquen en esa rama.
+        OPCION 1:   USAR STASH              Si los cambios que hice aun no les he dado COMMIT
+| COMANDO                                   | DESCRIPCIÓN                                                                   |
+| ---------------------------------------   | --------------------------------------------------------------------------    |
+| git stash push -m "cambios de prueba"     | Guarda los cambios actuales en una "caja temporal" (stash), sin commitear.    |
+| git checkout test                         | Cambia a la rama donde quieres aplicar los cambios.                           |
+| git reset --hard main                     | Sincroniza la rama `test` con el contenido actual de `main`. Lo fuerza        |
+| git stash apply                           | Aplica los cambios guardados y los deja en el stash [Recomendado].            |
+|   git stash pop                           | Aplica los cambios guardados (y los borra del stash).                         |
+|                                           |                                                                               |
+| git stash list                            | Muestra los stashes almacenados (por si necesitas verlos manualmente).        |
+| git stash drop 'stash@{0}'                | Elimina un stash específico (opcional, si no usaste `pop`).                   |
+| git stash apply 'stash@{0}'               | Aplica ese stash pero no lo borra                                             |
+
+
+
+        OPCION 2:   USAR una RAMA TEMPORAL      Si ya habia hecho COMMIT pero no PUSH
+| COMANDO                           | DESCRIPCIÓN                                                   |
+| -------------------------------   | ------------------------------------------------------------- |
+| git checkout -b temporal-test     | Crea una nueva rama desde `main` con los cambios actuales.    |
+| git checkout test                 | Cambia a la rama `test`.                                      |
+| git reset --hard main             | Deja `test` igual a `main`, descartando cualquier cosa vieja. |
+| git cherry-pick temporal-test     | Aplica los commits de `temporal-test` sobre `test`.           |
+| git branch -d temporal-test       | Elimina la rama temporal (opcional, si ya no la necesitas).   |
+
+"git cherry-pick" Aplica uno o más commits específicos de otra rama sobre la rama actual
+git cherry-pick <commit-id>
+git cherry-pick <commit-id-inicial>^..<commit-id-final>
+
+
+
+
+
 🔹 Sincronización entre Máquinas
 COMANDO                                         DESCRIPCIÓN
 git fetch                                       Descarga los cambios del repositorio remoto sin aplicarlos.

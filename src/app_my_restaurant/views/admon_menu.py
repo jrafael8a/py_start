@@ -34,7 +34,7 @@ class VistaAdmonMenu:
                 ft.ListTile(
                     title=ft.Text(item["nombre"]),
                     subtitle=ft.Text(f"{item['tipo']} - ${item['precio']:.2f}"),
-                    trailing=ft.Icon(ft.icons.EDIT),
+                    trailing=ft.Icon(ft.Icons.EDIT),
                     on_click=lambda e, id=item["id"]: self.on_click_item(id)
                 )
             )
@@ -56,7 +56,7 @@ class VistaAdmonMenu:
         tf_nombre = ft.TextField(label="Nombre", autofocus=True)
         tf_tipo = ft.TextField(label="Tipo")
         tf_precio = ft.TextField(label="Precio", input_filter=ft.NumbersOnlyInputFilter())
-        btn_agregar = ft.ElevatedButton("Agregar", icon=ft.icons.ADD)
+        btn_agregar = ft.ElevatedButton("Agregar", icon=ft.Icons.ADD)
 
         def agregar_item(e):
             if not tf_nombre.value or not tf_tipo.value or not tf_precio.value:
@@ -79,8 +79,8 @@ class VistaAdmonMenu:
         tf_tipo = ft.TextField(label="Tipo")
         tf_precio = ft.TextField(label="Precio", input_filter=ft.NumbersOnlyInputFilter())
         cb_estado = ft.Checkbox(label="Activo", value=True)
-        btn_actualizar = ft.ElevatedButton("Actualizar", icon=ft.icons.SAVE)
-        btn_eliminar = ft.ElevatedButton("Eliminar", icon=ft.icons.DELETE, bgcolor=ft.colors.RED)
+        btn_actualizar = ft.ElevatedButton("Actualizar", icon=ft.Icons.SAVE)
+        btn_eliminar = ft.ElevatedButton("Eliminar", icon=ft.Icons.DELETE, bgcolor=ft.Colors.RED)
 
         if self.item_seleccionado:
             tf_nombre.value = self.item_seleccionado["nombre"]

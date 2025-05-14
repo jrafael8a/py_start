@@ -19,41 +19,41 @@ class VistaAdmon:
             tabs=[
                 ft.Tab(
                     text="Menú",
-                    icon=ft.icons.RESTAURANT_MENU,
+                    icon=ft.Icons.RESTAURANT_MENU,
                     content=VistaAdmonMenu(self.page).crear_vista()
                 ),
                 ft.Tab(
                     text="Items",
-                    icon=ft.icons.RESTAURANT_MENU,
+                    icon=ft.Icons.RESTAURANT_MENU,
                     content=FormularioMenu(self.page).crear_vista()
                 ),
                 ft.Tab(
                     text="Tipos de Items del Menú",
-                    icon=ft.icons.MENU_BOOK,
+                    icon=ft.Icons.MENU_BOOK,
                     content=VistaAdmonMenuTipos(self.page).crear_vista()
                 ),
                 ft.Tab(
                     text="Mesas",
-                    icon=ft.icons.TABLE_BAR,
+                    icon=ft.Icons.TABLE_BAR,
                     content=VistaAdmonMesas(self.page).crear_vista()
                 ),
                 ft.Tab(
                     text="Usuarios",
-                    icon=ft.icons.SUPERVISED_USER_CIRCLE,
+                    icon=ft.Icons.SUPERVISED_USER_CIRCLE,
                     content=ft.Column([
                         ft.Text("Gestión de usuarios y roles de acceso")
                     ])
                 ),
                 ft.Tab(
                     text="Caja",
-                    icon=ft.icons.ATTACH_MONEY,
+                    icon=ft.Icons.ATTACH_MONEY,
                     content=ft.Column([
                         ft.Text("Historial de caja, arqueo, reportes")
                     ])
                 ),
                 ft.Tab(
                     text="Configuración",
-                    icon=ft.icons.SETTINGS,
+                    icon=ft.Icons.SETTINGS,
                     content=ft.Column([
                         ft.Text("Configuración general del sistema")
                     ])

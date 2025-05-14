@@ -25,10 +25,10 @@ def main(page: ft.Page):
     # Agregar los elementos a la página
     page.add(
         ft.Text("Presiona cualquier tecla y se mostrará aquí. La vista se desplazará automáticamente.",
-        size=16, color=ft.colors.BLUE),
+        size=16, color=ft.Colors.BLUE),
         ft.Container(
             content=key_log,
-            border=ft.border.all(1, ft.colors.BLACK),
+            border=ft.border.all(1, ft.Colors.BLACK),
             border_radius=10,
             padding=10
         )

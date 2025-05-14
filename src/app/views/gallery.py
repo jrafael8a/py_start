@@ -33,7 +33,7 @@ def gallery(page: ft.Page):
     # Botón para subir imágenes
     boton_subir = ft.ElevatedButton(
         "Subir imágenes",
-        icon=ft.icons.UPLOAD_FILE,
+        icon=ft.Icons.UPLOAD_FILE,
         on_click=lambda _: file_picker.pick_files(
             allow_multiple=True,
             allowed_extensions=["png", "jpg", "jpeg", "gif", "webp"]
@@ -43,14 +43,14 @@ def gallery(page: ft.Page):
     # Botón para mostrar imágenes ocultas
     boton_mostrar = ft.ElevatedButton(
         "Mostrar imágenes ocultas",
-        icon=ft.icons.VISIBILITY,
+        icon=ft.Icons.VISIBILITY,
         on_click=lambda _: mostrar_ocultas()
     )
 
     # Botón para mostrar imágenes ocultas
     boton_ocultar = ft.ElevatedButton(
         "Volver a Ocultar",
-        icon=ft.icons.VISIBILITY_OFF,
+        icon=ft.Icons.VISIBILITY_OFF,
         on_click=lambda _: cargar_imgs()
     )
     boton_ocultar.visible = False
@@ -86,9 +86,9 @@ def gallery(page: ft.Page):
                                 expand=True,
                                 ),
                             ft.IconButton(icon=
-                                        ft.icons.VISIBILITY if hidden else ft.icons.VISIBILITY_OFF, 
+                                        ft.Icons.VISIBILITY if hidden else ft.Icons.VISIBILITY_OFF, 
                                         on_click=lambda e, id=id_imagen, nombre=nombre_img, hidden=hidden: ocultar_imagen(id, nombre, hidden)),
-                            ft.IconButton(icon=ft.icons.DELETE, on_click=lambda e, id=id_imagen, nombre=nombre_img, ruta=ruta: confirmar_eliminar_imagen(id, nombre, ruta)),
+                            ft.IconButton(icon=ft.Icons.DELETE, on_click=lambda e, id=id_imagen, nombre=nombre_img, ruta=ruta: confirmar_eliminar_imagen(id, nombre, ruta)),
                         ],
                         )
                     ],

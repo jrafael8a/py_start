@@ -113,7 +113,7 @@ def main(page: ft.Page):
     # Botón para subir imágenes
     boton_subir = ft.ElevatedButton(
         "Subir imágenes",
-        icon=ft.icons.UPLOAD_FILE,
+        icon=ft.Icons.UPLOAD_FILE,
         on_click=lambda _: file_picker.pick_files(
             allow_multiple=True,
             allowed_extensions=["png", "jpg", "jpeg", "gif", "webp"]

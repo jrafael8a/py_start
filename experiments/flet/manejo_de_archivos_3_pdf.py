@@ -15,7 +15,7 @@ def archivos(page: ft.Page):
     contador = ft.Text("Líneas: 0 | Caracteres: 0")
     buscar_input = ft.TextField(label="Buscar", width=200)
     boton_buscar = ft.ElevatedButton("Buscar", on_click=lambda e:buscar_texto())
-    boton_tema = ft.IconButton(icon=ft.icons.DARK_MODE, on_click=lambda e: cambiar_tema())
+    boton_tema = ft.IconButton(icon=ft.Icons.DARK_MODE, on_click=lambda e: cambiar_tema())
     boton_exportar = ft.ElevatedButton("📄 Exportar a PDF", on_click=lambda e: exportar_pdf())
     ancho_pag, alto_pag = LETTER
     
@@ -27,14 +27,14 @@ def archivos(page: ft.Page):
     page.overlay.append(file_picker_guardar)
     
     # Boton Cambiar Tema
-    boton_tema = ft.IconButton(icon=ft.icons.DARK_MODE, on_click=lambda e: cambiar_tema())
+    boton_tema = ft.IconButton(icon=ft.Icons.DARK_MODE, on_click=lambda e: cambiar_tema())
     def cambiar_tema():
         if page.theme_mode != ft.ThemeMode.DARK:
             page.theme_mode = ft.ThemeMode.DARK
-            boton_tema.icon=ft.icons.LIGHT_MODE
+            boton_tema.icon=ft.Icons.LIGHT_MODE
         else: 
             page.theme_mode = ft.ThemeMode.LIGHT
-            boton_tema.icon=ft.icons.DARK_MODE
+            boton_tema.icon=ft.Icons.DARK_MODE
         page.update()
 
     # Funcion para exportar como PDF

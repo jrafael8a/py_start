@@ -118,7 +118,7 @@ def main(page: ft.Page):
         )
         
         if not get_tasks():
-            task_list.controls.append(ft.Text("No hay tareas todavía.", italic=True, color=ft.colors.GREY))
+            task_list.controls.append(ft.Text("No hay tareas todavía.", italic=True, color=ft.Colors.GREY))
         else:
             for task_id, title, done in get_tasks():
                 t_checkbox = ft.Checkbox(
@@ -135,17 +135,17 @@ def main(page: ft.Page):
                     )
                 
                 t_edit_btn = ft.IconButton(
-                    icon=ft.icons.EDIT,
+                    icon=ft.Icons.EDIT,
                     on_click=lambda e, id=task_id, title=title, done=done: btn_edit(id, title, done)
                 )
                 t_delete_btn = ft.IconButton(
-                    icon=ft.icons.DELETE,
+                    icon=ft.Icons.DELETE,
                     on_click=lambda e, id=task_id: btn_delete(id)
                 )
 
                 if done:
                     t_texto.style = ft.TextStyle(decoration=ft.TextDecoration.LINE_THROUGH)     # Tacha las tareas completadas
-                    t_edit_btn.icon_color = ft.colors.GREY          # Cambia el color del
+                    t_edit_btn.icon_color = ft.Colors.GREY          # Cambia el color del
                     # t_edit_btn.disabled = True
                     # t_edit_btn.visible = False
 
