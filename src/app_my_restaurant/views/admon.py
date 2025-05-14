@@ -5,8 +5,8 @@ from src.app_my_restaurant.views.admon_mesas import VistaAdmonMesas
 from src.app_my_restaurant.views.formulario_menu import FormularioMenu
 
 class VistaAdmon:
-    def __init__ (self, page: ft.Page):
-        self.page = page
+    def __init__ (self, gui):
+        self.gui = gui
         
     
     def crear_vista(self):
@@ -20,22 +20,22 @@ class VistaAdmon:
                 ft.Tab(
                     text="Menú",
                     icon=ft.Icons.RESTAURANT_MENU,
-                    content=VistaAdmonMenu(self.page).crear_vista()
+                    content=VistaAdmonMenu(self.gui).crear_vista()
                 ),
                 ft.Tab(
                     text="Items",
                     icon=ft.Icons.RESTAURANT_MENU,
-                    content=FormularioMenu(self.page).crear_vista()
+                    content=FormularioMenu(self.gui).crear_vista()
                 ),
                 ft.Tab(
                     text="Tipos de Items del Menú",
                     icon=ft.Icons.MENU_BOOK,
-                    content=VistaAdmonMenuTipos(self.page).crear_vista()
+                    content=VistaAdmonMenuTipos(self.gui).crear_vista()
                 ),
                 ft.Tab(
                     text="Mesas",
                     icon=ft.Icons.TABLE_BAR,
-                    content=VistaAdmonMesas(self.page).crear_vista()
+                    content=VistaAdmonMesas(self.gui).crear_vista()
                 ),
                 ft.Tab(
                     text="Usuarios",
@@ -62,10 +62,10 @@ class VistaAdmon:
         )
 
         return self.sub_tabs
-        #self.page.add(self.tabs)
+        #self.gui.page.add(self.tabs)
 
 if __name__ == "__main__":
     def main(page: ft.Page):
-          page.add(VistaAdmon.crear_vista())
+            page.add(VistaAdmon.crear_vista())
     
     ft.app(target=main)

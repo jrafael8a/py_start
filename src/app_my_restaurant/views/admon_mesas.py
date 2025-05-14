@@ -6,9 +6,9 @@ from src.app_my_restaurant.database.estados_service import *
 from src.app_my_restaurant.components.alerts import MyAlerts
 
 class VistaAdmonMesas:
-    def __init__ (self, page: ft.Page):
-        self.page = page
-        self.alerts = MyAlerts(self.page)
+    def __init__ (self, gui):
+        self.gui = gui
+        self.alerts = MyAlerts(self.gui)
         self.mesa_seleccionada = None
         self.container_admon_mesas = ft.Column([], expand= True, scroll= True)
         self.tf_nombre_editar = None    # Aqui almacenaremos un TextField que necesitamos hacer focus()
@@ -17,7 +17,7 @@ class VistaAdmonMesas:
         exito, self.mesas = obtener_mesas_desde_db()
 
         if not exito:
-            MyAlerts(self.page).Dialogo_Error(self.mesas)
+            self.alerts.Dialogo_Error(self.mesas)
             self.alerts.Dialogo_Error(self.mesas)
             return self.container_admon_mesas
         else:
@@ -37,7 +37,7 @@ class VistaAdmonMesas:
             )
             self.container_admon_mesas.controls.append(ft.Divider())
             self.container_admon_mesas.controls.append(crear_grid_mesas(self.on_click_mesa))
-            self.page.update()
+            self.gui.page.update()
             return self.container_admon_mesas
 
     def componente_editar_estados(self):
@@ -227,11 +227,11 @@ class VistaAdmonMesas:
                     content=ft.Text(f"Está a punto de eliminar la mesa '{self.tf_nombre_editar.value}' \n\n " \
                                     f"Está seguro que desea eliminar esta mesa?"),
                     actions=[
-                        ft.TextButton("Eliminar", on_click=lambda e: (self.page.close(dlg_alerta), eliminar_mesa(e))),
-                        ft.TextButton("Cancelar", on_click=lambda e: (self.page.close(dlg_alerta)))
+                        ft.TextButton("Eliminar", on_click=lambda e: (self.gui.page.close(dlg_alerta), eliminar_mesa(e))),
+                        ft.TextButton("Cancelar", on_click=lambda e: (self.gui.page.close(dlg_alerta)))
                     ],
                 )
-            self.page.open(dlg_alerta)
+            self.gui.page.open(dlg_alerta)
         
         def eliminar_mesa(e):
             exito, mensaje = eliminar_mesa_db(self.mesa_seleccionada["id"])

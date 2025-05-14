@@ -4,14 +4,14 @@ from src.app_my_restaurant.database.menu_service import agregar_menu_item_db, ac
 from src.app_my_restaurant.components.alerts import MyAlerts
 
 class FormularioMenu():
-    def __init__(self, page: ft.Page, modo='crear', item_data=None, on_guardar=None, on_cancelar=None):
+    def __init__(self, gui, modo='crear', item_data=None, on_guardar=None, on_cancelar=None):
         # super().__init__()
-        self.page = page
+        self.gui = gui
         self.modo = modo  # 'crear' o 'editar'
         self.item_data = item_data or {}
         self.on_guardar = on_guardar
         self.on_cancelar = on_cancelar
-        self.alerts = MyAlerts(self.page)
+        self.alerts = MyAlerts(gui)
 
         # Campos del formulario
         self.tf_nombre =        ft.TextField(label="Nombre", autofocus=True, on_submit=lambda e: self.tf_descripcion.focus())
@@ -91,12 +91,11 @@ class FormularioMenu():
         self.tf_precio.value = ""
         self.dd_tipo.value = None
         self.sw_estado.value = True
-        self.page.update()
+        self.gui.page.update()
 
     def cancelar(self, e=None):
-        #self.page.go_back()  # o cerrar modal si se usa modal
         self.crear_vista()
-        self.page.update()
+        self.gui.page.update()
 
     def guardar(self, e=None):
         nombre = self.tf_nombre.value.strip()
@@ -121,7 +120,7 @@ class FormularioMenu():
             self.alerts.SnackBar(mensaje)
             if self.on_guardar:
                 self.on_guardar()
-            self.page.go_back()  # o cerrar modal si se usa modal
+            self.gui.page.go_back()  # o cerrar modal si se usa modal
         else:
             self.alerts.Dialogo_Error(mensaje)
 

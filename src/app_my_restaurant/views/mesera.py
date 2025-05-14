@@ -3,10 +3,8 @@ import flet as ft
 from src.app_my_restaurant.components.mesas import crear_grid_mesas
 
 class VistaMesera:
-    def __init__ (self, page: ft.Page):
-        self.page = page
-    
-    
+    def __init__ (self, gui):
+        self.gui = gui
 
     def crear_vista(self):
         return ft.Row(
@@ -40,12 +38,6 @@ class VistaMesera:
         )
     
     def panel_gestion(self):
-
-
-
-
-
-
         self.mesa_seleccionada = None
         self.mesa_info = ft.Text("", size=16, weight=ft.FontWeight.BOLD)
         self.tamaño_grupo_input = ft.TextField(

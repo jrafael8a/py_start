@@ -3,16 +3,16 @@ from src.app_my_restaurant.database.menu_tipos_service import *
 from src.app_my_restaurant.components.alerts import MyAlerts
 
 class VistaAdmonMenuTipos:
-    def __init__(self, page: ft.Page):
-        self.page = page
-        self.alerts = MyAlerts(self.page)
+    def __init__(self, gui):
+        self.gui = gui
+        self.alerts = MyAlerts(self.gui.page)
         self.container = ft.Column([], expand=True, scroll=True, spacing=10)
 
     def crear_vista(self):
         exito, tipos = obtener_tipos_menu_db()
 
         if not exito:
-            MyAlerts(self.page).Dialogo_Error(tipos)
+            MyAlerts(self.gui.page).Dialogo_Error(tipos)
             return self.container
 
         self.container.controls.clear()
@@ -89,7 +89,7 @@ class VistaAdmonMenuTipos:
             )
 
 
-        self.page.update()
+        self.gui.page.update()
         return self.container
 
     def guardar_edicion(self, id, tf, chk):
@@ -99,7 +99,7 @@ class VistaAdmonMenuTipos:
             return
         exito, mensaje = actualizar_tipo_menu_db(id, nuevo_nombre, nuevo_estado)
         self.alerts.SnackBar(mensaje)
-        self.page.update()
+        self.gui.page.update()
 
     def actualizar_estado_tipo_menu(self, id, nuevo_estado):
         estado = 1 if nuevo_estado else 0
@@ -124,8 +124,8 @@ class VistaAdmonMenuTipos:
             title=ft.Text("Confirmar Eliminación"),
             content=ft.Text(f"¿Está seguro que desea eliminar el tipo '{nombre}'?"),
             actions=[
-                ft.TextButton("Eliminar", on_click=lambda e: (self.page.close(dlg), eliminar(e))),
-                ft.TextButton("Cancelar", on_click=lambda e: self.page.close(dlg))
+                ft.TextButton("Eliminar", on_click=lambda e: (self.gui.page.close(dlg), eliminar(e))),
+                ft.TextButton("Cancelar", on_click=lambda e: self.gui.page.close(dlg))
             ],
         )
-        self.page.open(dlg)
+        self.gui.page.open(dlg)

@@ -8,12 +8,13 @@ from src.app_my_restaurant.views.admon import VistaAdmon
 class RestauranteGUI:
     def __init__(self, page: ft.Page):
         self.page = page
-        
+        self.vista_creada = False
+
 
     def main(self):
         init_db() # Inicializa la base de datos al iniciar la app
-        self.vista_mesera = VistaMesera(self.page)
-        self.vista_admon = VistaAdmon(self.page)  # ⬅️ Instancia pasando la page
+        self.vista_mesera = VistaMesera(self)
+        self.vista_admon = VistaAdmon(self)  # ⬅️ Aqui le paso RestauranteGUI completo a VistaAdmon
         self.page.window.width = 1200
         self.page.window.height = 900
 
@@ -47,6 +48,8 @@ class RestauranteGUI:
             expand=True,
         )
         self.page.add(self.main_tabs)
+        self.vista_creada = True
+
 
     #def mostrar_vista_admon(self):
     #    self.vista_admon = VistaAdmon(self.page)

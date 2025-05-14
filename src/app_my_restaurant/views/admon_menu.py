@@ -5,9 +5,9 @@ from src.app_my_restaurant.database.menu_service import *
 from src.app_my_restaurant.components.alerts import MyAlerts
 
 class VistaAdmonMenu:
-    def __init__(self, page: ft.Page):
-        self.page = page
-        self.alerts = MyAlerts(self.page)
+    def __init__(self, gui):
+        self.gui = gui
+        self.alerts = MyAlerts(gui)
         self.item_seleccionado = None
         self.container_admon_menu = ft.Column([], expand=True, scroll=True)
         self.tf_nombre_editar = None
@@ -16,7 +16,7 @@ class VistaAdmonMenu:
         exito, self.menu_items = obtener_menu_items_desde_db()
 
         if not exito:
-            self.page.run_task(lambda: self.alerts.Dialogo_Error(self.menu_items))
+            self.alerts.Dialogo_Error(self.menu_items)
             return self.container_admon_menu
 
         self.container_admon_menu.controls.clear()
@@ -39,7 +39,7 @@ class VistaAdmonMenu:
                 )
             )
 
-        self.page.update()
+        self.gui.page.update()
         return self.container_admon_menu
 
     def on_click_item(self, item_id):
@@ -60,15 +60,15 @@ class VistaAdmonMenu:
 
         def agregar_item(e):
             if not tf_nombre.value or not tf_tipo.value or not tf_precio.value:
-                self.page.open(ft.SnackBar(content=ft.Text("Todos los campos son obligatorios")))
+                self.gui.page.open(ft.SnackBar(content=ft.Text("Todos los campos son obligatorios")))
                 return
 
             exito, mensaje = agregar_menu_item_db(tf_nombre.value, tf_tipo.value, float(tf_precio.value))
             if exito:
-                self.page.open(ft.SnackBar(content=ft.Text(mensaje)))
+                self.gui.page.open(ft.SnackBar(content=ft.Text(mensaje)))
                 self.crear_vista()
             else:
-                self.page.open(ft.AlertDialog(title=ft.Text("Error"), content=ft.Text(mensaje)))
+                self.gui.page.open(ft.AlertDialog(title=ft.Text("Error"), content=ft.Text(mensaje)))
 
         btn_agregar.on_click = agregar_item
 
@@ -104,20 +104,20 @@ class VistaAdmonMenu:
                 int(cb_estado.value)
             )
             if exito:
-                self.page.open(ft.SnackBar(content=ft.Text(mensaje)))
+                self.gui.page.open(ft.SnackBar(content=ft.Text(mensaje)))
                 self.item_seleccionado = None
                 self.crear_vista()
             else:
-                self.page.open(ft.AlertDialog(title=ft.Text("Error"), content=ft.Text(mensaje)))
+                self.gui.page.open(ft.AlertDialog(title=ft.Text("Error"), content=ft.Text(mensaje)))
 
         def eliminar_item(e):
             exito, mensaje = eliminar_menu_item_db(self.item_seleccionado["id"])
             if exito:
-                self.page.open(ft.SnackBar(content=ft.Text(mensaje)))
+                self.gui.page.open(ft.SnackBar(content=ft.Text(mensaje)))
                 self.item_seleccionado = None
                 self.crear_vista()
             else:
-                self.page.open(ft.AlertDialog(title=ft.Text("Error"), content=ft.Text(mensaje)))
+                self.gui.page.open(ft.AlertDialog(title=ft.Text("Error"), content=ft.Text(mensaje)))
 
         btn_actualizar.on_click = actualizar_item
         btn_eliminar.on_click = eliminar_item

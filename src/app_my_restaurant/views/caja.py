@@ -61,6 +61,6 @@ class VistaCaja:
 
 if __name__ == "__main__":
     def main(page: ft.Page):
-          page.add(crear_vista_caja())
+        page.add(VistaCaja.crear_vista())
     
     ft.app(target=main)
