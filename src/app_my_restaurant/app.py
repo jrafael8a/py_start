@@ -3,11 +3,16 @@ import flet as ft
 from src.app_my_restaurant.database.restaurant_db import *
 from src.app_my_restaurant.views.mesera import VistaMesera
 from src.app_my_restaurant.views.admon import VistaAdmon
-
+from src.app_my_restaurant.components.alerts import MyAlerts
 
 class RestauranteGUI:
     def __init__(self, page: ft.Page):
         self.page = page
+        
+        # Clases Globales de la app
+        self.alerts = MyAlerts(self)
+
+        # Variables Globales de la app
         self.vista_creada = False
 
 

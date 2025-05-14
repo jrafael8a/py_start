@@ -1,33 +1,31 @@
 import flet as ft
 from src.app_my_restaurant.database.menu_tipos_service import *
-from src.app_my_restaurant.components.alerts import MyAlerts
 
-class VistaAdmonMenuTipos:
+class VistaAdmonMenuCategorias:
     def __init__(self, gui):
         self.gui = gui
-        self.alerts = MyAlerts(self.gui.page)
         self.container = ft.Column([], expand=True, scroll=True, spacing=10)
 
     def crear_vista(self):
-        exito, tipos = obtener_tipos_menu_db()
+        exito, categorias = obtener_tipos_menu_db()
 
         if not exito:
-            MyAlerts(self.gui.page).Dialogo_Error(tipos)
+            self.gui.alerts.Dialogo_Error(categorias)
             return self.container
 
         self.container.controls.clear()
 
-        tf_nuevo_tipo = ft.TextField(
-            label="Nuevo tipo de ítem de menú",
+        tf_nueva_cat = ft.TextField(
+            label="Nuevo categoria del menú",
             autofocus=True,
             on_submit=lambda e: btn_agregar.focus()
         )
 
         btn_agregar = ft.ElevatedButton(
-            text="Agregar Item al Menu",
+            text="Agregar Categoria al Menu",
             icon=ft.Icons.ADD,
             tooltip="Agregar",
-            on_click=lambda e: agregar_tipo()
+            on_click=lambda e: agregar_cat()
         )
 
         btn_actualizar = ft.ElevatedButton(
@@ -37,25 +35,25 @@ class VistaAdmonMenuTipos:
             on_click=lambda e: self.crear_vista()
         )
 
-        def agregar_tipo():
-            nombre = tf_nuevo_tipo.value.strip()
+        def agregar_cat():
+            nombre = tf_nueva_cat.value.strip()
             if not nombre:
-                return self.alerts.SnackBar("Escriba un Nombre valido")
+                return self.gui.alerts.SnackBar("Escriba un Nombre valido")
 
             exito, mensaje = agregar_tipo_menu_db(nombre)
             if exito:
-                self.alerts.SnackBar(mensaje)
+                self.gui.alerts.SnackBar(mensaje)
                 self.crear_vista()
             else:
-                self.alerts.Dialogo_Error(mensaje)
+                self.gui.alerts.Dialogo_Error(mensaje)
         
         self.container.controls.append(ft.Divider())
         self.container.controls.append(
-            ft.Row([tf_nuevo_tipo, btn_agregar, ft.VerticalDivider(), btn_actualizar], spacing=10)
+            ft.Row([tf_nueva_cat, btn_agregar, ft.VerticalDivider(), btn_actualizar], spacing=10)
         )
         self.container.controls.append(ft.Divider())
 
-        for tipo in tipos:
+        for tipo in categorias:
             tf_nombre = ft.TextField(
                 value=tipo["nombre"],
                 expand=True,
@@ -98,26 +96,26 @@ class VistaAdmonMenuTipos:
         if not nuevo_nombre:
             return
         exito, mensaje = actualizar_tipo_menu_db(id, nuevo_nombre, nuevo_estado)
-        self.alerts.SnackBar(mensaje)
+        self.gui.alerts.SnackBar(mensaje)
         self.gui.page.update()
 
     def actualizar_estado_tipo_menu(self, id, nuevo_estado):
         estado = 1 if nuevo_estado else 0
         exito, mensaje = actualizar_estado_tipo_menu_db(id, estado)
         if not exito:
-            self.alerts.SnackBar(mensaje)
+            self.gui.alerts.SnackBar(mensaje)
         else:
-            self.alerts.SnackBar(mensaje)
+            self.gui.alerts.SnackBar(mensaje)
 
 
     def confirmar_eliminar(self, id, nombre):
         def eliminar(e):
             exito, mensaje = eliminar_tipo_menu_db(id)
             if exito:
-                self.alerts.SnackBar(mensaje)
+                self.gui.alerts.SnackBar(mensaje)
                 self.crear_vista()
             else:
-                self.alerts.Dialogo_Error(mensaje)
+                self.gui.alerts.Dialogo_Error(mensaje)
 
         dlg = ft.AlertDialog(
             modal=False,

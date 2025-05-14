@@ -1,6 +1,6 @@
 import flet as ft
 from src.app_my_restaurant.views.admon_menu import VistaAdmonMenu
-from src.app_my_restaurant.views.admon_menu_tipos import VistaAdmonMenuTipos
+from src.app_my_restaurant.views.admon_menu_categorias import VistaAdmonMenuCategorias
 from src.app_my_restaurant.views.admon_mesas import VistaAdmonMesas
 from src.app_my_restaurant.views.formulario_menu import FormularioMenu
 
@@ -16,21 +16,22 @@ class VistaAdmon:
             selected_index=1,
             animation_duration=200,
             expand=True,
+            padding=20,
             tabs=[
                 ft.Tab(
                     text="Menú",
-                    icon=ft.Icons.RESTAURANT_MENU,
+                    icon=ft.Icons.MENU_BOOK,
                     content=VistaAdmonMenu(self.gui).crear_vista()
                 ),
                 ft.Tab(
-                    text="Items",
+                    text="Platillos",
                     icon=ft.Icons.RESTAURANT_MENU,
                     content=FormularioMenu(self.gui).crear_vista()
                 ),
                 ft.Tab(
-                    text="Tipos de Items del Menú",
-                    icon=ft.Icons.MENU_BOOK,
-                    content=VistaAdmonMenuTipos(self.gui).crear_vista()
+                    text="Categorias",
+                    icon=ft.Icons.MENU_OPEN,
+                    content=VistaAdmonMenuCategorias(self.gui).crear_vista()
                 ),
                 ft.Tab(
                     text="Mesas",

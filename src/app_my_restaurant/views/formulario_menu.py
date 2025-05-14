@@ -1,7 +1,7 @@
 import flet as ft
 from src.app_my_restaurant.database.menu_tipos_service import obtener_tipos_menu_db
 from src.app_my_restaurant.database.menu_service import agregar_menu_item_db, actualizar_menu_item_db, eliminar_menu_item_db
-from src.app_my_restaurant.components.alerts import MyAlerts
+
 
 class FormularioMenu():
     def __init__(self, gui, modo='crear', item_data=None, on_guardar=None, on_cancelar=None):
@@ -11,7 +11,6 @@ class FormularioMenu():
         self.item_data = item_data or {}
         self.on_guardar = on_guardar
         self.on_cancelar = on_cancelar
-        self.alerts = MyAlerts(gui)
 
         # Campos del formulario
         self.tf_nombre =        ft.TextField(label="Nombre", autofocus=True, on_submit=lambda e: self.tf_descripcion.focus())
@@ -26,6 +25,7 @@ class FormularioMenu():
 
         self.contenedor = ft.Column(
                 controls=[
+                    ft.Divider(),               # El Tab superior se come parte del textfield, por eso pongo este divider
                     self.tf_nombre,
                     self.tf_descripcion,
                     self.tf_precio,
@@ -39,7 +39,7 @@ class FormularioMenu():
                 ],
                 spacing=15,
                 expand=True,
-                scroll=True
+                scroll=True,
             )
 
     def crear_vista(self) -> ft.Column:
@@ -57,7 +57,7 @@ class FormularioMenu():
     def _cargar_tipos_menu(self):
         exito, tipos = obtener_tipos_menu_db()
         if not exito:
-            self.alerts.Dialogo_Error(tipos)
+            self.gui.alerts.Dialogo_Error(tipos)
             return
         
         # Este es un ejemplo de comprension de Listas (list comprehension). Sintaxis:
@@ -105,10 +105,10 @@ class FormularioMenu():
         try:
             precio = float(self.tf_precio.value.strip())
         except ValueError:
-            return self.alerts.SnackBar("Precio inválido. Debe ser un número.")
+            return self.gui.alerts.SnackBar("Precio inválido. Debe ser un número.")
 
         if not nombre or not tipo_id:
-            return self.alerts.SnackBar("Complete todos los campos obligatorios.")
+            return self.gui.alerts.SnackBar("Complete todos los campos obligatorios.")
 
         if self.modo == "crear":
             exito, mensaje = agregar_menu_item_db(nombre, descripcion, precio, tipo_id, estado)
@@ -117,12 +117,12 @@ class FormularioMenu():
             exito, mensaje = actualizar_menu_item_db(id, nombre, descripcion, precio, tipo_id, estado)
 
         if exito:
-            self.alerts.SnackBar(mensaje)
+            self.gui.alerts.SnackBar(mensaje)
             if self.on_guardar:
                 self.on_guardar()
             self.gui.page.go_back()  # o cerrar modal si se usa modal
         else:
-            self.alerts.Dialogo_Error(mensaje)
+            self.gui.alerts.Dialogo_Error(mensaje)
 
 if __name__ == "__main__":
     def main(page: ft.Page):
