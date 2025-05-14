@@ -12,6 +12,7 @@ class RestauranteGUI:
 
     def main(self):
         init_db() # Inicializa la base de datos al iniciar la app
+        self.vista_mesera = VistaMesera(self.page)
         self.vista_admon = VistaAdmon(self.page)  # ⬅️ Instancia pasando la page
         self.page.window.width = 1200
         self.page.window.height = 900
@@ -23,7 +24,7 @@ class RestauranteGUI:
                 ft.Tab(
                     text = "Mesera",
                     icon = ft.Icons.PERSON,
-                    content= VistaMesera(self.page).crear_vista()
+                    content= self.vista_mesera.crear_vista()
                         
                 ),
                 ft.Tab(

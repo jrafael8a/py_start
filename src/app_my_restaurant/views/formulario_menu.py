@@ -131,4 +131,4 @@ if __name__ == "__main__":
     
     ft.app(target=main)
 else:
-    print("no")
+    print("FormularioMenu() ejecutandose como modulo, desde otro lado, no desde el mismo archivo")

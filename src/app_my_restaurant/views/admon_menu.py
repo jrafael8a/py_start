@@ -16,7 +16,7 @@ class VistaAdmonMenu:
         exito, self.menu_items = obtener_menu_items_desde_db()
 
         if not exito:
-            self.alerts.Dialogo_Error(self.menu_items)
+            self.page.run_task(lambda: self.alerts.Dialogo_Error(self.menu_items))
             return self.container_admon_menu
 
         self.container_admon_menu.controls.clear()

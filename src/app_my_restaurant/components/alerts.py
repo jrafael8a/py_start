@@ -10,6 +10,7 @@ class MyAlerts:
                 content=ft.Text(msg),
                 actions=[ft.TextButton("OK", on_click=lambda e: self.page.close(dlg_alerta))],
             )
+        #self.page.overlay.append(dlg_alerta)  # ⬅️ Lo agregas a la página
         self.page.open(dlg_alerta)
     
     def SnackBar(self, msg):

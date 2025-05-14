@@ -6,7 +6,7 @@ def obtener_menu_items_desde_db():
     try:
         with get_connection() as conn:
             cursor = conn.cursor()
-            cursor.execute("SELECT id, nombre, tipo, precio, estado FROM menu_items")
+            cursor.execute("SELECT id, id_tipo, nombre, descripcion, precio, estado, image FROM menu_items")
             return True, cursor.fetchall()
     except Exception as e:
         return False, f"Error al obtener los ítems del menú: {e}"
