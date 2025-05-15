@@ -29,7 +29,7 @@ class VistaAdmonMenu:
             self.container_admon_menu.controls.append(
                 ft.ListTile(
                     title=ft.Text(item["nombre"]),
-                    subtitle=ft.Text(f"{item['tipo']} - ${item['precio']:.2f}"),
+                    subtitle=ft.Text(f"{item['descripcion']} - ${item['precio']:.2f}"),
                     trailing=ft.Icon(ft.Icons.EDIT),
                     on_click=lambda e, id=item["id"]: self.on_click_item(id)
                 )

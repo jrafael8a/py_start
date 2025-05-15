@@ -1,5 +1,5 @@
 import flet as ft
-from src.app_my_restaurant.database.menu_tipos_service import *
+from src.app_my_restaurant.database.menu_categorias_service import *
 
 class VistaAdmonMenuCategorias:
     def __init__(self, gui):
@@ -7,7 +7,7 @@ class VistaAdmonMenuCategorias:
         self.container = ft.Column([], expand=True, scroll=True, spacing=10)
 
     def crear_vista(self):
-        exito, categorias = obtener_tipos_menu_db()
+        exito, categorias = obtener_categorias_menu_db()
 
         if not exito:
             self.gui.alerts.Dialogo_Error(categorias)
@@ -40,7 +40,7 @@ class VistaAdmonMenuCategorias:
             if not nombre:
                 return self.gui.alerts.SnackBar("Escriba un Nombre valido")
 
-            exito, mensaje = agregar_tipo_menu_db(nombre)
+            exito, mensaje = agregar_categoria_menu_db(nombre)
             if exito:
                 self.gui.alerts.SnackBar(mensaje)
                 self.crear_vista()
@@ -95,13 +95,13 @@ class VistaAdmonMenuCategorias:
         nuevo_estado = int(chk)
         if not nuevo_nombre:
             return
-        exito, mensaje = actualizar_tipo_menu_db(id, nuevo_nombre, nuevo_estado)
+        exito, mensaje = actualizar_categoria_menu_db(id, nuevo_nombre, nuevo_estado)
         self.gui.alerts.SnackBar(mensaje)
         self.gui.page.update()
 
     def actualizar_estado_tipo_menu(self, id, nuevo_estado):
         estado = 1 if nuevo_estado else 0
-        exito, mensaje = actualizar_estado_tipo_menu_db(id, estado)
+        exito, mensaje = actualizar_estado_categoria_menu_db(id, estado)
         if not exito:
             self.gui.alerts.SnackBar(mensaje)
         else:
@@ -110,7 +110,7 @@ class VistaAdmonMenuCategorias:
 
     def confirmar_eliminar(self, id, nombre):
         def eliminar(e):
-            exito, mensaje = eliminar_tipo_menu_db(id)
+            exito, mensaje = eliminar_categoria_menu_db(id)
             if exito:
                 self.gui.alerts.SnackBar(mensaje)
                 self.crear_vista()

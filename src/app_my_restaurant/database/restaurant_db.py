@@ -78,11 +78,11 @@ def init_db():
 
 
         
-        # Tabla de TIPOS para los items del Menu
-        # Ejemplo: Tipo: Desayuno, Entrada, Plato Fuerte, Almuerzo, Cena, Postre, etc.
+        # Tabla de CATEGORIAS para los items del Menu
+        # Ejemplo: Categoria: Desayuno, Entrada, Plato Fuerte, Almuerzo, Cena, Postre, etc.
         cursor.execute(
             '''
-            CREATE TABLE IF NOT EXISTS menu_tipos (
+            CREATE TABLE IF NOT EXISTS menu_categorias (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nombre TEXT NOT NULL,
                 estado INTEGER NOT NULL DEFAULT 1
@@ -97,13 +97,13 @@ def init_db():
             '''
             CREATE TABLE IF NOT EXISTS menu_items (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                id_tipo INTEGER,
+                id_cat INTEGER DEFAULT 0,
                 nombre TEXT NOT NULL,
                 descripcion TEXT,
                 precio REAL NOT NULL,
                 estado INTEGER NOT NULL DEFAULT 1,
                 image TEXT,
-                FOREIGN KEY (id_tipo) REFERENCES menu_tipos(id)
+                FOREIGN KEY (id_cat) REFERENCES menu_categorias(id)
             )
             '''
         )
